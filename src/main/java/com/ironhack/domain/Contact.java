@@ -1,13 +1,13 @@
 package com.ironhack.domain;
 
 public class Contact {
-    private int iD;
+    private int id;
     private String name;
     private String phone;
     private String email;
 
-    public Contact(int iD, String name, String phone, String email) {
-        this.iD = iD;
+    public Contact(int id, String name, String phone, String email) {
+        this.id = id;
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -18,19 +18,19 @@ public class Contact {
         if (object == null || getClass() != object.getClass()) return false;
         if (!super.equals(object)) return false;
         Contact contact = (Contact) object;
-        return iD == contact.iD;
+        return id == contact.id;
     }
 
     public int hashCode() {
-        return Objects.hash(super.hashCode(), iD);
+        return Objects.hash(super.hashCode(), id);
     }
 
-    public int getiD() {
-        return iD;
+    public int getId() {
+        return id;
     }
 
-    public void setiD(int iD) {
-        this.iD = iD;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
