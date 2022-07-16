@@ -1,5 +1,8 @@
 package com.ironhack.domain;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class Account {
     private int id;
     private String industry;
@@ -7,17 +10,17 @@ public class Account {
     private String city;
     private String country;
     private ArrayList<Contact> contactList;
-    private ArrayList<Opportunity> opportinityList;
+    private ArrayList<Opportunity> opportunityList;
 
 
-    public Account(int id, String industry, int employeesCount, String city, String country, ArrayList<Contact> contactList, ArrayList<Opportunity> opportinityList) {
+    public Account(int id, String industry, int employeesCount, String city, String country, ArrayList<Contact> contactList, ArrayList<Opportunity> opportunityList) {
         this.id = id;
         this.industry = industry;
         this.employeesCount = employeesCount;
         this.city = city;
         this.country = country;
         this.contactList = contactList;
-        this.opportinityList = opportinityList;
+        this.opportunityList = opportunityList;
     }
 
     public int getId() {
@@ -68,12 +71,12 @@ public class Account {
         this.contactList = contactList;
     }
 
-    public ArrayList<Opportunity> getOpportinityList() {
-        return opportinityList;
+    public ArrayList<Opportunity> getOpportunityList() {
+        return opportunityList;
     }
 
-    public void setOpportinityList(ArrayList<Opportunity> opportinityList) {
-        this.opportinityList = opportinityList;
+    public void setOpportunityList(ArrayList<Opportunity> opportunityList) {
+        this.opportunityList = opportunityList;
     }
 
     public boolean equals(Object object) {
