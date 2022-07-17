@@ -69,4 +69,16 @@ public class Opportunity {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Opportunity{");
+        sb.append("id=").append(id);
+        sb.append(", decisionMaker=").append(decisionMaker.getName());
+        sb.append(", status=").append(status);
+        sb.append(", product=").append(product);
+        sb.append(", quantity=").append(quantity);
+        sb.append('}');
+        return sb.toString();
+    }
 }
