@@ -3,6 +3,7 @@ import com.ironhack.Exceptions.Exceptions;
 import com.ironhack.data.CRM_Data;
 import com.ironhack.domain.*;
 
+import javax.swing.*;
 import java.util.*;
 
 public class Menu implements ConsoleOperations{
@@ -33,8 +34,7 @@ public class Menu implements ConsoleOperations{
                     ===============
                     Write your COMMAND:
                     """;
-                        System.out.println(mainMenu);
-                        input = scanner.nextLine().trim().toLowerCase();
+                        input = JOptionPane.showInputDialog(mainMenu).trim().toLowerCase();
                         switch (input) {
                                 case NEW_LEAD -> newLead();
                                 case CONVERT -> convert();
@@ -119,24 +119,33 @@ public class Menu implements ConsoleOperations{
             List < Object > values = getValues("Name :\n", "Phonenumbers : \n", "Email : \n", "Company : ");
 
             lead = new Lead(1, (String) values.get(0), (String) values.get(1), (String) values.get(2), (String) values.get(3));
-            System.out.println(lead.toString());
+            JOptionPane.showMessageDialog(null, "Lead Succesfully added \n  Lead : \n " + lead.toString());
             CRM_Data.addLead(lead);
         }
 
         public void convert() throws Exceptions {
              Contact contact = new Contact(lead.getId(), lead.getName(), lead.getPhoneNumber(), lead.getCompanyName());
              opportunity = new Opportunity(1, contact, getStats(), getProduct(), 3);
-             CRM_Data.addOpp(opportunity);
+
+             if(opportunity.getStatus() == Status.OPEN) // --->> check, only add in that case?
+                 CRM_Data.addOpp(opportunity);
+                 getAccount();
+
         }
 
         public void showLeads(){
-            System.out.println(CRM_Data.getLeadsList());
+            //System.out.println(CRM_Data.getLeadsList());
+            JOptionPane.showMessageDialog(null, CRM_Data.getLeadsList());
         }
 
         public void lookUpLead(){
-            System.out.println("Id Lead? ");
-            CRM_Data.setSelectedLead((Lead) getIdObject(scanner.nextInt(), lead));
-            System.out.println(CRM_Data.getSelectedLead());
+            String ide = JOptionPane.showInputDialog("Id Lead? ");
+            int id = Integer.parseInt(ide);
+            CRM_Data.setSelectedLead((Lead) getIdObject(id, lead));
+
+
+           System.out.println(CRM_Data.getSelectedLead());
+            //JOptionPane.showMessageDialog(CRM_Data.getSelectedLead()); --->JOPTION DESDE EL MÉTODO ORIGINAL
         }
 
         public void showOpportunities(){
@@ -144,8 +153,9 @@ public class Menu implements ConsoleOperations{
         }
 
         public void lookUpOpportunities(){
-            System.out.println("Id Opportunity? ");
-            CRM_Data.setSelectedOpp((Opportunity) getIdObject(scanner.nextInt(), opportunity));
+            String ide = JOptionPane.showInputDialog("Id Opportunity? ");
+            int id = Integer.parseInt(ide);
+            CRM_Data.setSelectedOpp((Opportunity) getIdObject(id, opportunity));
             System.out.println(CRM_Data.getSelectedOpp());
         }
 
@@ -160,18 +170,21 @@ public class Menu implements ConsoleOperations{
         public void closeWon(){
 
         }
+
+        public void getAccount() throws Exceptions {
+            List <Object> values = getValues("Employees?\n", "City?\n", "Country? \n");
+            Account account = new Account(1, getIndustry(), 100, (String) values.get(1), (String) values.get(2), CRM_Data.getContactsList(), CRM_Data.getOppsList());
+        }
         //******************* USING VARARGS FOR REUSING METHODS
         public static List < Object > getValues(Object ... values) throws Exceptions {
              List < Object > value = new ArrayList<>();
              for(var i : values) {
-                 System.out.println(i);
                  try {  // --> dont work, check
-                     value.add(scanner.next());
+                     value.add(JOptionPane.showInputDialog(i).trim().toLowerCase());
                  } catch (InputMismatchException e){
                        throw new Exceptions("1");
                  }
              }
-
              return value;
         }
 
@@ -179,9 +192,9 @@ public class Menu implements ConsoleOperations{
         public Status getStats() {
              String stats;
 
-                System.out.println("Status client commands  -> \n" + "'open' for 'OPEN'\n" + "'close-lost' for 'CLOSE/LOSE'\n" +  "'close-won' for 'CLOSE/WON'\n" + "'exit' for abort");
-                stats = scanner.next().trim().toLowerCase();
-
+             String message = "Status client commands  -> \n" + "'open' for 'OPEN'\n" + "'close-lost' for 'CLOSE/LOSE'\n" +  "'close-won' for 'CLOSE/WON'\n" + "'exit' for abort";
+             //stats = scanner.next().trim().toLowerCase();
+             stats = JOptionPane.showInputDialog(message).trim().toLowerCase();
 
              switch (stats){
                   case CLOSE_LOST -> {
@@ -200,8 +213,9 @@ public class Menu implements ConsoleOperations{
 
         public Product getProduct(){
              String product;
-             System.out.println("Products Availables -> \n" + "'Hybrid' \n" + "'Flatbed' \n" +  "'Box' \n");
-             product = scanner.next().trim().toLowerCase();
+             String message =  "'Hybrid' \n" + "'Flatbed' \n" +  "'Box' \n";
+             //product = scanner.next().trim().toLowerCase(); ---> ok
+            product = JOptionPane.showInputDialog(message).trim().toLowerCase();
              switch (product){
                   case "hybrid" -> {
                        return Product.HYBRID;
@@ -217,6 +231,34 @@ public class Menu implements ConsoleOperations{
              return null;
         }
 
+        public Industry getIndustry(){
+            String industry;
+            String message = "'PRODUCE'\n 'ECOMMERCE'\n 'MANUFACTURING'\n 'MEDICAL'\n 'OTHER'\n";
+            industry = JOptionPane.showInputDialog(message).trim().toLowerCase();
+
+            switch (industry){
+                case "produce" -> {
+                    return Industry.PRODUCE;
+                }
+                case "ecommerce" -> {
+                    return Industry.ECOMMERCE;
+                }
+                case "manufacturing" -> {
+                    return Industry.MANUFACTURING;
+                }
+                case "medical" -> {
+                    return Industry.MEDICAL;
+                }
+                case "other" -> {
+                    return Industry.OTHER;
+                }
+                default -> JOptionPane.showInputDialog("Only existents Industry options");
+
+            }
+            return null;
+
+        }
+
         public static Object getIdObject(int id, Object variable){
             if(variable instanceof Lead)
                 for (var i : CRM_Data.getLeadsList()) {
@@ -229,4 +271,7 @@ public class Menu implements ConsoleOperations{
                 }
             return null;
         }
+
+
+
 }
