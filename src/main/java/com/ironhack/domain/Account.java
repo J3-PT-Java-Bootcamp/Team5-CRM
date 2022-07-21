@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Account {
     private int id;
-    private String industry;
+    private Industry industry;
     private int employeesCount;
     private String city;
     private String country;
@@ -13,7 +13,7 @@ public class Account {
     private ArrayList<Opportunity> opportunityList;
 
 
-    public Account(int id, String industry, int employeesCount, String city, String country, ArrayList<Contact> contactList, ArrayList<Opportunity> opportunityList) {
+    public Account(int id, Industry industry, int employeesCount, String city, String country, ArrayList<Contact> contactList, ArrayList<Opportunity> opportunityList) {
         this.id = id;
         this.industry = industry;
         this.employeesCount = employeesCount;
@@ -31,11 +31,11 @@ public class Account {
         this.id = id;
     }
 
-    public String getIndustry() {
+    public Industry getIndustry() {
         return industry;
     }
 
-    public void setIndustry(String industry) {
+    public void setIndustry(Industry industry) {
         this.industry = industry;
     }
 
