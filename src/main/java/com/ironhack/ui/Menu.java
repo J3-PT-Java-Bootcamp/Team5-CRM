@@ -116,9 +116,10 @@ public class Menu implements ConsoleOperations{
 
         //call to methof of lead class for a new Lead
         public void newLead() throws Exceptions {//DEBE DE ACOMODARSE A RETURN, SOLO A MODO DE TEST
-            List < Object > values = getValues("Name :\n", "Phonenumbers : \n", "Email : \n", "Company : ");
+            List < Object > values = getValues("ID : \n", "Name :\n", "Phonenumbers : \n", "Email : \n", "Company : ");
 
-            lead = new Lead(1, (String) values.get(0), (String) values.get(1), (String) values.get(2), (String) values.get(3));
+            int id = Integer.parseInt(values.get(0).toString()); //---> repair the int values !!!!
+            lead = new Lead(id, (String) values.get(1), (String) values.get(2), (String) values.get(3), (String) values.get(4));
             JOptionPane.showMessageDialog(null, "Lead Succesfully added \n  Lead : \n " + lead.toString());
             CRM_Data.addLead(lead);
         }
@@ -174,6 +175,8 @@ public class Menu implements ConsoleOperations{
         public void getAccount() throws Exceptions {
             List <Object> values = getValues("Employees?\n", "City?\n", "Country? \n");
             Account account = new Account(1, getIndustry(), 100, (String) values.get(1), (String) values.get(2), CRM_Data.getContactsList(), CRM_Data.getOppsList());
+            CRM_Data.addAccount(account);
+            System.out.println(CRM_Data.getAccountsList());
         }
         //******************* USING VARARGS FOR REUSING METHODS
         public static List < Object > getValues(Object ... values) throws Exceptions {
