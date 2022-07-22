@@ -10,6 +10,9 @@ public class Menu implements ConsoleOperations{
 
         private static final Scanner scanner = new Scanner(System.in);
         private ControllerMenu menu = new ControllerMenu();
+       /* String convert = String.format("convert ", scanner.nextInt());
+        String reg = ".*[0-9].*";
+        String x = "convert %o".formatted(reg);*/
         public void main() throws Exceptions {
                 String input;
                 do {
