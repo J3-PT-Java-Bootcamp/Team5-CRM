@@ -94,6 +94,18 @@ public class Account {
     //*** only for tester
 
 
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", industry=" + industry +
+                ", employeesCount=" + employeesCount +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", contactList=" + contactList +
+                ", opportunityList=" + opportunityList +
+                '}';
+    }
 }
 
 
