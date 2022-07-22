@@ -117,25 +117,24 @@ public class Menu implements ConsoleOperations{
         //call to methof of lead class for a new Lead
         public void newLead() throws Exceptions {//DEBE DE ACOMODARSE A RETURN, SOLO A MODO DE TEST
             List < Object > values = getValues("ID : \n", "Name :\n", "Phonenumbers : \n", "Email : \n", "Company : ");
-
-            int id = Integer.parseInt(values.get(0).toString()); //---> repair the int values !!!!
-            lead = new Lead(id, (String) values.get(1), (String) values.get(2), (String) values.get(3), (String) values.get(4));
+            //---> repair the int values !!!!
+            lead = new Lead(Integer.parseInt(values.get(0).toString()), (String) values.get(1), (String) values.get(2), (String) values.get(3), (String) values.get(4));
             JOptionPane.showMessageDialog(null, "Lead Succesfully added \n  Lead : \n " + lead.toString());
             CRM_Data.addLead(lead);
         }
 
         public void convert() throws Exceptions {
              Contact contact = new Contact(lead.getId(), lead.getName(), lead.getPhoneNumber(), lead.getCompanyName());
-             opportunity = new Opportunity(1, contact, getStats(), getProduct(), 3);
+             String ide = JOptionPane.showInputDialog("Id? ");
+             int id = Integer.parseInt(ide);
+             opportunity = new Opportunity(id, contact, getStats(), getProduct(), 3);
 
              if(opportunity.getStatus() == Status.OPEN) // --->> check, only add in that case?
-                 CRM_Data.addOpp(opportunity);
                  getAccount();
-
+                 CRM_Data.addOpp(opportunity);
         }
 
         public void showLeads(){
-            //System.out.println(CRM_Data.getLeadsList());
             JOptionPane.showMessageDialog(null, CRM_Data.getLeadsList());
         }
 
@@ -173,8 +172,8 @@ public class Menu implements ConsoleOperations{
         }
 
         public void getAccount() throws Exceptions {
-            List <Object> values = getValues("Employees?\n", "City?\n", "Country? \n");
-            Account account = new Account(1, getIndustry(), 100, (String) values.get(1), (String) values.get(2), CRM_Data.getContactsList(), CRM_Data.getOppsList());
+            List <Object> values = getValues("ID?\n","Employees?\n", "City?\n", "Country? \n");
+            Account account = new Account(Integer.parseInt(values.get(0).toString()), getIndustry(), Integer.parseInt(values.get(1).toString()), (String) values.get(2), (String) values.get(3), CRM_Data.getContactsList(), CRM_Data.getOppsList());
             CRM_Data.addAccount(account);
             System.out.println(CRM_Data.getAccountsList());
         }
@@ -196,7 +195,6 @@ public class Menu implements ConsoleOperations{
              String stats;
 
              String message = "Status client commands  -> \n" + "'open' for 'OPEN'\n" + "'close-lost' for 'CLOSE/LOSE'\n" +  "'close-won' for 'CLOSE/WON'\n" + "'exit' for abort";
-             //stats = scanner.next().trim().toLowerCase();
              stats = JOptionPane.showInputDialog(message).trim().toLowerCase();
 
              switch (stats){
@@ -215,9 +213,9 @@ public class Menu implements ConsoleOperations{
         }
 
         public Product getProduct(){
-             String product;
-             String message =  "'Hybrid' \n" + "'Flatbed' \n" +  "'Box' \n";
-             //product = scanner.next().trim().toLowerCase(); ---> ok
+            String product;
+            String message =  "'Hybrid' \n" + "'Flatbed' \n" +  "'Box' \n";
+
             product = JOptionPane.showInputDialog(message).trim().toLowerCase();
              switch (product){
                   case "hybrid" -> {
