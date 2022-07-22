@@ -8,85 +8,40 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Scanner;
+
+import static com.ironhack.ui.ConsoleOperations.*;
 
 public class ControllerMenu {
 
-     *
-             *CRM FLUX
-
-
-    Every person in the webinars  --> Lead;
-
-                - after webinar
-
-    a Lead(Interested) covert to an --> Opportunity (conserv ID) --> Command 'convert ...id' ---> NEED REVIEW
-
-
-                - CRM begins
-
-    Create a new Contact, with Lead info
-
-    Lead  --> Contact
-
-    Asking for the product
-
-    Choice with switch --> Products (ENUM)
-
-
-    Asking for quantity
-
-
-    int quantity = choice in the scanner.
-
-
-            them, create the Opportunity
-
-    attributes  --> 	int id, Contact decisionMaker, Status status, Product product, int quantity   --> Status default 'Open'
-
-
-            - CRM Asking
-
-    Switch --> Industry (ENUM)
-
-    Ask for Contact Account
-
-    int employees  -- > Account
-    city   -- > Account
-    country --> Account
-
-    them create the Account
-
-    int id, String industry, int employeesCount, String city, String country, ArrayList<Contact> contactList, ArrayList<Opportunity> opportunityList
-
-
-    them add the Lead Object to ContactList of the Account and Opportunity to opportunityList of the Account
-
-                    - Them, only the the Account and past steps are aproved, delete the Lead.
-
-
-                    - Lookup Opportunity by ID
-
-                    - If the Contact deny, with command 'close-lost + OpportunityID' close that order.
-
-        * */
-
+    private static final Scanner scanner = new Scanner(System.in);
+    private Lead lead = new Lead();
+    private Opportunity opportunity = new Opportunity();
     //call to methof of lead class for a new Lead
+
+
+    public ControllerMenu() {
+    }
+
+    //**********  CHECK ALL VIEWS, ARE VERY POOR
     public void newLead() throws Exceptions {//DEBE DE ACOMODARSE A RETURN, SOLO A MODO DE TEST
         List< Object > values = getValues("ID : \n", "Name :\n", "Phonenumbers : \n", "Email : \n", "Company : ");
-        //---> repair the int values !!!!
         lead = new Lead(Integer.parseInt(values.get(0).toString()), (String) values.get(1), (String) values.get(2), (String) values.get(3), (String) values.get(4));
         JOptionPane.showMessageDialog(null, "Lead Succesfully added \n  Lead : \n " + lead.toString());
         CRM_Data.addLead(lead);
     }
 
     public void convert() throws Exceptions {
-        com.ironhack.domain.Contact contact = new Contact(lead.getId(), lead.getName(), lead.getPhoneNumber(), lead.getCompanyName());
+        Contact contact = new Contact(lead.getId(), lead.getName(), lead.getPhoneNumber(), lead.getCompanyName());
         String ide = JOptionPane.showInputDialog("Id? ");
         int id = Integer.parseInt(ide);
         opportunity = new Opportunity(id, contact, getStats(), getProduct(), 3);
 
         if(opportunity.getStatus() == Status.OPEN) // --->> check, only add in that case?
             getAccount();
+            CRM_Data.addOpp(opportunity);
+
+
         CRM_Data.addOpp(opportunity);
     }
 
@@ -170,7 +125,7 @@ public class ControllerMenu {
 
     public Product getProduct(){
         String product;
-        String message =  "'Hybrid' \n" + "'Flatbed' \n" +  "'Box' \n";
+        String message =  "Stock Products : \n\n 'Hybrid' \n 'Flatbed' \n 'Box' \n";
 
         product = JOptionPane.showInputDialog(message).trim().toLowerCase();
         switch (product){
@@ -190,7 +145,7 @@ public class ControllerMenu {
 
     public Industry getIndustry(){
         String industry;
-        String message = "'PRODUCE'\n 'ECOMMERCE'\n 'MANUFACTURING'\n 'MEDICAL'\n 'OTHER'\n";
+        String message = "Type of Industry : \n\n 'Produce'\n 'Ecommerce'\n 'Manufacturing'\n 'Medical'\n 'Other'\n";
         industry = JOptionPane.showInputDialog(message).trim().toLowerCase();
 
         switch (industry){
