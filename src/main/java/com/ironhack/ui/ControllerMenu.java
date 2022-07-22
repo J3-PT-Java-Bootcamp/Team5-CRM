@@ -3,7 +3,9 @@ package com.ironhack.ui;
 import com.ironhack.Exceptions.Exceptions;
 import com.ironhack.data.CRM_Data;
 import com.ironhack.domain.*;
-
+import com.ironhack.domain.Industry;
+import com.ironhack.domain.Status;
+import com.ironhack.domain.Product;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -24,50 +26,61 @@ public class ControllerMenu {
     }
 
     //**********  CHECK ALL VIEWS, ARE VERY POOR
-    public void newLead() throws Exceptions {//DEBE DE ACOMODARSE A RETURN, SOLO A MODO DE TEST
+    public Lead newLead() throws Exceptions {//DEBE DE ACOMODARSE A RETURN, SOLO A MODO DE TEST
         List< Object > values = getValues("ID : \n", "Name :\n", "Phonenumbers : \n", "Email : \n", "Company : ");
         lead = new Lead(Integer.parseInt(values.get(0).toString()), (String) values.get(1), (String) values.get(2), (String) values.get(3), (String) values.get(4));
-        JOptionPane.showMessageDialog(null, "Lead Succesfully added \n  Lead : \n " + lead.toString());
+        JOptionPane.showMessageDialog(null, "Lead Succesfully added \n\nLead Register : \n\nID : " + lead.getId()  +"\nName : " + lead.getName() + "\nPhonenumber : " + lead.getPhoneNumber() + "\nEmail :" + lead.getEmail() + "\nCompany :" + lead.getCompanyName());
         CRM_Data.addLead(lead);
+
+        return lead;
     }
 
-    public void convert() throws Exceptions {
-        Contact contact = new Contact(lead.getId(), lead.getName(), lead.getPhoneNumber(), lead.getCompanyName());
-        String ide = JOptionPane.showInputDialog("Id? ");
-        int id = Integer.parseInt(ide);
-        opportunity = new Opportunity(id, contact, getStats(), getProduct(), 3);
+    public Opportunity convert() throws Exceptions {
+        List <Object> values = getValues("ID?\n", "Quantity :");
+        opportunity = new Opportunity(Integer.parseInt(values.get(0).toString()), getContact(), getStats(), getProduct(), Integer.parseInt(values.get(1).toString()));
 
-        if(opportunity.getStatus() == Status.OPEN) // --->> check, only add in that case?
+        if(opportunity.getStatus() == Status.OPEN) {// --->> check, only add in that case?
             getAccount();
             CRM_Data.addOpp(opportunity);
-
+        }
 
         CRM_Data.addOpp(opportunity);
+
+        return opportunity;
+    }
+
+    public Contact getContact(){
+        return  new Contact(lead.getId(), lead.getName(), lead.getPhoneNumber(), lead.getCompanyName());
     }
 
     public void showLeads(){
-        JOptionPane.showMessageDialog(null, CRM_Data.getLeadsList());
+        JOptionPane.showMessageDialog(null, CRM_Data.getLeadsList());// check the print on the pane in the CRM Method
     }
 
-    public void lookUpLead(){
+    public Lead lookUpLead(){
         String ide = JOptionPane.showInputDialog("Id Lead? ");
         int id = Integer.parseInt(ide);
         CRM_Data.setSelectedLead((Lead) getIdObject(id, lead));
 
 
-        System.out.println(CRM_Data.getSelectedLead());
+        JOptionPane.showMessageDialog(null, CRM_Data.getSelectedLead());
         //JOptionPane.showMessageDialog(CRM_Data.getSelectedLead()); --->JOPTION DESDE EL MÉTODO ORIGINAL
+
+        return CRM_Data.getSelectedLead();// check the print on the pane in the CRM Method
     }
 
     public void showOpportunities(){
-        System.out.println(CRM_Data.getOppsList());
+        JOptionPane.showMessageDialog(null, CRM_Data.getOppsList());// check the print on the pane in the CRM Method
     }
 
-    public void lookUpOpportunities(){
+    public Opportunity lookUpOpportunities(){
         String ide = JOptionPane.showInputDialog("Id Opportunity? ");
         int id = Integer.parseInt(ide);
         CRM_Data.setSelectedOpp((Opportunity) getIdObject(id, opportunity));
         System.out.println(CRM_Data.getSelectedOpp());
+        JOptionPane.showMessageDialog(null, CRM_Data.getSelectedOpp()); // check the print on the pane in the CRM Method
+
+        return CRM_Data.getSelectedOpp();
     }
 
     public void open(){
@@ -82,11 +95,14 @@ public class ControllerMenu {
 
     }
 
-    public void getAccount() throws Exceptions {
+    public Account getAccount() throws Exceptions {
         List <Object> values = getValues("ID?\n","Employees?\n", "City?\n", "Country? \n");
-        com.ironhack.domain.Account account = new Account(Integer.parseInt(values.get(0).toString()), getIndustry(), Integer.parseInt(values.get(1).toString()), (String) values.get(2), (String) values.get(3), CRM_Data.getContactsList(), CRM_Data.getOppsList());
+        Account account = new Account(Integer.parseInt(values.get(0).toString()), getIndustry(), Integer.parseInt(values.get(1).toString()), (String) values.get(2), (String) values.get(3), CRM_Data.getContactsList(), CRM_Data.getOppsList());
         CRM_Data.addAccount(account);
-        System.out.println(CRM_Data.getAccountsList());
+        System.out.println(account.toString());
+        JOptionPane.showMessageDialog(null, account.toString());
+
+        return account;
     }
     //******************* USING VARARGS FOR REUSING METHODS
     public static List < Object > getValues(Object ... values) throws Exceptions {
@@ -118,7 +134,7 @@ public class ControllerMenu {
             case CLOSE_WON -> {
                 return  Status.CLOSED_WON;
             }
-            default -> System.out.println("Only a real status");
+            default -> JOptionPane.showMessageDialog(null,"Only a real status");
         }
         return null;
     }
@@ -130,15 +146,15 @@ public class ControllerMenu {
         product = JOptionPane.showInputDialog(message).trim().toLowerCase();
         switch (product){
             case "hybrid" -> {
-                return com.ironhack.domain.Product.HYBRID;
+                return Product.HYBRID;
             }
             case "flatbed" -> {
-                return com.ironhack.domain.Product.FLATBED;
+                return Product.FLATBED;
             }
             case "box" -> {
-                return com.ironhack.domain.Product.BOX;
+                return Product.BOX;
             }
-            default -> System.out.println("Only existents products");
+            default -> JOptionPane.showMessageDialog(null, "Only existents products");
         }
         return null;
     }
