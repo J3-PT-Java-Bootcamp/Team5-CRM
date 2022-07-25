@@ -1,4 +1,4 @@
-package com.ironhack.domain;
+package com.ironhack.domain.enums;
 
 public enum Status {
     OPEN, CLOSED_WON, CLOSED_LOST

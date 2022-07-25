@@ -1,5 +1,8 @@
 package com.ironhack.domain;
 
+import com.ironhack.domain.enums.Product;
+import com.ironhack.domain.enums.Status;
+
 import java.util.Objects;
 
 public class Opportunity {

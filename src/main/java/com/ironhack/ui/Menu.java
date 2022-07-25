@@ -6,11 +6,13 @@ import java.util.*;
 public class Menu implements ConsoleOperations {
 
     private static final Scanner scanner = new Scanner(System.in);
-    private ControllerMenu menu = new ControllerMenu();
 
-    /* String convert = String.format("convert ", scanner.nextInt());
-     String reg = ".*[0-9].*";
-     String x = "convert %o".formatted(reg);*/
+    private final MenuController menuController;
+
+    public Menu(MenuController menuController) {
+        this.menuController = menuController;
+    }
+
     public void main() throws Exception {
         String input;
         do {
@@ -59,7 +61,7 @@ public class Menu implements ConsoleOperations {
         }
         int id = Integer.parseInt(inputSplit[1]);
 
-        menu.closeLost(id);
+        menuController.closeLost(id);
     }
 
     private void closeWonMenu(String[] inputSplit) throws Exception {
@@ -68,7 +70,7 @@ public class Menu implements ConsoleOperations {
         }
         int id = Integer.parseInt(inputSplit[1]);
 
-        menu.closeWon(id);
+        menuController.closeWon(id);
     }
 
     private void openMenu(String[] inputSplit) throws Exception {
@@ -77,7 +79,7 @@ public class Menu implements ConsoleOperations {
         }
         int id = Integer.parseInt(inputSplit[1]);
 
-        menu.open(id);
+        menuController.open(id);
     }
 
     private void lookupMenu(String[] inputSplit) throws Exception {
@@ -86,8 +88,9 @@ public class Menu implements ConsoleOperations {
         }
         int id = Integer.parseInt(inputSplit[2]);
         switch (inputSplit[1]) {
-            case ConsoleOperationEntities.LEAD -> menu.lookUpLead(id);
-            case ConsoleOperationEntities.OPPORTUNITY -> menu.lookUpOpportunities(id);
+            case ConsoleOperationEntities.LEAD -> menuController.lookUpLead(id);
+            case ConsoleOperationEntities.OPPORTUNITY -> menuController.lookUpOpportunity(id);
+            default -> throw new Exception();
         }
     }
 
@@ -96,8 +99,9 @@ public class Menu implements ConsoleOperations {
             throw new Exception();
         }
         switch (inputSplit[1]) {
-            case ConsoleOperationEntities.LEAD -> menu.showLeads();
-            case ConsoleOperationEntities.OPPORTUNITY -> menu.showOpportunities();
+            case ConsoleOperationEntities.LEADS -> menuController.showLeads();
+            case ConsoleOperationEntities.OPPORTUNITIES -> menuController.showOpportunities();
+            default -> throw new Exception();
         }
     }
 
@@ -107,7 +111,7 @@ public class Menu implements ConsoleOperations {
         }
         int id = Integer.parseInt(inputSplit[1]);
 
-        menu.convert(id);
+        menuController.convert(id);
 
     }
 
@@ -116,8 +120,8 @@ public class Menu implements ConsoleOperations {
             throw new Exception();
         }
         switch (inputSplit[1]) {
-            case ConsoleOperationEntities.LEAD -> menu.newLead();
-            case ConsoleOperationEntities.OPPORTUNITY -> menu.newOpportunity();
+            case ConsoleOperationEntities.LEAD -> menuController.newLead();
+            default -> throw new Exception();
         }
     }
 
