@@ -1,25 +1,23 @@
 package com.ironhack.ui;
-import com.ironhack.Exceptions.Exceptions;
-import com.ironhack.data.CRM_Data;
-import com.ironhack.domain.*;
 
 import javax.swing.*;
 import java.util.*;
 
-public class Menu implements ConsoleOperations{
+public class Menu implements ConsoleOperations {
 
-        private static final Scanner scanner = new Scanner(System.in);
-        private ControllerMenu menu = new ControllerMenu();
-       /* String convert = String.format("convert ", scanner.nextInt());
-        String reg = ".*[0-9].*";
-        String x = "convert %o".formatted(reg);*/
-        public void main() throws Exceptions {
-                String input;
-                do {
-                        var mainMenu = """
+    private static final Scanner scanner = new Scanner(System.in);
+    private ControllerMenu menu = new ControllerMenu();
+
+    /* String convert = String.format("convert ", scanner.nextInt());
+     String reg = ".*[0-9].*";
+     String x = "convert %o".formatted(reg);*/
+    public void main() throws Exception {
+        String input;
+        do {
+            var mainMenu = """
                     Welcome to CRM Manager
                     Available Operations
-                 
+                                     
                     ===============
                     command -> 'new lead' for add a new Lead
                     command -> 'convert' plus the id for convert to new object
@@ -35,58 +33,92 @@ public class Menu implements ConsoleOperations{
                     ===============
                     Write your COMMAND:
                     """;
-                        //input = JOptionPane.showInputDialog(mainMenu).trim().toLowerCase();
-                        var inpuSplit = input.split(" ");
-                        switch (input) {
-                                case NEW_LEAD -> newLead();
-                                case CONVERT -> convert();
-                                case SHOW_LEADS -> showLeads();
-                                case LOOKUP_LEAD -> lookUpLead();
-                                case SHOW_OPPORTUNITIES -> showOpportunities();
-                                case LOOKUP_OPPORTUNITY -> lookUpOpportunities();
-                                case OPEN -> open();
-                                case CLOSE_LOST -> closeLost();
-                                case CLOSE_WON -> closeWon();
-                                case "EXIT" -> {
-                                        System.out.println("Adeu");
-                                        System.exit(1);
-                                }
-                                default -> System.out.println("Command not recognized!");
-                        }
-                } while (!input.equals("exit"));
-        }
+            input = JOptionPane.showInputDialog(mainMenu).trim().toLowerCase();
+            var inputSplit = input.split(" ");
 
-        private void newLead() throws Exceptions {
-              menu.newLead();
-        }
+            switch (inputSplit[0]) {
+                case NEW -> newMenu(inputSplit);
+                case CONVERT -> convertMenu(inputSplit);
+                case SHOW -> showMenu(inputSplit);
+                case LOOKUP -> lookupMenu(inputSplit);
+                case OPEN -> openMenu(inputSplit);
+                case CLOSE_LOST -> closeLostMenu(inputSplit);
+                case CLOSE_WON -> closeWonMenu(inputSplit);
+                case "exit" -> {
+                    System.out.println("Adeu");
+                    System.exit(1);
+                }
+                default -> System.out.println("Command not recognized!");
+            }
+        } while (!input.equals("exit"));
+    }
 
-        private void convert() throws Exceptions {
-              menu.convert();
+    private void closeLostMenu(String[] inputSplit) throws Exception {
+        if (inputSplit.length <= 1) {
+            throw new Exception();
         }
-        private void lookUpOpportunities() {// add exceptions
-              menu.lookUpOpportunities();
-        }
+        int id = Integer.parseInt(inputSplit[1]);
 
-        private void showOpportunities() {// add exceptions
-              menu.showOpportunities();
-        }
+        menu.closeLost(id);
+    }
 
-        private void lookUpLead() {// add exceptions
-              menu.lookUpLead();
+    private void closeWonMenu(String[] inputSplit) throws Exception {
+        if (inputSplit.length <= 1) {
+            throw new Exception();
         }
+        int id = Integer.parseInt(inputSplit[1]);
 
-        private void showLeads() {
-             menu.showLeads();
+        menu.closeWon(id);
+    }
+
+    private void openMenu(String[] inputSplit) throws Exception {
+        if (inputSplit.length <= 1) {
+            throw new Exception();
         }
+        int id = Integer.parseInt(inputSplit[1]);
 
-        private void open() {
+        menu.open(id);
+    }
+
+    private void lookupMenu(String[] inputSplit) throws Exception {
+        if (inputSplit.length <= 2) {
+            throw new Exception();
         }
-
-        private void closeLost() {
-
+        int id = Integer.parseInt(inputSplit[2]);
+        switch (inputSplit[1]) {
+            case ConsoleOperationEntities.LEAD -> menu.lookUpLead(id);
+            case ConsoleOperationEntities.OPPORTUNITY -> menu.lookUpOpportunities(id);
         }
-        private void closeWon() {
+    }
 
+    private void showMenu(String[] inputSplit) throws Exception {
+        if (inputSplit.length <= 1) {
+            throw new Exception();
         }
+        switch (inputSplit[1]) {
+            case ConsoleOperationEntities.LEAD -> menu.showLeads();
+            case ConsoleOperationEntities.OPPORTUNITY -> menu.showOpportunities();
+        }
+    }
+
+    private void convertMenu(String[] inputSplit) throws Exception {
+        if (inputSplit.length <= 1) {
+            throw new Exception();
+        }
+        int id = Integer.parseInt(inputSplit[1]);
+
+        menu.convert(id);
+
+    }
+
+    private void newMenu(String[] inputSplit) throws Exception {
+        if (inputSplit.length <= 1) {
+            throw new Exception();
+        }
+        switch (inputSplit[1]) {
+            case ConsoleOperationEntities.LEAD -> menu.newLead();
+            case ConsoleOperationEntities.OPPORTUNITY -> menu.newOpportunity();
+        }
+    }
 
 }
