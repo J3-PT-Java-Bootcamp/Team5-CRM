@@ -1,5 +1,7 @@
 package com.ironhack.domain;
 
+import com.ironhack.domain.enums.Industry;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
