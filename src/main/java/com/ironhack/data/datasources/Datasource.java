@@ -1,4 +1,4 @@
-package com.ironhack.data.datasources;
+package com.ironhack.data;
 
 import com.ironhack.domain.Account;
 import com.ironhack.domain.Lead;
