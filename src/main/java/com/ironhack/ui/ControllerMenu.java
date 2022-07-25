@@ -1,6 +1,5 @@
 package com.ironhack.ui;
 
-import com.ironhack.Exceptions.Exceptions;
 import com.ironhack.data.CRM_Data;
 import com.ironhack.domain.*;
 import com.ironhack.domain.Industry;
@@ -26,7 +25,7 @@ public class ControllerMenu {
     }
 
     //**********  CHECK ALL VIEWS, ARE VERY POOR
-    public Lead newLead() throws Exceptions {//DEBE DE ACOMODARSE A RETURN, SOLO A MODO DE TEST
+    public Lead newLead() throws Exception {//DEBE DE ACOMODARSE A RETURN, SOLO A MODO DE TEST
         List< Object > values = getValues("ID : \n", "Name :\n", "Phonenumbers : \n", "Email : \n", "Company : ");
         lead = new Lead(Integer.parseInt(values.get(0).toString()), (String) values.get(1), (String) values.get(2), (String) values.get(3), (String) values.get(4));
         JOptionPane.showMessageDialog(null, "Lead Succesfully added \n\nLead Register : \n\nID : " + lead.getId()  +"\nName : " + lead.getName() + "\nPhonenumber : " + lead.getPhoneNumber() + "\nEmail :" + lead.getEmail() + "\nCompany :" + lead.getCompanyName());
@@ -35,7 +34,7 @@ public class ControllerMenu {
         return lead;
     }
 
-    public Opportunity convert() throws Exceptions {
+    public Opportunity convert(int id) throws Exception {
         List <Object> values = getValues("ID?\n", "Quantity :");
         opportunity = new Opportunity(Integer.parseInt(values.get(0).toString()), getContact(), getStats(), getProduct(), Integer.parseInt(values.get(1).toString()));
 
@@ -57,9 +56,7 @@ public class ControllerMenu {
         JOptionPane.showMessageDialog(null, CRM_Data.getLeadsList());// check the print on the pane in the CRM Method
     }
 
-    public Lead lookUpLead(){
-        String ide = JOptionPane.showInputDialog("Id Lead? ");
-        int id = Integer.parseInt(ide);
+    public Lead lookUpLead(int id){
         CRM_Data.setSelectedLead((Lead) getIdObject(id, lead));
 
 
@@ -73,9 +70,7 @@ public class ControllerMenu {
         JOptionPane.showMessageDialog(null, CRM_Data.getOppsList());// check the print on the pane in the CRM Method
     }
 
-    public Opportunity lookUpOpportunities(){
-        String ide = JOptionPane.showInputDialog("Id Opportunity? ");
-        int id = Integer.parseInt(ide);
+    public Opportunity lookUpOpportunities(int id){
         CRM_Data.setSelectedOpp((Opportunity) getIdObject(id, opportunity));
         System.out.println(CRM_Data.getSelectedOpp());
         JOptionPane.showMessageDialog(null, CRM_Data.getSelectedOpp()); // check the print on the pane in the CRM Method
@@ -83,19 +78,19 @@ public class ControllerMenu {
         return CRM_Data.getSelectedOpp();
     }
 
-    public void open(){
+    public void open(int id){
 
     }
 
-    public void closeLost(){
+    public void closeLost(int id){
 
     }
 
-    public void closeWon(){
+    public void closeWon(int id){
 
     }
 
-    public Account getAccount() throws Exceptions {
+    public Account getAccount() throws Exception {
         List <Object> values = getValues("ID?\n","Employees?\n", "City?\n", "Country? \n");
         Account account = new Account(Integer.parseInt(values.get(0).toString()), getIndustry(), Integer.parseInt(values.get(1).toString()), (String) values.get(2), (String) values.get(3), CRM_Data.getContactsList(), CRM_Data.getOppsList());
         CRM_Data.addAccount(account);
@@ -105,13 +100,13 @@ public class ControllerMenu {
         return account;
     }
     //******************* USING VARARGS FOR REUSING METHODS
-    public static List < Object > getValues(Object ... values) throws Exceptions {
+    public static List < Object > getValues(Object ... values) throws Exception {
         List < Object > value = new ArrayList<>();
         for(var i : values) {
             try {  // --> dont work, check
                 value.add(JOptionPane.showInputDialog(i).trim().toLowerCase());
             } catch (InputMismatchException e){
-                throw new Exceptions("1");
+                throw new Exception("1");
             }
         }
         return value;
@@ -200,4 +195,6 @@ public class ControllerMenu {
         return null;
     }
 
+    public void newOpportunity() {
+    }
 }
