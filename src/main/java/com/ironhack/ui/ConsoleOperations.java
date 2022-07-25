@@ -1,8 +1,6 @@
 package com.ironhack.ui;
 
 
-import java.util.Scanner;
-
 public interface ConsoleOperations {
 
     String NEW = "new";
