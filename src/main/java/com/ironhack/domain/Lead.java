@@ -9,6 +9,9 @@ public class Lead {
     private String email;
     private String companyName;
 
+    public Lead() {
+    }
+
     public Lead(int id, String name, String phoneNumber, String email, String companyName) {
         this.id = id;
         this.name = name;
@@ -68,5 +71,16 @@ public class Lead {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Lead{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", companyName='" + companyName + '\'' +
+                '}';
     }
 }
