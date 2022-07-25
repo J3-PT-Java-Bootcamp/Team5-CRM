@@ -35,7 +35,8 @@ public class Menu implements ConsoleOperations{
                     ===============
                     Write your COMMAND:
                     """;
-                        input = JOptionPane.showInputDialog(mainMenu).trim().toLowerCase();
+                        //input = JOptionPane.showInputDialog(mainMenu).trim().toLowerCase();
+                        var inpuSplit = input.split(" ");
                         switch (input) {
                                 case NEW_LEAD -> newLead();
                                 case CONVERT -> convert();
