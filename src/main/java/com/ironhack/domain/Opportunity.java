@@ -9,6 +9,9 @@ public class Opportunity {
     private Product product;
     private int quantity;
 
+    public Opportunity() {
+    }
+
     public Opportunity(int id, Contact decisionMaker, Status status, Product product, int quantity) {
         this.id = id;
         this.decisionMaker = decisionMaker;
