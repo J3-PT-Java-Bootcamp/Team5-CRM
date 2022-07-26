@@ -3,6 +3,9 @@ package com.ironhack.ui;
 import com.ironhack.business_logic.AccountService;
 import com.ironhack.business_logic.LeadService;
 import com.ironhack.business_logic.OpportunityService;
+import com.ironhack.data.datasources.impl.InMemoryDatasource;
+import com.ironhack.domain.Account;
+import com.ironhack.domain.Lead;
 import com.ironhack.domain.enums.Industry;
 import com.ironhack.domain.enums.Status;
 import com.ironhack.domain.enums.Product;
@@ -21,8 +24,8 @@ public class MenuController {
     private final LeadService leadService;
     private final OpportunityService opportunityService;
 
+    private Lead lead = new Lead();
     private static final Scanner scanner = new Scanner(System.in);
-
 
     public MenuController(AccountService accountService, LeadService leadService, OpportunityService opportunityService) {
         this.accountService = accountService;
@@ -33,23 +36,19 @@ public class MenuController {
     //**********  CHECK ALL VIEWS, ARE VERY POOR
     public void newLead() throws Exception {//DEBE DE ACOMODARSE A RETURN, SOLO A MODO DE TEST
         List<Object> values = getValues("Name :\n", "Phone number : \n", "Email : \n", "Company : ");
-        var lead = leadService.newLead((String) values.get(0), (String) values.get(1), (String) values.get(2), (String) values.get(3));
+        lead = leadService.newLead((String) values.get(0), (String) values.get(1), (String) values.get(2), (String) values.get(3));
         JOptionPane.showMessageDialog(null, "Lead Succesfully added \n\nLead Register : \n\nID : " + lead.getId() + "\nName : " + lead.getName() + "\nPhonenumber : " + lead.getPhoneNumber() + "\nEmail :" + lead.getEmail() + "\nCompany :" + lead.getCompanyName());
     }
 
     public void convert(int id) throws Exception {
-        leadService.convert(id);
-//        List <Object> values = getValues("ID?\n", "Quantity :");
-//        opportunity = new Opportunity(Integer.parseInt(values.get(0).toString()), getContact(), getStats(), getProduct(), Integer.parseInt(values.get(1).toString()));
-//
-//        if(opportunity.getStatus() == Status.OPEN) {// --->> check, only add in that case?
-//            getAccount();
-//            CRM_Data.addOpp(opportunity);
-//        }
-//
-//        CRM_Data.addOpp(opportunity);
-//
-//        return opportunity;
+        if(leadService.convert(id)){
+            List <Object> values = getValues("Quantity :");
+            //opportunityService.newOpportunity(leadService.getContact(lead), getStats(), getProduct(), Integer.parseInt(values.get(0).toString()));
+
+            int maxIdAccount = InMemoryDatasource.getInstance().getMaxAccountId();
+            List <Object> accountValues = getValues("Employees?\n", "City?\n", "Country? \n");
+            accountService.saveAccount(new Account(maxIdAccount, getIndustry(), Integer.parseInt(accountValues.get(0).toString()), (String) accountValues.get(1), (String) accountValues.get(2), accountService.contactList(leadService.getContact(lead)), accountService.opportunityList(opportunityService.newOpportunity(leadService.getContact(lead), getStats(), getProduct(), Integer.parseInt(values.get(0).toString())))));
+        }
     }
 
     public void showLeads() {
@@ -69,15 +68,15 @@ public class MenuController {
     }
 
     public void open(int id) {
-
+        opportunityService.openOpportunity(id);
     }
 
     public void closeLost(int id) {
-
+        opportunityService.closeLostOpportunity(id);
     }
 
     public void closeWon(int id) {
-
+        opportunityService.closeWonOpportunity(id);
     }
 
     //******************* USING VARARGS FOR REUSING METHODS
