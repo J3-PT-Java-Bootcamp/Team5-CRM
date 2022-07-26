@@ -2,6 +2,10 @@ package com.ironhack.data;
 
 import com.ironhack.data.datasources.Datasource;
 import com.ironhack.domain.Account;
+import com.ironhack.domain.Contact;
+import com.ironhack.domain.Opportunity;
+
+import java.util.ArrayList;
 
 /**
  * You should only use this repository when converting a lead and creating the account with the opportunities an contacts
@@ -24,6 +28,9 @@ public class AccountRepository {
     }
 
     public void saveAccount(Account account) {
+
         datasource.saveAccount(account);
     }
+
+
 }
