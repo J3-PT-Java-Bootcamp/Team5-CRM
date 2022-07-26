@@ -22,11 +22,11 @@ public class Menu implements ConsoleOperations {
                                      
                     ===============
                     command -> 'new lead' for add a new Lead
-                    command -> 'convert' plus the id for convert to new object
+                    command -> 'convert' plus the ID of Lead for convert to new Opportunity
                     command -> 'show leads' for show all leads
-                    command -> 'lookup lead' for see a lookup lead
+                    command -> 'lookup lead' plus the ID for see a lookup lead
                     command -> 'show opportunities' for show all oportunities
-                    command -> 'lookup opportunity' for see a lookup opportunity
+                    command -> 'lookup opportunity' plus the ID for see a lookup opportunity
                     command -> 'open' for changes the sales states to open
                     command -> 'close-lost' for changes the sales states to CLOSE / LOST
                     command -> 'close-won' for changes the sales states to CLOSE / WON
