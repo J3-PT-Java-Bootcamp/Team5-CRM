@@ -1,56 +1,65 @@
 package com.ironhack.business_logic;
 
-import com.ironhack.data.CRM_Data;
-import com.ironhack.domain.Contact;
+import com.ironhack.data.OpportunityRepository;
+import com.ironhack.data.exceptions.DataNotFoundException;
 import com.ironhack.domain.Opportunity;
-import com.ironhack.domain.Product;
-import com.ironhack.domain.Status;
 
-public abstract class OpportunityService {
+import javax.swing.*;
 
+public class OpportunityService {
 
-    public static void main(String[] args) {
-        Contact testContact = new Contact(12,"Miguel","+555 55-555-555", "mail@mail.com");
-        CRM_Data.addOpp(new Opportunity(100 ,testContact, Status.CLOSED_LOST, Product.HYBRID,30 ));
+    private static OpportunityService instance;
 
-        testContact = new Contact(12,"Ana Lopez","+555 55-555-555", "mail@mail.com");
-        CRM_Data.addOpp(new Opportunity(100,testContact, Status.CLOSED_LOST, Product.HYBRID,30 ));
+    private final OpportunityRepository opportunityRepository;
 
-        testContact = new Contact(13,"Mauricio","+555 55-555-555", "mail@mail.com");
-        CRM_Data.addOpp(new Opportunity(102,testContact, Status.CLOSED_LOST, Product.HYBRID,30 ));
+    private OpportunityService(OpportunityRepository opportunityRepository) {
+        this.opportunityRepository = opportunityRepository;
+    }
 
-        OpportunityService.showOpportunities();
+    public static OpportunityService getInstance(OpportunityRepository opportunityRepository) {
+        if(instance == null) {
+            instance = new OpportunityService(opportunityRepository);
+        }
+        return instance;
+    }
 
-        OpportunityService.lookUpOpportunity(100);
-
+    /**
+     * Method intended to be used when updating the opportunity status
+     * @param opportunity
+     * @throws DataNotFoundException
+     */
+    public void updateOpportunity(Opportunity opportunity) throws DataNotFoundException {
+        opportunityRepository.updateOpportunity(opportunity);
     }
 
 
+    /**
+     * Method that shows the current opporunities stored
+     */
+    public void showOpportunities() {
 
-    public static void showOpportunities (){
-        System.out.println("+ Following Opportunities are available: ");
-        if (CRM_Data.getOppsList().isEmpty()){
-            System.out.println("-> None.");
-        } else {
-            for (Opportunity opp: CRM_Data.getOppsList()){
-                System.out.println("-> " + opp.toString());
+        JOptionPane.showMessageDialog(null, opportunityRepository.getAllOpportunities());// check the print on the pane in the CRM Method
+//        System.out.println("+ Following Opportunities are available: ");
+//        var opportunities = opportunityRepository.getAllOpportunities();
+//        if (opportunities.isEmpty()) {
+//            System.out.println("-> None.");
+//        } else {
+//            for (Opportunity opp : opportunities) {
+//                System.out.println("-> " + opp.toString());
+//            }
+//        }
+
+    }
+
+    public void lookUpOpportunity(int id) {
+        for (Opportunity opp : opportunityRepository.getAllOpportunities()) {
+            if (opp.getId() == id) {
+                JOptionPane.showMessageDialog(null, """
+                        Opportunity with ID (" + opp.getId() + ") was looked up:
+                        %s
+                        """.formatted(opp));
             }
         }
-
     }
-
-    public static void lookUpOpportunity(int id){
-        for (Opportunity opp: CRM_Data.getOppsList()) {
-            if(opp.getId()==id){
-                CRM_Data.setSelectedOpp(opp);
-                System.out.println("Opportunity with ID ("+opp.getId()+") was selected:");
-                System.out.println(opp.toString());
-
-            }
-
-        }
-    }
-
-
 
 }
