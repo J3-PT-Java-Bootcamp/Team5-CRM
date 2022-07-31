@@ -8,6 +8,7 @@ import com.ironhack.data.LeadRepository;
 import com.ironhack.data.OpportunityRepository;
 import com.ironhack.data.datasources.Datasource;
 import com.ironhack.data.datasources.impl.InMemoryDatasource;
+import com.ironhack.data.datasources.impl.JsonDatasource;
 import com.ironhack.ui.MenuController;
 import com.ironhack.ui.Menu;
 
@@ -15,10 +16,10 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        Datasource datasource = InMemoryDatasource.getInstance();
+//        Datasource datasource = InMemoryDatasource.getInstance();
 
         // Uncomment this line to use json instead of memory
-        // Datasource datasource = JsonDatasource.getInstance();
+        Datasource datasource = JsonDatasource.getInstance();
         OpportunityRepository opportunityRepository = OpportunityRepository.getInstance(datasource);
         OpportunityService opportunityService = OpportunityService.getInstance(opportunityRepository);
         AccountRepository accountRepository = AccountRepository.getInstance(datasource);

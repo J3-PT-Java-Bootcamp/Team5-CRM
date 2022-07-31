@@ -27,9 +27,10 @@ public class AccountRepository {
         return instance;
     }
 
-    public void saveAccount(Account account) {
+    public Account saveAccount(Account account) {
 
         datasource.saveAccount(account);
+        return account;
     }
 
 
