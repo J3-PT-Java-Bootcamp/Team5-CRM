@@ -10,13 +10,13 @@ import java.util.ArrayList;
 public class AccountService {
 
     private static AccountService instance;
-
     private final AccountRepository accountRepository;
-
     private AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
 
+    //* CONSTRUCTORS
+    //**********************************************
     public static AccountService getInstance(AccountRepository accountRepository) {
         if(instance == null) {
             instance = new AccountService(accountRepository);
@@ -26,7 +26,6 @@ public class AccountService {
 
     public Account saveAccount(Account account) {
         //var id = accountRepository
-
         accountRepository.saveAccount(account);
         return account;
     }
