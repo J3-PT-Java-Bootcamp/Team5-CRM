@@ -1,25 +1,41 @@
 package com.ironhack.business_logic;
 
+import com.ironhack.data.AccountRepository;
+import com.ironhack.data.ContactRepository;
 import com.ironhack.data.LeadRepository;
+import com.ironhack.data.OpportunityRepository;
 import com.ironhack.data.datasources.impl.InMemoryDatasource;
+import com.ironhack.domain.Account;
 import com.ironhack.domain.Contact;
 import com.ironhack.domain.Lead;
+import com.ironhack.domain.Opportunity;
+import com.ironhack.domain.enums.Industry;
+import com.ironhack.domain.enums.Product;
+import com.ironhack.domain.enums.Status;
 
 import javax.swing.*;
+import java.util.List;
 
 public class LeadService {
 
     private static LeadService instance;
 
     private final LeadRepository leadRepository;
+    private final ContactRepository contactRepository;
 
-    private LeadService(LeadRepository leadRepository) {
+    private final AccountRepository accountRepository;
+    private final OpportunityRepository opportunityRepository;
+
+    private LeadService(LeadRepository leadRepository, ContactRepository contactRepository, AccountRepository accountRepository, OpportunityRepository opportunityRepository) {
         this.leadRepository = leadRepository;
+        this.contactRepository = contactRepository;
+        this.accountRepository = accountRepository;
+        this.opportunityRepository = opportunityRepository;
     }
 
-    public static LeadService getInstance(LeadRepository leadRepository) {
+    public static LeadService getInstance(LeadRepository leadRepository, ContactRepository contactRepository, AccountRepository accountRepository, OpportunityRepository opportunityRepository) {
         if (instance == null) {
-            instance = new LeadService(leadRepository);
+            instance = new LeadService(leadRepository, contactRepository, accountRepository, opportunityRepository);
         }
         return instance;
     }
@@ -43,21 +59,20 @@ public class LeadService {
      * TODO: maybe this service will require the account repository, cause even if it creates an opportunity and a contact, both are stored inside an account
      * @param id
      */
-    public boolean convert(int id) {
-        for(var lead : leadRepository.getAllLeads()) {
-            if (lead.getId() == id) {
-                JOptionPane.showMessageDialog(null, "New contact added to opportunity" + getContact(lead));
-                return true;
-            }
-        }
-        JOptionPane.showMessageDialog(null, "Not lead existences with that ID");
-        return false;
-    }
+    public void convert(int id, Product product, int productQuantity, Industry industry, int employees, String city, String country) {
+        var lead = leadRepository.findById(id);
+        if(lead == null) {
 
-    //*** if the id existence, transform to a new Contact FOR A NEW OPPORTUNITY
-    public Contact getContact(Lead lead){
-        var maxId = InMemoryDatasource.getInstance().getMaxContactId(); // check if the same or not ID Lead
-        return  new Contact(maxId, lead.getName(), lead.getPhoneNumber(), lead.getCompanyName());
+            JOptionPane.showMessageDialog(null, "Not lead existences with that ID");
+        }else{
+            int maxIdAccount = InMemoryDatasource.getInstance().getMaxAccountId();
+            var contactToSave = new Contact(contactRepository.getMaxContactId(), lead.getName(), lead.getPhoneNumber(), lead.getCompanyName());
+            var contactList = List.of(contactToSave);
+            var opportunityList = List.of(new Opportunity(opportunityRepository.getMaxOpportunityId() ,contactToSave, Status.OPEN, product, productQuantity));
+            var accountToSave = new Account(maxIdAccount, industry, employees, city, country, contactList, opportunityList);
+            accountRepository.saveAccount(accountToSave);
+        }
+
     }
 
     public void lookUpLead(int id) {

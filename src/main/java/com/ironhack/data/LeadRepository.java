@@ -1,6 +1,7 @@
 package com.ironhack.data;
 
 import com.ironhack.data.datasources.Datasource;
+import com.ironhack.data.exceptions.DataNotFoundException;
 import com.ironhack.domain.Lead;
 
 import java.util.List;
@@ -23,6 +24,21 @@ public class LeadRepository {
 
     public int maxLeadId() {
         return datasource.getMaxLeadId();
+    }
+
+    public Lead findById(int id)  {
+        var leads = getAllLeads();
+        Lead leadFound = null;
+
+        for (Lead lead : leads) {
+            if(lead.getId() == id){
+                leadFound = lead;
+                break;
+            }
+        }
+
+        return leadFound;
+
     }
 
     public Lead saveLead(Lead lead) {

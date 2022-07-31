@@ -4,12 +4,11 @@ import com.ironhack.business_logic.AccountService;
 import com.ironhack.business_logic.LeadService;
 import com.ironhack.business_logic.OpportunityService;
 import com.ironhack.data.AccountRepository;
+import com.ironhack.data.ContactRepository;
 import com.ironhack.data.LeadRepository;
 import com.ironhack.data.OpportunityRepository;
 import com.ironhack.data.datasources.Datasource;
-import com.ironhack.data.datasources.impl.InMemoryDatasource;
 import com.ironhack.data.datasources.impl.JsonDatasource;
-import com.ironhack.ui.MenuController;
 import com.ironhack.ui.Menu;
 
 public class Main {
@@ -25,11 +24,11 @@ public class Main {
         AccountRepository accountRepository = AccountRepository.getInstance(datasource);
         AccountService accountService = AccountService.getInstance(accountRepository);
         LeadRepository leadRepository = LeadRepository.getInstance(datasource);
-        LeadService leadService = LeadService.getInstance(leadRepository);
+        ContactRepository contactRepository = ContactRepository.getInstance(datasource);
+        LeadService leadService = LeadService.getInstance(leadRepository, contactRepository, accountRepository, opportunityRepository);
 
 
-        MenuController menuController = new MenuController(accountService, leadService, opportunityService);
-        Menu menu = new Menu(menuController);
+        Menu menu = new Menu(accountService, leadService, opportunityService);
         menu.main();
     }
 
