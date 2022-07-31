@@ -40,6 +40,10 @@ public class OpportunityRepository  {
         return opportunities;
     }
 
+    public int getMaxOpportunityId() {
+        return datasource.getMaxOpportunityId();
+    }
+
     public Opportunity updateOpportunity(Opportunity opportunity) throws DataNotFoundException {
         var accounts = datasource.getAllAccounts();
 

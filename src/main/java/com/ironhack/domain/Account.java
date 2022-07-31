@@ -3,6 +3,7 @@ package com.ironhack.domain;
 import com.ironhack.domain.enums.Industry;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Account {
@@ -11,11 +12,11 @@ public class Account {
     private int employeesCount;
     private String city;
     private String country;
-    private ArrayList<Contact> contactList;
-    private ArrayList<Opportunity> opportunityList;
+    private List<Contact> contactList;
+    private List<Opportunity> opportunityList;
 
 
-    public Account(int id, Industry industry, int employeesCount, String city, String country, ArrayList<Contact> contactList, ArrayList<Opportunity> opportunityList) {
+    public Account(int id, Industry industry, int employeesCount, String city, String country, List<Contact> contactList, List<Opportunity> opportunityList) {
         this.id = id;
         this.industry = industry;
         this.employeesCount = employeesCount;
@@ -65,19 +66,19 @@ public class Account {
         this.country = country;
     }
 
-    public ArrayList<Contact> getContactList() {
+    public List<Contact> getContactList() {
         return contactList;
     }
 
-    public void setContactList(ArrayList<Contact> contactList) {
+    public void setContactList(List<Contact> contactList) {
         this.contactList = contactList;
     }
 
-    public ArrayList<Opportunity> getOpportunityList() {
+    public List<Opportunity> getOpportunityList() {
         return opportunityList;
     }
 
-    public void setOpportunityList(ArrayList<Opportunity> opportunityList) {
+    public void setOpportunityList(List<Opportunity> opportunityList) {
         this.opportunityList = opportunityList;
     }
 

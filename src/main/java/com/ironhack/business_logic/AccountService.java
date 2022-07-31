@@ -13,8 +13,6 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
 
-    private ArrayList <Contact> contacts = new ArrayList<>();
-    private ArrayList <Opportunity> opportunities = new ArrayList<>();
     private AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
@@ -31,18 +29,6 @@ public class AccountService {
 
         accountRepository.saveAccount(account);
         return account;
-    }
-
-
-    // new methods added
-    public ArrayList contactList(Contact contact){
-        contacts.add(contact);
-        return contacts;
-    }
-
-    public ArrayList opportunityList(Opportunity opportunity){
-        opportunities.add(opportunity);
-        return opportunities;
     }
 
 }
