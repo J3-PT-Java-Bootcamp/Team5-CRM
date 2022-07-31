@@ -40,7 +40,7 @@ public class OpportunityRepository  {
         return opportunities;
     }
 
-    public void updateOpportunity(Opportunity opportunity) throws DataNotFoundException {
+    public Opportunity updateOpportunity(Opportunity opportunity) throws DataNotFoundException {
         var accounts = datasource.getAllAccounts();
 
         Account foundAccount = null;
@@ -58,6 +58,8 @@ public class OpportunityRepository  {
             foundAccount.getOpportunityList().add(opportunity);
             datasource.saveAccount(foundAccount);
         }
+
+        return opportunity;
 
     }
 }

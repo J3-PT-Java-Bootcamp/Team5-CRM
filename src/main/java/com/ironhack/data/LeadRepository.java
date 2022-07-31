@@ -25,7 +25,7 @@ public class LeadRepository {
         return datasource.getMaxLeadId();
     }
 
-    public Lead addLead(Lead lead) {
+    public Lead saveLead(Lead lead) {
         datasource.saveLead(lead);
         return lead;
     }

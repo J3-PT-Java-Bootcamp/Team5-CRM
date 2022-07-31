@@ -1,15 +1,10 @@
 package com.ironhack.business_logic;
 
 import com.ironhack.data.AccountRepository;
-import com.ironhack.data.datasources.impl.InMemoryDatasource;
-import com.ironhack.data.exceptions.DataNotFoundException;
 import com.ironhack.domain.Account;
 import com.ironhack.domain.Contact;
 import com.ironhack.domain.Opportunity;
-import com.ironhack.domain.enums.Product;
-import com.ironhack.domain.enums.Status;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class AccountService {

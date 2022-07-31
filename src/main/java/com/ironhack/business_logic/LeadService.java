@@ -4,7 +4,6 @@ import com.ironhack.data.LeadRepository;
 import com.ironhack.data.datasources.impl.InMemoryDatasource;
 import com.ironhack.domain.Contact;
 import com.ironhack.domain.Lead;
-import com.ironhack.domain.Opportunity;
 
 import javax.swing.*;
 
@@ -36,7 +35,7 @@ public class LeadService {
         var maxId = leadRepository.maxLeadId();
         Lead newLead = new Lead(maxId, name, phone, email, company);
 
-        return leadRepository.addLead(newLead);
+        return leadRepository.saveLead(newLead);
     }
 
     /**
