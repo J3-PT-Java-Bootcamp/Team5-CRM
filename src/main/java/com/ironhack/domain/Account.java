@@ -3,6 +3,7 @@ package com.ironhack.domain;
 import com.ironhack.domain.enums.Industry;
 
 import java.util.List;
+import java.util.List;
 import java.util.Objects;
 
 public class Account {

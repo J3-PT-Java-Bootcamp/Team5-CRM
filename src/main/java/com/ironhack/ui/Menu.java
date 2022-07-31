@@ -14,6 +14,10 @@ import java.util.*;
 
 public class Menu implements ConsoleOperations {
 
+    private final AccountService accountService;
+    private final LeadService leadService;
+    private final OpportunityService opportunityService;
+
     private final LeadService leadService;
     private final OpportunityService opportunityService;
 
