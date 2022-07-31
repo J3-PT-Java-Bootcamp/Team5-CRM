@@ -19,13 +19,14 @@ import java.util.List;
 public class LeadService {
 
     private static LeadService instance;
-
     private final LeadRepository leadRepository;
     private final ContactRepository contactRepository;
-
     private final AccountRepository accountRepository;
     private final OpportunityRepository opportunityRepository;
 
+
+    //* CONSTRUCTORS
+    //**********************************************
     private LeadService(LeadRepository leadRepository, ContactRepository contactRepository, AccountRepository accountRepository, OpportunityRepository opportunityRepository) {
         this.leadRepository = leadRepository;
         this.contactRepository = contactRepository;
@@ -38,13 +39,6 @@ public class LeadService {
             instance = new LeadService(leadRepository, contactRepository, accountRepository, opportunityRepository);
         }
         return instance;
-    }
-
-    public void showLeads() {
-        int x = 1;
-        for(var lead : leadRepository.getAllLeads()){
-            JOptionPane.showMessageDialog(null, "Leads Storage : \n\n Lead Number : " + x + "\n\nID : "+ lead.getId() + " Name : " + lead.getName() + " Phonenumber : " + lead.getPhoneNumber() +  " Email : " + lead.getEmail() + " Company : " + lead.getCompanyName());
-        }
     }
 
     public Lead newLead(String name, String phone, String email, String company) {
@@ -63,7 +57,7 @@ public class LeadService {
         var lead = leadRepository.findById(id);
         if(lead == null) {
 
-            JOptionPane.showMessageDialog(null, "Not lead existences with that ID");
+            JOptionPane.showMessageDialog(null, "❌ - Not lead with ID "+ id +" in the database!");
         }else{
             int maxIdAccount = InMemoryDatasource.getInstance().getMaxAccountId();
             var contactToSave = new Contact(contactRepository.getMaxContactId(), lead.getName(), lead.getPhoneNumber(), lead.getCompanyName());
@@ -75,15 +69,41 @@ public class LeadService {
 
     }
 
-    public void lookUpLead(int id) {
-        for (Lead lead : leadRepository.getAllLeads()) {
-            if (lead.getId() == id) {
-                JOptionPane.showMessageDialog(null, """
-                        Opportunity with ID (" + lead.getId() + ") was looked up:
-                        %s
-                        """.formatted(lead));
+    /** Method that shows all available Leads in the database */
+    public void showLeads() {
+        if (leadRepository.getAllLeads().size()!=0){
+            String output = "Following Leads where found in the database:\n";
+            output += "************************************************      \n";
+            for(var lead : leadRepository.getAllLeads()){
+                output += lead + "\n";
             }
+            JOptionPane.showMessageDialog(null, output);
+        } else {
+            JOptionPane.showMessageDialog(null, "❌ - No Leads in Database!");
+
         }
     }
+
+    /** Method that shows the requested Lead by ID */
+    public void lookUpLead(int id) {
+        if (leadRepository.getAllLeads().size()!=0) {
+            boolean found = false;
+            for (Lead lead : leadRepository.getAllLeads()) {
+                if (lead.getId() == id) {
+                    JOptionPane.showMessageDialog(null, lead);
+                    found = true;
+                }
+                if (found != true){
+                    JOptionPane.showMessageDialog(null,
+                            "❌ - The Lead with ID " +id + " was not found in the database!");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "❌ - No leads in Database!");
+        }
+    }
+
 
 }
