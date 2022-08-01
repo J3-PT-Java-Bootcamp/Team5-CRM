@@ -3,12 +3,12 @@ package com.ironhack.ui;
 import com.ironhack.business_logic.AccountService;
 import com.ironhack.business_logic.LeadService;
 import com.ironhack.business_logic.OpportunityService;
-import com.ironhack.data.datasources.impl.InMemoryDatasource;
-import com.ironhack.domain.Account;
 import com.ironhack.domain.Lead;
 import com.ironhack.domain.enums.Industry;
 import com.ironhack.domain.enums.Product;
 import com.ironhack.domain.enums.Status;
+import com.ironhack.graphics.GraphicsController;
+import com.ironhack.graphics.ProductsGraphics;
 
 import javax.swing.*;
 import java.util.*;
@@ -199,10 +199,12 @@ public class Menu implements ConsoleOperations {
     }
 
     public Product getProduct() {
-        String product;
+       /* String product;
         String message = "Stock Products : \n\n 'Hybrid' \n 'Flatbed' \n 'Box' \n";
 
-        product = JOptionPane.showInputDialog(message).trim().toLowerCase();
+        product = JOptionPane.showInputDialog(message).trim().toLowerCase();*/
+        String product = getTheBox();
+        System.out.println(product);
         switch (product) {
             case "hybrid" -> {
                 return Product.HYBRID;
@@ -216,6 +218,16 @@ public class Menu implements ConsoleOperations {
             default -> JOptionPane.showMessageDialog(null, "Only existents products");
         }
         return null;
+
+    }
+
+    public String getTheBox(){
+
+        ProductsGraphics prof = new ProductsGraphics();
+        //System.out.println(prof.contro.getValue());
+
+        String x = prof.getContro().getValue();
+        return  x;
     }
 
     public Industry getIndustry() {
