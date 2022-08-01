@@ -12,6 +12,8 @@ public class Opportunity {
     private Product product;
     private int quantity;
 
+    //* CONSTRUCTORS
+    //**********************************************
     public Opportunity() {
     }
 
@@ -23,46 +25,43 @@ public class Opportunity {
         this.quantity = quantity;
     }
 
+
+    //* GETTERS AND SETTERS
+    //**********************************************
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-
     public Contact getDecisionMaker() {
         return decisionMaker;
     }
-
     public void setDecisionMaker(Contact decisionMaker) {
         this.decisionMaker = decisionMaker;
     }
-
     public Status getStatus() {
         return status;
     }
-
     public void setStatus(Status status) {
         this.status = status;
     }
-
     public Product getProduct() {
         return product;
     }
-
     public void setProduct(Product product) {
         this.product = product;
     }
-
     public int getQuantity() {
         return quantity;
     }
-
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
+
+    //* Equals, hashcode and toString
+    //**********************************************
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -77,14 +76,12 @@ public class Opportunity {
     }
 
     @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("Opportunity{");
-        sb.append("id=").append(id);
-        sb.append(", decisionMaker=").append(decisionMaker.getName());
-        sb.append(", status=").append(status);
-        sb.append(", product=").append(product);
-        sb.append(", quantity=").append(quantity);
-        sb.append('}');
-        return sb.toString();
+    public String toString(){
+        return "📘 Opportunity with ID "+ id + ":\n" +
+                "Decision Maker is " + decisionMaker.getName() +" (Contact ID: "+decisionMaker.getId() + ")\n" +
+                "Phone: "+decisionMaker.getPhone()+ " | e-mail: " +decisionMaker.getEmail()+ "\n" +
+                "Product: "+ product +" | Quantity: " + quantity + "\n" +
+                "Opportunity STATUS: " + status + "\n";
     }
+//
 }

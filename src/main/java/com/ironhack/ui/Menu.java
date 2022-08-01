@@ -35,28 +35,39 @@ public class Menu implements ConsoleOperations {
                     Available Operations
                                      
                     ===============
-                    command -> 'new lead' for add a new Lead
-                    command -> 'convert' plus the ID of Lead for convert to new Opportunity
-                    command -> 'show leads' for show all leads
-                    command -> 'lookup lead' plus the ID for see a lookup lead
-                    command -> 'show opportunities' for show all oportunities
-                    command -> 'lookup opportunity' plus the ID for see a lookup opportunity
-                    command -> 'open' for changes the sales states to open
-                    command -> 'close-lost' for changes the sales states to CLOSE / LOST
-                    command -> 'close-won' for changes the sales states to CLOSE / WON
+                    [new lead] -> to add a new Lead
+                    
+                    [show leads] -> to show all leads
+                    
+                    [lookup lead id] -> replace 'id' with a number to look up a lead by ID
+                    
+                    [show opportunities] -> to show all available opportunities
+                    
+                    [lookup opportunity] -> 'to look up an opportunity by it's ID
+                    
+                    [convert id] -> replace 'id' with a number to convert a selected lead by ID into a new Opportunity          
 
-                    [EXIT] - Exit CRM Manager
+                    [open] -> to set the opportunity status to open
+                    
+                    [close-lost] -> to set the opportunity status to CLOSE / LOST
+                    
+                    [close-won] -> to set the opportunity status to CLOSE / WON
+
+                    [EXIT] - to Exit CRM
                     ===============
+                    
                     Write your COMMAND:
+                    
+                    
                     """;
             input = JOptionPane.showInputDialog(mainMenu).trim().toLowerCase();
             var inputSplit = input.split(" ");
 
             switch (inputSplit[0]) {
                 case NEW -> newMenu(inputSplit);
-                case CONVERT -> convertMenu(inputSplit);
                 case SHOW -> showMenu(inputSplit);
                 case LOOKUP -> lookupMenu(inputSplit);
+                case CONVERT -> convertMenu(inputSplit);
                 case OPEN -> openMenu(inputSplit);
                 case CLOSE_LOST -> closeLostMenu(inputSplit);
                 case CLOSE_WON -> closeWonMenu(inputSplit);
@@ -69,6 +80,14 @@ public class Menu implements ConsoleOperations {
         } while (!input.equals("exit"));
     }
 
+    private void openMenu(String[] inputSplit) throws Exception {
+        if (inputSplit.length <= 1) {
+            throw new Exception();
+        }
+        int id = Integer.parseInt(inputSplit[1]);
+
+        opportunityService.openOpportunity(id);
+    }
     private void closeLostMenu(String[] inputSplit) throws Exception {
         if (inputSplit.length <= 1) {
             throw new Exception();
@@ -77,7 +96,6 @@ public class Menu implements ConsoleOperations {
 
         opportunityService.closeLostOpportunity(id);
     }
-
     private void closeWonMenu(String[] inputSplit) throws Exception {
         if (inputSplit.length <= 1) {
             throw new Exception();
@@ -87,14 +105,7 @@ public class Menu implements ConsoleOperations {
         opportunityService.closeWonOpportunity(id);
     }
 
-    private void openMenu(String[] inputSplit) throws Exception {
-        if (inputSplit.length <= 1) {
-            throw new Exception();
-        }
-        int id = Integer.parseInt(inputSplit[1]);
 
-        opportunityService.openOpportunity(id);
-    }
 
     private void lookupMenu(String[] inputSplit) throws Exception {
         if (inputSplit.length <= 2) {
@@ -115,7 +126,7 @@ public class Menu implements ConsoleOperations {
         switch (inputSplit[1]) {
             case ConsoleOperationEntities.LEADS -> leadService.showLeads();
             case ConsoleOperationEntities.OPPORTUNITIES -> opportunityService.showOpportunities();
-            default -> throw new Exception();
+            default -> JOptionPane.showMessageDialog(null, "🤔 Command not recognized, please try again");
         }
     }
 
@@ -146,7 +157,7 @@ public class Menu implements ConsoleOperations {
             case ConsoleOperationEntities.LEAD -> {
                 List<Object> values = getValues("Name :\n", "Phone number : \n", "Email : \n", "Company : ");
                 Lead lead = leadService.newLead((String) values.get(0), (String) values.get(1), (String) values.get(2), (String) values.get(3));
-                JOptionPane.showMessageDialog(null, "Lead Succesfully added \n\nLead Register : \n\nID : " + lead.getId() + "\nName : " + lead.getName() + "\nPhonenumber : " + lead.getPhoneNumber() + "\nEmail :" + lead.getEmail() + "\nCompany :" + lead.getCompanyName());
+                JOptionPane.showMessageDialog(null, "Lead Successfully added: \n"+lead);
             }
             default -> throw new Exception();
         }
