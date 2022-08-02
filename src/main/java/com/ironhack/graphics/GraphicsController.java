@@ -28,7 +28,6 @@ public class GraphicsController {
 
     public void setValue(String a) {
         this.value = a;
-        System.out.println(this.value);
     }
 
     public void getResult(){
