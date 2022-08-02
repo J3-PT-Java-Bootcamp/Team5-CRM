@@ -203,7 +203,13 @@ public class Menu implements ConsoleOperations {
         String message = "Stock Products : \n\n 'Hybrid' \n 'Flatbed' \n 'Box' \n";
 
         product = JOptionPane.showInputDialog(message).trim().toLowerCase();*/
-        String product = getTheBox();
+        GraphicsController controller = new GraphicsController();
+        ProductsGraphics pro = new ProductsGraphics();
+
+        pro.setContro(controller);
+        controller.setProd(pro);
+
+        String product = controller.getValue();
         System.out.println(product);
         switch (product) {
             case "hybrid" -> {
@@ -219,15 +225,6 @@ public class Menu implements ConsoleOperations {
         }
         return null;
 
-    }
-
-    public String getTheBox(){
-
-        ProductsGraphics prof = new ProductsGraphics();
-        //System.out.println(prof.contro.getValue());
-
-        String x = prof.getContro().getValue();
-        return  x;
     }
 
     public Industry getIndustry() {
