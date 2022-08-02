@@ -44,7 +44,7 @@ public class ProductsGraphics extends JFrame implements ActionListener{
         screener.add(products);
 
 
-        setVisible(true);
+        //setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -76,41 +76,16 @@ public class ProductsGraphics extends JFrame implements ActionListener{
         this.contro = contro;
     }
 
-    public static void main(String [] x){
-       // ProductsGraphics prof = new ProductsGraphics();
-        GraphicsController graph = new GraphicsController();
-
-        graph.setProd(new ProductsGraphics());
-        graph.showWindow();
-
-
-        System.out.println(graph.getValue());
-        String a = graph.getProd().getContro().getValue();
-
-        System.out.println("CON GRAPG" + a);
-
-
-        //graph.setProd(prof);
-
-        //graph.setValue();
-        //graph.showWindow();
-
-       // System.out.println(prof.getResponse());
-       // System.out.println(prof.getContro().getValue());
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-            //JOptionPane.showMessageDialog(null, "Products = " + getResponse());
-            if(e.getSource() == button){
-                setResponse(products.getSelectedItem().toString());
-                JOptionPane.showMessageDialog(null, "Products = " + getResponse());
-
-                setContro(new GraphicsController());
-                getContro().setValue(getResponse());
-
-                System.out.println("desde contro"+ getContro().getValue());
-            }
+        var val = e.getSource();
+        if(val == button){
+            setResponse(products.getSelectedItem().toString());
+            contro.setValue(getResponse());
+            JOptionPane.showMessageDialog(null, "Products = " + getResponse());
+            dispose();
+        }
 
     }
 
