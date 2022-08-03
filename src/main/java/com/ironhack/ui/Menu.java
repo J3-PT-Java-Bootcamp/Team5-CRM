@@ -1,28 +1,23 @@
 package com.ironhack.ui;
 
-import com.ironhack.business_logic.AccountService;
 import com.ironhack.business_logic.LeadService;
 import com.ironhack.business_logic.OpportunityService;
+import com.ironhack.business_logic.exceptions.EmptyException;
+import com.ironhack.data.exceptions.DataNotFoundException;
 import com.ironhack.domain.Lead;
 import com.ironhack.domain.enums.Industry;
 import com.ironhack.domain.enums.Product;
 import com.ironhack.domain.enums.Status;
-import com.ironhack.graphics.GraphicsController;
-import com.ironhack.graphics.ProductsGraphics;
 
 import javax.swing.*;
 import java.util.*;
 
 public class Menu implements ConsoleOperations {
 
-    private final AccountService accountService;
     private final LeadService leadService;
     private final OpportunityService opportunityService;
 
-    private static final Scanner scanner = new Scanner(System.in);
-
-    public Menu(AccountService accountService, LeadService leadService, OpportunityService opportunityService) {
-        this.accountService = accountService;
+    public Menu(LeadService leadService, OpportunityService opportunityService) {
         this.leadService = leadService;
         this.opportunityService = opportunityService;
     }
@@ -36,29 +31,29 @@ public class Menu implements ConsoleOperations {
                                      
                     ===============
                     [new lead] -> to add a new Lead
-                    
+                                        
                     [show leads] -> to show all leads
-                    
+                                        
                     [lookup lead id] -> replace 'id' with a number to look up a lead by ID
-                    
+                                        
                     [show opportunities] -> to show all available opportunities
-                    
+                                        
                     [lookup opportunity] -> 'to look up an opportunity by it's ID
-                    
+                                        
                     [convert id] -> replace 'id' with a number to convert a selected lead by ID into a new Opportunity          
 
                     [open] -> to set the opportunity status to open
-                    
+                                        
                     [close-lost] -> to set the opportunity status to CLOSE / LOST
-                    
+                                        
                     [close-won] -> to set the opportunity status to CLOSE / WON
 
                     [EXIT] - to Exit CRM
                     ===============
-                    
+                                        
                     Write your COMMAND:
-                    
-                    
+                                        
+                                        
                     """;
             input = JOptionPane.showInputDialog(mainMenu).trim().toLowerCase();
             var inputSplit = input.split(" ");
@@ -86,25 +81,29 @@ public class Menu implements ConsoleOperations {
         }
         int id = Integer.parseInt(inputSplit[1]);
 
-        opportunityService.openOpportunity(id);
+        var opportunity = opportunityService.updateOpportunityStatus(id, Status.OPEN);
+        JOptionPane.showMessageDialog(null, "✏️ Opportunity Status is now 'OPEN': \n" + opportunity);
     }
+
     private void closeLostMenu(String[] inputSplit) throws Exception {
         if (inputSplit.length <= 1) {
             throw new Exception();
         }
         int id = Integer.parseInt(inputSplit[1]);
 
-        opportunityService.closeLostOpportunity(id);
+        var opportunity = opportunityService.updateOpportunityStatus(id, Status.CLOSED_LOST);
+        JOptionPane.showMessageDialog(null, "🆑 Opportunity Status is now 'CLOSE_LOST': \n" + opportunity);
     }
+
     private void closeWonMenu(String[] inputSplit) throws Exception {
         if (inputSplit.length <= 1) {
             throw new Exception();
         }
         int id = Integer.parseInt(inputSplit[1]);
 
-        opportunityService.closeWonOpportunity(id);
+        var opportunity = opportunityService.updateOpportunityStatus(id, Status.CLOSED_WON);
+        JOptionPane.showMessageDialog(null, "✅ Opportunity Status is now 'CLOSE_WON': \n" + opportunity);
     }
-
 
 
     private void lookupMenu(String[] inputSplit) throws Exception {
@@ -113,9 +112,29 @@ public class Menu implements ConsoleOperations {
         }
         int id = Integer.parseInt(inputSplit[2]);
         switch (inputSplit[1]) {
-            case ConsoleOperationEntities.LEAD -> leadService.lookUpLead(id);
-            case ConsoleOperationEntities.OPPORTUNITY -> opportunityService.lookUpOpportunity(id);
+            case ConsoleOperationEntities.LEAD -> lookUpLead(id);
+            case ConsoleOperationEntities.OPPORTUNITY -> lookUpOpportunity(id);
             default -> throw new Exception();
+        }
+    }
+
+    private void lookUpOpportunity(int id) {
+        try {
+            JOptionPane.showMessageDialog(null, opportunityService.lookUpOpportunity(id));
+        } catch (DataNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "❌ - Opportunity with ID " + id + " was not found in the Database!");
+        } catch (EmptyException e) {
+            JOptionPane.showMessageDialog(null, "❌ - No Opportunities in the database!");
+        }
+    }
+
+    private void lookUpLead(int id) {
+        try {
+            JOptionPane.showMessageDialog(null, leadService.lookUpLead(id));
+        } catch (EmptyException e) {
+            JOptionPane.showMessageDialog(null, "❌ - No leads in Database!");
+        } catch (DataNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "❌ - The Lead with ID " + id + " was not found in the database!");
         }
     }
 
@@ -124,9 +143,37 @@ public class Menu implements ConsoleOperations {
             throw new Exception();
         }
         switch (inputSplit[1]) {
-            case ConsoleOperationEntities.LEADS -> leadService.showLeads();
-            case ConsoleOperationEntities.OPPORTUNITIES -> opportunityService.showOpportunities();
+            case ConsoleOperationEntities.LEADS -> showLeads();
+            case ConsoleOperationEntities.OPPORTUNITIES -> showOpportunities();
             default -> JOptionPane.showMessageDialog(null, "🤔 Command not recognized, please try again");
+        }
+    }
+
+    private void showLeads() {
+        try {
+            var leads = leadService.getAllLeads();
+            String output = "Following Leads where found in the database:\n";
+            output += "************************************************      \n";
+            for (var lead : leads) {
+                output += lead + "\n";
+            }
+            JOptionPane.showMessageDialog(null, output);
+        } catch (EmptyException e) {
+            JOptionPane.showMessageDialog(null, "❌ - No Leads in Database!");
+        }
+    }
+
+    private void showOpportunities() {
+        try {
+            var opps = opportunityService.getAllOpportunities();
+            String output = "Following Opportunities where found in the Database: \n";
+            output += "********************************************************    \n";
+            for (var opp : opps) {
+                output += opp.toString() + "\n";
+            }
+            JOptionPane.showMessageDialog(null, output);
+        } catch (EmptyException e) {
+            JOptionPane.showMessageDialog(null, "❌ - No Opportunities in the Database!");
         }
     }
 
@@ -135,17 +182,24 @@ public class Menu implements ConsoleOperations {
             throw new Exception();
         }
         int id = Integer.parseInt(inputSplit[1]);
+        try {
+            var leadFound = leadService.lookUpLead(id);
 
-        var product = getProduct();
-        int productQty = Integer.parseInt((String)getValues("Quantity?").get(0));
-        var industry = getIndustry();
-        int employees = Integer.parseInt((String)getValues("Number of employees?").get(0));
-        String city = (String)getValues("City?").get(0);
-        String country = (String)getValues("Country?").get(0);
-        leadService.convert(id, product, productQty, industry, employees, city, country);
+            var product = getProduct();
+            int productQty = Integer.parseInt((String) getValues("Quantity?").get(0));
+            var industry = getIndustry();
+            int employees = Integer.parseInt((String) getValues("Number of employees?").get(0));
+            String city = (String) getValues("City?").get(0);
+            String country = (String) getValues("Country?").get(0);
+            leadService.convert(id, product, productQty, industry, employees, city, country);
 
-        JOptionPane.showMessageDialog(null, "Lead Succesfully converted");
+            JOptionPane.showMessageDialog(null, "Lead Succesfully converted");
 
+        } catch (EmptyException e) {
+            JOptionPane.showMessageDialog(null, "❌ - No leads in Database!");
+        } catch (DataNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "❌ - The Lead with ID " + id + " was not found in the database!");
+        }
 
     }
 
@@ -157,7 +211,7 @@ public class Menu implements ConsoleOperations {
             case ConsoleOperationEntities.LEAD -> {
                 List<Object> values = getValues("Name :\n", "Phone number : \n", "Email : \n", "Company : ");
                 Lead lead = leadService.newLead((String) values.get(0), (String) values.get(1), (String) values.get(2), (String) values.get(3));
-                JOptionPane.showMessageDialog(null, "Lead Successfully added: \n"+lead);
+                JOptionPane.showMessageDialog(null, "Lead Successfully added: \n" + lead);
             }
             default -> throw new Exception();
         }
@@ -199,17 +253,18 @@ public class Menu implements ConsoleOperations {
     }
 
     public Product getProduct() {
-       /* String product;
+        String product;
         String message = "Stock Products : \n\n 'Hybrid' \n 'Flatbed' \n 'Box' \n";
 
-        product = JOptionPane.showInputDialog(message).trim().toLowerCase();*/
-        GraphicsController controller = new GraphicsController();
-        ProductsGraphics pro = new ProductsGraphics();
+        product = JOptionPane.showInputDialog(message).trim().toLowerCase();
+//        GraphicsController controller = new GraphicsController();
+//        ProductsGraphics pro = new ProductsGraphics();
+//
+//        pro.setContro(controller);
+//        controller.setProd(pro);
+//
+//        String product = controller.getValue();
 
-        pro.setContro(controller);
-        controller.setProd(pro);
-
-        String product = controller.getValue();
         System.out.println(product);
         switch (product) {
             case "hybrid" -> {

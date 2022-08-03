@@ -1,6 +1,5 @@
 package com.ironhack;
 
-import com.ironhack.business_logic.AccountService;
 import com.ironhack.business_logic.LeadService;
 import com.ironhack.business_logic.OpportunityService;
 import com.ironhack.data.AccountRepository;
@@ -22,13 +21,12 @@ public class Main {
         OpportunityRepository opportunityRepository = OpportunityRepository.getInstance(datasource);
         OpportunityService opportunityService = OpportunityService.getInstance(opportunityRepository);
         AccountRepository accountRepository = AccountRepository.getInstance(datasource);
-        AccountService accountService = AccountService.getInstance(accountRepository);
         LeadRepository leadRepository = LeadRepository.getInstance(datasource);
         ContactRepository contactRepository = ContactRepository.getInstance(datasource);
         LeadService leadService = LeadService.getInstance(leadRepository, contactRepository, accountRepository, opportunityRepository);
 
 
-        Menu menu = new Menu(accountService, leadService, opportunityService);
+        Menu menu = new Menu(leadService, opportunityService);
         menu.main();
     }
 }
