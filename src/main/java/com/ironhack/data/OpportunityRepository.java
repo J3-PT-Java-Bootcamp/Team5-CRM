@@ -3,6 +3,7 @@ package com.ironhack.data;
 import com.ironhack.data.datasources.Datasource;
 import com.ironhack.data.exceptions.DataNotFoundException;
 import com.ironhack.domain.Account;
+import com.ironhack.domain.Lead;
 import com.ironhack.domain.Opportunity;
 
 import java.util.ArrayList;
@@ -42,6 +43,23 @@ public class OpportunityRepository  {
 
     public int getMaxOpportunityId() {
         return datasource.getMaxOpportunityId();
+    }
+
+    public Opportunity findById(int id) throws DataNotFoundException {
+        var opportunities = getAllOpportunities();
+        Opportunity opportunityFound = null;
+
+        for (Opportunity opportunity : opportunities) {
+            if (opportunity.getId() == id) {
+                opportunityFound = opportunity;
+                break;
+            }
+        }
+
+        if(opportunityFound == null) throw new DataNotFoundException();
+
+        return opportunityFound;
+
     }
 
     public Opportunity updateOpportunity(Opportunity opportunity) throws DataNotFoundException {
