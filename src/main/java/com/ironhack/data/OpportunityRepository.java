@@ -3,6 +3,7 @@ package com.ironhack.data;
 import com.ironhack.data.datasources.Datasource;
 import com.ironhack.data.exceptions.DataNotFoundException;
 import com.ironhack.domain.Account;
+import com.ironhack.domain.Lead;
 import com.ironhack.domain.Opportunity;
 
 import java.util.ArrayList;
