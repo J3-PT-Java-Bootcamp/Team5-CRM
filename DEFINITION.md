@@ -149,7 +149,8 @@ For this project you must accomplish all of the following:
     An individual Lead’s details can be displayed by typing “Lookup Lead id” (case insensitive) where “id” is the actual id of the Lead to lookup.
     A Lead can be converted to an Opportunity by typing “convert id” (case insensitive) where “id” is the actual id of the Lead to convert.
     When a Lead is converted, a Contact will be created with the Lead contact info and a new id.
-    When a Lead is converted, the user will be prompted for the product and the number of trucks for this Opportunity. A new Opportunity should be created with the above information and with the new Contact as the decisionMaker for the Opportunity and a status of “OPEN”. To recap, Opportunity should have the following properties:
+    When a Lead is converted, the user will be prompted for the product and the number of trucks for this Opportunity.
+    A new Opportunity should be created with the above information and with the new Contact as the decisionMaker for the Opportunity and a status of “OPEN”. To recap, Opportunity should have the following properties:
 
     id - a unique identifier
     product - an Enum with options HYBRID, FLATBED, or BOX
