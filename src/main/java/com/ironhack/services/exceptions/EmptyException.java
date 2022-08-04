@@ -1,4 +1,4 @@
-package com.ironhack.business_logic.exceptions;
+package com.ironhack.services.exceptions;
 
 public class EmptyException extends ServiceException{
 }

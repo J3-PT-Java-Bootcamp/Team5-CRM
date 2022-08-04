@@ -1,6 +1,6 @@
-package com.ironhack.business_logic;
+package com.ironhack.services;
 
-import com.ironhack.business_logic.exceptions.EmptyException;
+import com.ironhack.services.exceptions.EmptyException;
 import com.ironhack.data.AccountRepository;
 import com.ironhack.data.ContactRepository;
 import com.ironhack.data.LeadRepository;
