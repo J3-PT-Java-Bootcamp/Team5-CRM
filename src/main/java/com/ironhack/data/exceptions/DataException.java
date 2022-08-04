@@ -1,6 +1,8 @@
 package com.ironhack.data.exceptions;
 
-public class DataException extends Exception{
+import com.ironhack.domain.exceptions.Team5CrmException;
+
+public class DataException extends Team5CrmException {
 
     public DataException(){}
 
