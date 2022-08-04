@@ -1,6 +1,6 @@
-package com.ironhack.business_logic;
+package com.ironhack.services;
 
-import com.ironhack.business_logic.exceptions.EmptyException;
+import com.ironhack.services.exceptions.EmptyException;
 import com.ironhack.data.OpportunityRepository;
 import com.ironhack.data.exceptions.DataNotFoundException;
 import com.ironhack.domain.Opportunity;
