@@ -1,8 +1,8 @@
 package com.ironhack.ui;
 
-import com.ironhack.business_logic.LeadService;
-import com.ironhack.business_logic.OpportunityService;
-import com.ironhack.business_logic.exceptions.EmptyException;
+import com.ironhack.services.LeadService;
+import com.ironhack.services.OpportunityService;
+import com.ironhack.services.exceptions.EmptyException;
 import com.ironhack.data.exceptions.DataNotFoundException;
 import com.ironhack.domain.Lead;
 import com.ironhack.domain.enums.Industry;
@@ -30,29 +30,30 @@ public class Menu implements ConsoleOperations {
                     Available Operations
                                      
                     ===============
-                    [new lead] -> to add a new Lead
+                    [new lead] -> create a new Lead
                                         
-                    [show leads] -> to show all leads
+                    [show leads] -> show all leads
                                         
-                    [lookup lead id] -> replace 'id' with a number to look up a lead by ID
+                    [lookup lead id] -> look up a lead by ID
                                         
-                    [show opportunities] -> to show all available opportunities
+                    [convert id] -> convert a selected lead into a new Opportunity
                                         
-                    [lookup opportunity] -> 'to look up an opportunity by it's ID
+                    [show opportunities] -> show all available opportunities
                                         
-                    [convert id] -> replace 'id' with a number to convert a selected lead by ID into a new Opportunity          
+                    [lookup opportunity id] -> look up an opportunity by it's ID
+                                        
+                    [open id] -> sets the opportunity status to open
+                                        
+                    [close-lost id] -> sets the opportunity status to CLOSE / LOST
+                                        
+                    [close-won id] -> sets the opportunity status to CLOSE / WON
 
-                    [open] -> to set the opportunity status to open
-                                        
-                    [close-lost] -> to set the opportunity status to CLOSE / LOST
-                                        
-                    [close-won] -> to set the opportunity status to CLOSE / WON
-
-                    [EXIT] - to Exit CRM
+                    [exit] - to Exit CRM
                     ===============
                                         
-                    Write your COMMAND:
+                    When the command has 'id', replace it with the one of the lead/opportunity you want to work with
                                         
+                    Write your COMMAND:
                                         
                     """;
             input = JOptionPane.showInputDialog(mainMenu).trim().toLowerCase();
