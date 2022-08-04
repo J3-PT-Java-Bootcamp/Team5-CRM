@@ -2,7 +2,6 @@ package com.ironhack.domain;
 
 import com.ironhack.domain.enums.Industry;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -63,7 +62,7 @@ public class Account {
     public List<Contact> getContactList() {
         return contactList;
     }
-    public void setContactList(List<Contact> contactList) {
+    public void setContactList() {
         this.contactList = contactList;
     }
     public List<Opportunity> getOpportunityList() {

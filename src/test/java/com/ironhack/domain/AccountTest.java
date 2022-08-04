@@ -10,19 +10,21 @@ import java.util.List;
 public class AccountTest {
 
     private List <Account> account;
+    private List <Contact> contacts;
+    private List <Opportunity> opportunities;
 
 
         @BeforeEach
         @DisplayName("Starting the object for the test")
         void setUp() {
 
-            var contacts = List.of(
+            contacts = List.of(
                     new Contact(1, "Arthur Schopenhauer", "555-000-999", "arthurito@fantasymail.com" ),
                     new Contact(2, "Erwin Schrodinger", "555-999-999", "ilovecats@fantasymail.com" ),
-                    new Contact(1, "Philo Farnsworth", "555-111-999", "iloveTV@fantasymail.com" )
+                    new Contact(3, "Philo Farnsworth", "555-111-999", "iloveTV@fantasymail.com" )
             );
 
-            var opportunities = List.of(
+            opportunities = List.of(
                     new Opportunity(1, contacts.get(0), Status.OPEN, Product.HYBRID, 5),
                     new Opportunity(2, contacts.get(1), Status.CLOSED_LOST, Product.FLATBED, 9),
                     new Opportunity(3, contacts.get(2), Status.CLOSED_WON, Product.BOX, 15)
@@ -120,6 +122,7 @@ public class AccountTest {
         }
 
         @Test
+        @DisplayName("sETTING THE VALUE OF COUNTRY ok")
         void setCountry() {
             var accountest = account.get(1);
             accountest.setCountry("France");
@@ -128,19 +131,49 @@ public class AccountTest {
         }
 
         @Test
+        @DisplayName("Getting the instances of ContactList")
         void getContactList() {
+            boolean isEmpty = false;
+            for(var h : account.get(0).getContactList()){
+                var x = h;
+                if(x == null){
+                    isEmpty = true;
+                    break;
+                }
+            }
+            Assertions.assertFalse(isEmpty);
         }
 
         @Test
+        @DisplayName("SETTING THE INSTANCE LIST")
         void setContactList() {
+            var testAccount = account.get(1).getContactList();
+            testAccount.get(1).setName("Leonard Da Vinci");
+            Assertions.assertEquals("Leonard Da Vinci", testAccount.get(1).getName());
         }
 
         @Test
+        @DisplayName("Check if exist a instance in the list of opportunity")
         void getOpportunityList() {
+            var oportTest = account.get(1).getOpportunityList();
+            var checkProd = oportTest.get(0);
+            boolean response = false;
+            if(account.get(1).getOpportunityList().contains(checkProd)){
+                response = true;
+            }
+            Assertions.assertTrue(response);
         }
 
         @Test
+        @DisplayName("Setting the values in Quantity")
         void setOpportunityList() {
+            var testing = List.of(
+                    new Opportunity(8, contacts.get(0), Status.OPEN, Product.HYBRID, 5),
+                    new Opportunity(99, contacts.get(1), Status.CLOSED_WON, Product.HYBRID, 9999)
+            );
+            account.get(0).setOpportunityList(testing);
+
+            Assertions.assertTrue( 99 == account.get(0).getOpportunityList().get(1).getId());
         }
 
 }
