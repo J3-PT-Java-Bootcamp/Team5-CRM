@@ -40,14 +40,12 @@ public class LeadRepository {
         if(leadFound == null) throw new DataNotFoundException();
 
         return leadFound;
-
     }
 
     public Lead saveLead(Lead lead) {
         datasource.saveLead(lead);
         return lead;
     }
-
 
     public List<Lead> getAllLeads() {
         return datasource.getAllLeads();

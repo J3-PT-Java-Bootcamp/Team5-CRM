@@ -11,20 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InMemoryDatasource implements Datasource {
-
     private static InMemoryDatasource instance;
-
     private static final int ID_START = 0;
     static ArrayList<Lead> leadsList = new ArrayList<>();
     static ArrayList<Account> accountsList = new ArrayList<>();
-
     public static ArrayList<Lead> getLeadsList() {
         return leadsList;
     }
-
     public static ArrayList<Account> getAccountsList() {
         return accountsList;
     }
+
 
     private InMemoryDatasource() {
     }
@@ -35,7 +32,6 @@ public class InMemoryDatasource implements Datasource {
         }
         return instance;
     }
-
 
     @Override
     public void saveLead(Lead lead) {
