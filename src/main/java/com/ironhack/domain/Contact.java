@@ -68,24 +68,4 @@ public class Contact {
                 "Phone: " + phone +  "\n" +
                 "e-mail: " + email + "\n";
     }
-
-    @Override
-    public String toString() {
-        return "Contact{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
-
-    @Override
-    public String toString() {
-        return "Contact{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
 }
