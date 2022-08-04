@@ -46,7 +46,7 @@ public class JsonDatasource implements Datasource {
     public void saveLead(Lead lead) {
         var leads = getAllLeads();
         if (leads != null && !leads.isEmpty()) {
-            leads.removeIf(thisLead -> thisLead.equals(lead));
+            leads.removeIf(thisLead -> thisLead.getId() == lead.getId());
         } else {
             leads = new ArrayList<>();
         }
@@ -121,7 +121,7 @@ public class JsonDatasource implements Datasource {
     public void saveAccount(Account account) {
         List<Account> accounts = getAllAccounts();
         if (accounts != null && !accounts.isEmpty()) {
-            accounts.removeIf(thisAccount -> thisAccount.equals(account));
+            accounts.removeIf(thisAccount -> thisAccount.getId() == account.getId());
         } else {
             accounts = new ArrayList<>();
         }

@@ -74,7 +74,15 @@ public class OpportunityRepository  {
         if(foundAccount == null) {
             throw new DataNotFoundException("Cannot update opportunity with id %s as it was not found on the database".formatted(opportunity.getId()));
         }else{
-            foundAccount.getOpportunityList().remove(opportunity);
+            int idFound = -1;
+            for (int i = 0; i < foundAccount.getOpportunityList().size(); i++) {
+                if(foundAccount.getOpportunityList().get(i).getId() == opportunity.getId()){
+                    idFound = i;
+                    break;
+                }
+            }
+            if(idFound == -1) throw new DataNotFoundException();
+            foundAccount.getOpportunityList().remove(idFound);
             foundAccount.getOpportunityList().add(opportunity);
             datasource.saveAccount(foundAccount);
         }

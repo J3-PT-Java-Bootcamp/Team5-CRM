@@ -97,7 +97,5 @@ class LeadServiceTest {
         }
         assertNull(emptyException);
         assertNull(dataNotFoundException);
-
-
     }
 }
