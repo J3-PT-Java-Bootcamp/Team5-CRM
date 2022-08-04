@@ -58,7 +58,7 @@ public class LeadService {
     public void convert(int id, Product product, int productQuantity, Industry industry, int employees, String city, String country) throws DataNotFoundException {
         var lead = leadRepository.findById(id);
         int maxIdAccount = InMemoryDatasource.getInstance().getMaxAccountId();
-        var contactToSave = new Contact(contactRepository.getMaxContactId(), lead.getName(), lead.getPhoneNumber(), lead.getCompanyName());
+        var contactToSave = new Contact(contactRepository.getMaxContactId(), lead.getName(), lead.getPhoneNumber(), lead.getEmail());
         var contactList = List.of(contactToSave);
         var opportunityList = List.of(new Opportunity(opportunityRepository.getMaxOpportunityId(), contactToSave, Status.OPEN, product, productQuantity));
         var accountToSave = new Account(maxIdAccount, industry, employees, city, country, contactList, opportunityList);
