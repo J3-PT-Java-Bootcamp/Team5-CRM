@@ -1,7 +1,8 @@
 package com.ironhack;
 
-import com.ironhack.business_logic.LeadService;
-import com.ironhack.business_logic.OpportunityService;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.ironhack.services.LeadService;
+import com.ironhack.services.OpportunityService;
 import com.ironhack.data.AccountRepository;
 import com.ironhack.data.ContactRepository;
 import com.ironhack.data.LeadRepository;
@@ -13,6 +14,8 @@ import com.ironhack.ui.Menu;
 public class Main {
 
     public static void main(String[] args) throws Exception {
+
+        FlatLightLaf.setup();
 
 //        Datasource datasource = InMemoryDatasource.getInstance();
 
