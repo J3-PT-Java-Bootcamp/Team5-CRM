@@ -53,17 +53,18 @@ public class LeadService {
      * Method that converts a lead into an opportunity, a contact and both into an account
      * TODO: maybe this service will require the account repository, cause even if it creates an opportunity and a contact, both are stored inside an account
      *
-     * @param id
+     * @param leadId
      */
-    public void convert(int id, Product product, int productQuantity, Industry industry, int employees, String city, String country) throws DataNotFoundException {
-        var lead = leadRepository.findById(id);
+    public Account convert(int leadId, Product product, int productQuantity, Industry industry, int employees, String city, String country) throws DataNotFoundException {
+        var lead = leadRepository.findById(leadId);
         int maxIdAccount = accountRepository.getMaxAccountId();
         var contactToSave = new Contact(contactRepository.getMaxContactId(), lead.getName(), lead.getPhoneNumber(), lead.getEmail());
         var contactList = List.of(contactToSave);
         var opportunityList = List.of(new Opportunity(opportunityRepository.getMaxOpportunityId(), contactToSave, Status.OPEN, product, productQuantity));
         var accountToSave = new Account(maxIdAccount, industry, employees, city, country, contactList, opportunityList);
-        accountRepository.saveAccount(accountToSave);
-        leadRepository.deleteLead(id);
+        var accountCreated = accountRepository.saveAccount(accountToSave);
+        leadRepository.deleteLead(leadId);
+        return accountCreated;
     }
 
     /**

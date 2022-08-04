@@ -8,6 +8,10 @@ import com.ironhack.data.datasources.Datasource;
 import com.ironhack.data.datasources.impl.InMemoryDatasource;
 import com.ironhack.data.exceptions.DataNotFoundException;
 import com.ironhack.domain.Lead;
+import com.ironhack.domain.enums.Industry;
+import com.ironhack.domain.enums.Product;
+import com.ironhack.domain.enums.Status;
+import com.ironhack.domain.exceptions.Team5CrmException;
 import com.ironhack.services.exceptions.EmptyException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,6 +62,35 @@ class LeadServiceTest {
 
     @Test
     void test_convert() {
+        var leadCreated1 = leadService.newLead("lead 1", "111111111", "lead1@gmail.com", "company 1");
+        var product = Product.HYBRID;
+        var prodQty = 5;
+        var industry = Industry.MANUFACTURING;
+        var emp = 60;
+        var city = "BCN";
+        var country = "Spain";
+
+        Team5CrmException exception = null;
+        try {
+            var account = leadService.convert(leadCreated1.getId(), product, prodQty, industry, emp, city, country);
+            var oppCreated = account.getOpportunityList().get(0);
+            assertNotNull(oppCreated);
+            assertNotNull(oppCreated.getDecisionMaker());
+            assertEquals(leadCreated1.getName(), oppCreated.getDecisionMaker().getName());
+            assertEquals(leadCreated1.getPhoneNumber(), oppCreated.getDecisionMaker().getPhone());
+            assertEquals(leadCreated1.getEmail(), oppCreated.getDecisionMaker().getEmail());
+            assertEquals(account.getContactList().get(0), oppCreated.getDecisionMaker());
+            assertEquals(product, oppCreated.getProduct());
+            assertEquals(prodQty, oppCreated.getQuantity());
+            assertEquals(Status.OPEN, oppCreated.getStatus());
+            assertEquals(industry, account.getIndustry());
+            assertEquals(emp, account.getEmployeesCount());
+            assertEquals(city, account.getCity());
+            assertEquals(country, account.getCountry());
+        } catch (DataNotFoundException e) {
+            exception = e;
+        }
+        assertNull(exception);
     }
 
     @Test
@@ -65,7 +98,7 @@ class LeadServiceTest {
         var leadCreated1 = leadService.newLead("lead 1", "111111111", "lead1@gmail.com", "company 1");
         var leadCreated2 = leadService.newLead("lead 2", "222222222", "lead2@hotmail.com", "company inc 2");
 
-        EmptyException exception = null;
+        Team5CrmException exception = null;
         try {
             var leads = leadService.getAllLeads();
             assertEquals(2, leads.size());
@@ -81,8 +114,7 @@ class LeadServiceTest {
         var leadCreated1 = leadService.newLead("lead 1", "111111111", "lead1@gmail.com", "company 1");
         var leadCreated2 = leadService.newLead("lead 2", "222222222", "lead2@hotmail.com", "company inc 2");
 
-        EmptyException emptyException = null;
-        DataNotFoundException dataNotFoundException = null;
+        Team5CrmException exception = null;
         try {
             var leadFound = leadService.lookUpLead(leadCreated2.getId());
             assertEquals(leadCreated2.getId(), leadFound.getId());
@@ -91,11 +123,10 @@ class LeadServiceTest {
             assertEquals(leadCreated2.getEmail(), leadFound.getEmail());
             assertEquals(leadCreated2.getCompanyName(), leadFound.getCompanyName());
         } catch (EmptyException e) {
-            emptyException = e;
+            exception = e;
         } catch (DataNotFoundException e) {
-            dataNotFoundException = e;
+            exception = e;
         }
-        assertNull(emptyException);
-        assertNull(dataNotFoundException);
+        assertNull(exception);
     }
 }
