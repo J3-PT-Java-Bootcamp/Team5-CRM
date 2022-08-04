@@ -47,7 +47,6 @@ public class LeadRepository {
         return lead;
     }
 
-
     public List<Lead> getAllLeads() {
         return datasource.getAllLeads();
     }
