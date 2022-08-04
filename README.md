@@ -5,3 +5,6 @@
 
 ## Class Diagram
 ![class diagram](docs/CRM-ClassDiagram.png)
+
+## Arch Diagram
+![arch diagram](docs/CRM-ArchDiagram.png)
