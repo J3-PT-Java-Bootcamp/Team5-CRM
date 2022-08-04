@@ -94,6 +94,16 @@ public class JsonDatasource implements Datasource {
     }
 
     @Override
+    public void deleteAllLeads() {
+        try {
+            FileWriter fileWriter = new FileWriter(leadsFile, false);
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public int getMaxLeadId() {
         var leads = getAllLeads();
         if(leads.isEmpty()) {
@@ -139,6 +149,16 @@ public class JsonDatasource implements Datasource {
             throw new RuntimeException(e);
         }
         return accounts;
+    }
+
+    @Override
+    public void deleteAllAccounts() {
+        try {
+            FileWriter fileWriter = new FileWriter(accountsFile, false);
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

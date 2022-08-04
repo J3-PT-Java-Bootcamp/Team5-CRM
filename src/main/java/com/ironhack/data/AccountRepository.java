@@ -30,4 +30,8 @@ public class AccountRepository {
         datasource.saveAccount(account);
         return account;
     }
+
+    public void deleteAllAccounts() {
+        datasource.deleteAllAccounts();
+    }
 }

@@ -51,6 +51,10 @@ public class LeadRepository {
         return datasource.getAllLeads();
     }
 
+    public void deleteAllLeads() {
+        datasource.deleteAllLeads();
+    }
+
     public void deleteLead(int id) throws DataNotFoundException {
         datasource.deleteLead(findById(id));
     }

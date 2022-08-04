@@ -38,16 +38,12 @@ public class InMemoryDatasource implements Datasource {
         boolean exists = false;
         for (var l : leadsList) {
             if (l.getId() == lead.getId()) {
-                //System.out.println("- Lead " + l.getName() + " was not added because");
-                JOptionPane.showMessageDialog(null, "- Lead " + l.getName() + " was not added because \n\"  another Lead with the ID (\" + l.getId() + \") already exists.\"");
-                //System.out.println("  another Lead with the ID (" + l.getId() + ") already exists.");
                 exists = true;
+                break;
             }
         }
         if (!exists) {
             InMemoryDatasource.leadsList.add(lead);
-            //System.out.println("+ " + lead.getName() + " was added to the Leads List.");
-            JOptionPane.showMessageDialog(null, "+ " + lead.getName() + " was added to the Leads List.");
         }
     }
 
@@ -59,6 +55,11 @@ public class InMemoryDatasource implements Datasource {
     @Override
     public List<Lead> getAllLeads() {
         return leadsList;
+    }
+
+    @Override
+    public void deleteAllLeads() {
+        leadsList = new ArrayList<>();
     }
 
     @Override
@@ -79,23 +80,23 @@ public class InMemoryDatasource implements Datasource {
         boolean exists = false;
         for (Account a : accountsList) {
             if (a.getId() == account.getId()) {
-                //System.out.println("- Account with ID (" + a.getId() + ") was not added because"); check JSON
-                JOptionPane.showMessageDialog(null, "- Account with ID (" + a.getId() + ") was not added because \n another account with that ID already exists.");
-                //System.out.println("  another account with that ID already exists.");
-
                 exists = true;
+                break;
             }
         }
         if (!exists) {
             InMemoryDatasource.accountsList.add(account);
-            System.out.println("+ Account with ID (" + account.getId() + ") was added to the Opportunities List.");
-            JOptionPane.showMessageDialog(null, "+ Account with ID (" + account.getId() + ") was added to the Opportunities List.");
         }
     }
 
     @Override
     public List<Account> getAllAccounts() {
         return accountsList;
+    }
+
+    @Override
+    public void deleteAllAccounts() {
+        accountsList = new ArrayList<>();
     }
 
     @Override

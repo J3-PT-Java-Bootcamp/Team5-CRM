@@ -11,10 +11,12 @@ public interface Datasource {
     void saveLead(Lead lead);
     void deleteLead(Lead lead);
     List<Lead> getAllLeads();
+    void deleteAllLeads();
     int getMaxLeadId();
     // Json de Accounts
     void saveAccount(Account account);
     List<Account> getAllAccounts();
+    void deleteAllAccounts();
     int getMaxAccountId();
     int getMaxOpportunityId();
     int getMaxContactId();
