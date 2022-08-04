@@ -8,6 +8,7 @@ import com.ironhack.domain.Lead;
 import com.ironhack.domain.enums.Industry;
 import com.ironhack.domain.enums.Product;
 import com.ironhack.domain.enums.Status;
+import com.ironhack.ui.exceptions.WrongInputException;
 
 import javax.swing.*;
 import java.util.*;
@@ -26,7 +27,7 @@ public class Menu implements ConsoleOperations {
         this.opportunityService = opportunityService;
     }
 
-    public void main() throws Exception {
+    public void main() throws WrongInputException {
         String input;
         do {
             var mainMenu = """
@@ -60,100 +61,124 @@ public class Menu implements ConsoleOperations {
                     Write your COMMAND:
                                         
                     """;
-            input = JOptionPane.showInputDialog(mainMenu).trim().toLowerCase();
+            input = JOptionPane.showInputDialog(null, mainMenu,"Team 5 - CRM", 3).trim().toLowerCase();
             var inputSplit = input.split(" ");
 
-            switch (inputSplit[0]) {
-                case NEW -> newMenu(inputSplit);
-                case SHOW -> showMenu(inputSplit);
-                case LOOKUP -> lookupMenu(inputSplit);
-                case CONVERT -> convertMenu(inputSplit);
-                case OPEN -> openMenu(inputSplit);
-                case CLOSE_LOST -> closeLostMenu(inputSplit);
-                case CLOSE_WON -> closeWonMenu(inputSplit);
-                case "exit" -> {
-                    System.out.println("Adeu");
-                    System.exit(1);
+            try{
+                switch (inputSplit[0]) {
+                    case NEW -> newMenu(inputSplit);
+                    case SHOW -> showMenu(inputSplit);
+                    case LOOKUP -> lookupMenu(inputSplit);
+                    case CONVERT -> convertMenu(inputSplit);
+                    case OPEN -> openMenu(inputSplit);
+                    case CLOSE_LOST -> closeLostMenu(inputSplit);
+                    case CLOSE_WON -> closeWonMenu(inputSplit);
+                    case "exit" -> {
+                        System.out.println("Adeu");
+                        System.exit(1);
+                    }
+                    default -> System.out.println("Command not recognized!");
                 }
-                default -> System.out.println("Command not recognized!");
+            } catch (WrongInputException E){
+                JOptionPane.showMessageDialog(null, "Command not recognized, please try again. 🤔 ","Not Found", 2);
+            } catch (DataNotFoundException e) {
+                JOptionPane.showMessageDialog(null, "Data not found","Not Found", 2);
             }
+
         } while (!input.equals("exit"));
     }
 
-    private void openMenu(String[] inputSplit) throws Exception {
+    // STATUS UPDATERS
+    //**********************************************************
+
+    /** This menu method is for setting the status of an opportunity to OPEN */
+    private void openMenu(String[] inputSplit) throws WrongInputException, DataNotFoundException {
         if (inputSplit.length <= 1) {
-            throw new Exception();
+            throw new WrongInputException();
         }
         int id = Integer.parseInt(inputSplit[1]);
 
         var opportunity = opportunityService.updateOpportunityStatus(id, Status.OPEN);
-        JOptionPane.showMessageDialog(null, "✏️ Opportunity Status is now 'OPEN': \n" + opportunity);
+        JOptionPane.showMessageDialog(null, "✏️ Opportunity Status is now 'OPEN': \n" + opportunity,"Status Update",1);
     }
 
-    private void closeLostMenu(String[] inputSplit) throws Exception {
+    /** This menu method is for setting the status of an opportunity to CLOSE_LOST */
+    private void closeLostMenu(String[] inputSplit) throws WrongInputException, DataNotFoundException {
         if (inputSplit.length <= 1) {
-            throw new Exception();
+            throw new WrongInputException();
         }
         int id = Integer.parseInt(inputSplit[1]);
 
         var opportunity = opportunityService.updateOpportunityStatus(id, Status.CLOSED_LOST);
-        JOptionPane.showMessageDialog(null, "🆑 Opportunity Status is now 'CLOSE_LOST': \n" + opportunity);
+        JOptionPane.showMessageDialog(null, "🆑 Opportunity Status is now 'CLOSE_LOST': \n" + opportunity,"Status Update",1);
     }
 
-    private void closeWonMenu(String[] inputSplit) throws Exception {
+    /** This menu method is for setting the status of an opportunity to CLOSE_WON */
+    private void closeWonMenu(String[] inputSplit) throws WrongInputException, DataNotFoundException {
         if (inputSplit.length <= 1) {
-            throw new Exception();
+            throw new WrongInputException();
         }
         int id = Integer.parseInt(inputSplit[1]);
 
         var opportunity = opportunityService.updateOpportunityStatus(id, Status.CLOSED_WON);
-        JOptionPane.showMessageDialog(null, "✅ Opportunity Status is now 'CLOSE_WON': \n" + opportunity);
+        JOptionPane.showMessageDialog(null, "✅ Opportunity Status is now 'CLOSE_WON': \n" + opportunity,"Status Update",1);
     }
 
+    // 'LOOK UP' MENUS
+    //**********************************************************
 
-    private void lookupMenu(String[] inputSplit) throws Exception {
+    /** This method is for selecting the "lookup menu" desired by the user according to user's input */
+    private void lookupMenu(String[] inputSplit) throws WrongInputException {
         if (inputSplit.length <= 2) {
-            throw new Exception();
+           throw new WrongInputException();
         }
+
         int id = Integer.parseInt(inputSplit[2]);
         switch (inputSplit[1]) {
             case ConsoleOperationEntities.LEAD -> lookUpLead(id);
             case ConsoleOperationEntities.OPPORTUNITY -> lookUpOpportunity(id);
-            default -> throw new Exception();
+            default -> throw new WrongInputException();
         }
     }
 
+    /** This method handles the 'lookup opportunity' menu */
     private void lookUpOpportunity(int id) {
         try {
-            JOptionPane.showMessageDialog(null, opportunityService.lookUpOpportunity(id));
+            JOptionPane.showMessageDialog(null, opportunityService.lookUpOpportunity(id),"Opportunities "+id, 1);
         } catch (DataNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "❌ - Opportunity with ID " + id + " was not found in the Database!");
+            JOptionPane.showMessageDialog(null, "Opportunity with ID " + id + " was not found in the Database!","Not Found", 2);
         } catch (EmptyException e) {
-            JOptionPane.showMessageDialog(null, "❌ - No Opportunities in the database!");
+            JOptionPane.showMessageDialog(null, "No Opportunities in the database!","Not Found", 2);
         }
     }
 
+    /** This method handles the 'lookup leads' menu */
     private void lookUpLead(int id) {
         try {
-            JOptionPane.showMessageDialog(null, leadService.lookUpLead(id));
+            JOptionPane.showMessageDialog(null, leadService.lookUpLead(id),"Lead "+ id, 1);
         } catch (EmptyException e) {
-            JOptionPane.showMessageDialog(null, "❌ - No leads in Database!");
+            JOptionPane.showMessageDialog(null, "No leads in Database!","Not Found", 2);
         } catch (DataNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "❌ - The Lead with ID " + id + " was not found in the database!");
+            JOptionPane.showMessageDialog(null, "The Lead with ID " + id + " was not found in the database!","Not Found", 2);
         }
     }
 
-    private void showMenu(String[] inputSplit) throws Exception {
+
+    // 'SHOW' MENUS
+    //**********************************************************
+
+    /** This method is for selecting the "show menu" desired by the user according to user's input */
+    private void showMenu(String[] inputSplit) throws WrongInputException {
         if (inputSplit.length <= 1) {
-            throw new Exception();
+            throw new WrongInputException();
         }
         switch (inputSplit[1]) {
             case ConsoleOperationEntities.LEADS -> showLeads();
             case ConsoleOperationEntities.OPPORTUNITIES -> showOpportunities();
-            default -> JOptionPane.showMessageDialog(null, "🤔 Command not recognized, please try again");
-        }
+            default -> throw new WrongInputException();  }
     }
 
+    /** This method handles the 'show leads' menu */
     private void showLeads() {
         try {
             var leads = leadService.getAllLeads();
@@ -162,9 +187,9 @@ public class Menu implements ConsoleOperations {
             for (var lead : leads) {
                 output += lead + "\n";
             }
-            JOptionPane.showMessageDialog(null, output);
+            JOptionPane.showMessageDialog(null, output, "Leads in Database",1);
         } catch (EmptyException e) {
-            JOptionPane.showMessageDialog(null, "❌ - No Leads in Database!");
+            JOptionPane.showMessageDialog(null, "No Leads in Database!","Not Found", 2);
         }
     }
 
@@ -176,15 +201,18 @@ public class Menu implements ConsoleOperations {
             for (var opp : opps) {
                 output += opp.toString() + "\n";
             }
-            JOptionPane.showMessageDialog(null, output);
+            JOptionPane.showMessageDialog(null, output, "Opportunites in Database", 1);
         } catch (EmptyException e) {
-            JOptionPane.showMessageDialog(null, "❌ - No Opportunities in the Database!");
+            JOptionPane.showMessageDialog(null, "No Opportunities in the Database!","Not Found", 2);
         }
     }
 
-    private void convertMenu(String[] inputSplit) throws Exception {
+
+    // CONVERT MENUS
+    //**********************************************************
+    private void convertMenu(String[] inputSplit) throws WrongInputException {
         if (inputSplit.length <= 1) {
-            throw new Exception();
+            throw new WrongInputException();
         }
         int id = Integer.parseInt(inputSplit[1]);
         try {
@@ -201,16 +229,17 @@ public class Menu implements ConsoleOperations {
             JOptionPane.showMessageDialog(null, "Lead Succesfully converted");
 
         } catch (EmptyException e) {
-            JOptionPane.showMessageDialog(null, "❌ - No leads in Database!");
+            JOptionPane.showMessageDialog(null, "No leads in Database!","Not Found", 2);
         } catch (DataNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "❌ - The Lead with ID " + id + " was not found in the database!");
+            JOptionPane.showMessageDialog(null, "The Lead with ID " + id + " was not found in the database!","Not Found", 2);
         }
-
     }
 
-    private void newMenu(String[] inputSplit) throws Exception {
+    // 'NEW' MENUS
+    //**********************************************************
+    private void newMenu(String[] inputSplit) throws WrongInputException {
         if (inputSplit.length <= 1) {
-            throw new Exception();
+            throw new WrongInputException();
         }
         switch (inputSplit[1]) {
             case ConsoleOperationEntities.LEAD -> {
@@ -218,18 +247,23 @@ public class Menu implements ConsoleOperations {
                 Lead lead = leadService.newLead((String) values.get(0), (String) values.get(1), (String) values.get(2), (String) values.get(3));
                 JOptionPane.showMessageDialog(null, "Lead Successfully added: \n" + lead);
             }
-            default -> throw new Exception();
+            default -> throw new WrongInputException();
         }
     }
 
+
+    // OTHER MENUS METHODS
+    //**********************************************************
+
+
     //******************* USING VARARGS FOR REUSING METHODS
-    public static List<Object> getValues(Object... values) throws Exception {
+    public static List<Object> getValues(Object... values) throws WrongInputException {
         List<Object> value = new ArrayList<>();
         for (var i : values) {
             try {  // --> dont work, check
                 value.add(JOptionPane.showInputDialog(i).trim().toLowerCase());
-            } catch (InputMismatchException e) {
-                throw new Exception("1");
+            } catch (Exception e) {
+                throw new WrongInputException("1");
             }
         }
         return value;
