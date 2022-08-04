@@ -21,6 +21,6 @@ public class ContactRepository {
 
 
     public int getMaxContactId() {
-        return datasource.getMaxLeadId();
+        return datasource.getMaxContactId();
     }
 }
