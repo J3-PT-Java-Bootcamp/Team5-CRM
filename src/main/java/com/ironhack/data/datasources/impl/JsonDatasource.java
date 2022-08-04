@@ -19,17 +19,15 @@ import java.util.List;
 public class JsonDatasource implements Datasource {
 
     private static final int ID_START = 0;
-
     private static JsonDatasource instance;
-
     public static final String FILES_DIR_PATH = "files/";
     public static final String LEADS_FILE_PATH = "leads-db.json";
     public static final String ACCOUNTS_FILE_PATH = "accounts-db.json";
-
     private final File filesDir = new File(FILES_DIR_PATH);
     private final File leadsFile = new File(FILES_DIR_PATH + LEADS_FILE_PATH);
     private final File accountsFile = new File(FILES_DIR_PATH + ACCOUNTS_FILE_PATH);
     private final Gson gson = new Gson();
+
 
     private JsonDatasource() throws IOException {
         filesDir.mkdir();

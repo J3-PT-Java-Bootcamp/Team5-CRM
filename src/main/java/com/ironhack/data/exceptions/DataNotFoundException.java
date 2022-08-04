@@ -2,8 +2,7 @@ package com.ironhack.data.exceptions;
 
 public class DataNotFoundException extends DataException{
 
-    public DataNotFoundException() {
-    }
+    public DataNotFoundException() {}
 
     public DataNotFoundException(String message) {
         super(message);
