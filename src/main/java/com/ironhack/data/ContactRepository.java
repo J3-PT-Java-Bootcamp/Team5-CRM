@@ -1,6 +1,6 @@
 package com.ironhack.data;
 
-import com.ironhack.data.Datasource;
+import com.ironhack.data.datasources.Datasource;
 
 public class ContactRepository {
 
@@ -12,7 +12,7 @@ public class ContactRepository {
     }
 
     public static ContactRepository getInstance(Datasource datasource) {
-        if(instance == null) {
+        if (instance == null) {
             instance = new ContactRepository(datasource);
         }
         return instance;

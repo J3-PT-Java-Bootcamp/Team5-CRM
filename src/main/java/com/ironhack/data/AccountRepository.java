@@ -1,14 +1,11 @@
 package com.ironhack.data;
 
-import com.ironhack.data.Datasource;
+import com.ironhack.data.datasources.Datasource;
 import com.ironhack.domain.Account;
-import com.ironhack.domain.Contact;
-import com.ironhack.domain.Opportunity;
-
-import java.util.ArrayList;
 
 /**
- * You should only use this repository when converting a lead and creating the account with the opportunities an contacts
+ * You should only use this repository when converting a lead and creating the
+ * account with the opportunities an contacts
  */
 public class AccountRepository {
 
@@ -20,7 +17,7 @@ public class AccountRepository {
     }
 
     public static AccountRepository getInstance(Datasource datasource) {
-        if(instance == null) {
+        if (instance == null) {
             instance = new AccountRepository(datasource);
         }
         return instance;

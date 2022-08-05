@@ -1,6 +1,6 @@
 package com.ironhack.data;
 
-import com.ironhack.data.Datasource;
+import com.ironhack.data.datasources.Datasource;
 import com.ironhack.data.exceptions.DataNotFoundException;
 import com.ironhack.domain.Lead;
 
@@ -37,7 +37,8 @@ public class LeadRepository {
             }
         }
 
-        if(leadFound == null) throw new DataNotFoundException();
+        if (leadFound == null)
+            throw new DataNotFoundException();
 
         return leadFound;
     }

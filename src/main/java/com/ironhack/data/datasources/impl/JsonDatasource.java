@@ -2,7 +2,7 @@ package com.ironhack.data.datasources.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import com.ironhack.data.Datasource;
+import com.ironhack.data.datasources.Datasource;
 import com.ironhack.domain.Account;
 import com.ironhack.domain.Contact;
 import com.ironhack.domain.Lead;
@@ -27,7 +27,6 @@ public class JsonDatasource implements Datasource {
     private final File leadsFile = new File(FILES_DIR_PATH + LEADS_FILE_PATH);
     private final File accountsFile = new File(FILES_DIR_PATH + ACCOUNTS_FILE_PATH);
     private final Gson gson = new Gson();
-
 
     private JsonDatasource() throws IOException {
         filesDir.mkdir();
@@ -96,12 +95,13 @@ public class JsonDatasource implements Datasource {
     @Override
     public int getMaxLeadId() {
         var leads = getAllLeads();
-        if(leads.isEmpty()) {
+        if (leads.isEmpty()) {
             return ID_START;
-        }else{
+        } else {
             int maxId = ID_START;
             for (Lead lead : leads) {
-                if(maxId < lead.getId()) maxId = lead.getId();
+                if (maxId < lead.getId())
+                    maxId = lead.getId();
             }
             return maxId + 1;
         }
@@ -132,7 +132,7 @@ public class JsonDatasource implements Datasource {
             FileReader fileReader = new FileReader(accountsFile);
             JsonReader reader = new JsonReader(fileReader);
             Account[] accountsArray = gson.fromJson(reader, Account[].class);
-            accounts = accountsArray != null ?  new ArrayList<>(Arrays.asList(accountsArray)) : new ArrayList<>();
+            accounts = accountsArray != null ? new ArrayList<>(Arrays.asList(accountsArray)) : new ArrayList<>();
             reader.close();
             fileReader.close();
         } catch (IOException e) {
@@ -144,12 +144,13 @@ public class JsonDatasource implements Datasource {
     @Override
     public int getMaxAccountId() {
         var accounts = getAllAccounts();
-        if(accounts.isEmpty()) {
+        if (accounts.isEmpty()) {
             return ID_START;
-        }else{
+        } else {
             int maxId = ID_START;
             for (Account account : accounts) {
-                if(maxId < account.getId()) maxId = account.getId();
+                if (maxId < account.getId())
+                    maxId = account.getId();
             }
             return maxId + 1;
         }
@@ -158,13 +159,14 @@ public class JsonDatasource implements Datasource {
     @Override
     public int getMaxOpportunityId() {
         var accounts = getAllAccounts();
-        if(accounts.isEmpty()) {
+        if (accounts.isEmpty()) {
             return ID_START;
-        }else{
+        } else {
             int maxId = ID_START;
             for (Account account : accounts) {
                 for (Opportunity opportunity : account.getOpportunityList()) {
-                    if(maxId < opportunity.getId()) maxId = opportunity.getId();
+                    if (maxId < opportunity.getId())
+                        maxId = opportunity.getId();
                 }
             }
             return maxId + 1;
@@ -174,13 +176,14 @@ public class JsonDatasource implements Datasource {
     @Override
     public int getMaxContactId() {
         var accounts = getAllAccounts();
-        if(accounts.isEmpty()) {
+        if (accounts.isEmpty()) {
             return ID_START;
-        }else{
+        } else {
             int maxId = ID_START;
             for (Account account : accounts) {
                 for (Contact contact : account.getContactList()) {
-                    if(maxId < contact.getId()) maxId = contact.getId();
+                    if (maxId < contact.getId())
+                        maxId = contact.getId();
                 }
             }
             return maxId + 1;

@@ -7,7 +7,7 @@ import com.ironhack.data.AccountRepository;
 import com.ironhack.data.ContactRepository;
 import com.ironhack.data.LeadRepository;
 import com.ironhack.data.OpportunityRepository;
-import com.ironhack.data.Datasource;
+import com.ironhack.data.datasources.Datasource;
 import com.ironhack.data.datasources.impl.JsonDatasource;
 import com.ironhack.ui.Menu;
 
@@ -17,8 +17,8 @@ public class Main {
 
         FlatLightLaf.setup();
 
-//      Datasource datasource = InMemoryDatasource.getInstance();
-//      Uncomment this line to use json instead of memory
+        // Datasource datasource = InMemoryDatasource.getInstance();
+        // Uncomment this line to use json instead of memory
 
         Datasource datasource = JsonDatasource.getInstance();
 
@@ -29,9 +29,10 @@ public class Main {
         LeadRepository leadRepository = LeadRepository.getInstance(datasource);
         ContactRepository contactRepository = ContactRepository.getInstance(datasource);
 
-        LeadService leadService = LeadService.getInstance(leadRepository, contactRepository, accountRepository, opportunityRepository);
+        LeadService leadService = LeadService.getInstance(leadRepository, contactRepository, accountRepository,
+                opportunityRepository);
 
         Menu menu = new Menu(leadService, opportunityService);
-        menu.main();  /* runs the menu and the app */
+        menu.main(); /* runs the menu and the app */
     }
 }

@@ -30,7 +30,8 @@ class MenuTest {
     LeadRepository leadRepository = LeadRepository.getInstance(datasource);
     ContactRepository contactRepository = ContactRepository.getInstance(datasource);
 
-    LeadService leadService = LeadService.getInstance(leadRepository, contactRepository, accountRepository, opportunityRepository);
+    LeadService leadService = LeadService.getInstance(leadRepository, contactRepository, accountRepository,
+            opportunityRepository);
 
     Menu menu = new Menu(leadService, opportunityService);
 
@@ -39,29 +40,31 @@ class MenuTest {
     }
 
     @Test
-    void getStatus_open() {
-        //select open on the menu
+    void getStatus_open() throws AbortedException {
+        // select open on the menu
 
         var testStatus = menu.getStatus();
         System.out.println(testStatus);
-        assertEquals(Status.OPEN,testStatus);
+        assertEquals(Status.OPEN, testStatus);
     }
+
     @Test
-    void getStatus_close_won() {
+    void getStatus_close_won() throws AbortedException {
         // select closed_won on the menu
 
         var testStatus = menu.getStatus();
         System.out.println(testStatus);
-        assertEquals(Status.CLOSED_WON,testStatus);
+        assertEquals(Status.CLOSED_WON, testStatus);
 
     }
+
     @Test
-    void getStatus_close_lost() {
+    void getStatus_close_lost() throws AbortedException {
         // select closed_lost on the menu
 
         var testStatus = menu.getStatus();
         System.out.println(testStatus);
-        assertEquals(Status.CLOSED_LOST,testStatus);
+        assertEquals(Status.CLOSED_LOST, testStatus);
     }
 
     @Test
@@ -71,7 +74,7 @@ class MenuTest {
         var testProduct = menu.getProduct();
         System.out.println(testProduct);
 
-        assertEquals(Product.HYBRID,testProduct);
+        assertEquals(Product.HYBRID, testProduct);
     }
 
     @Test
@@ -79,15 +82,14 @@ class MenuTest {
         List<Product> testList = List.of(
                 Product.HYBRID,
                 Product.FLATBED,
-                Product.BOX
-        );
+                Product.BOX);
         boolean inTheList = false;
 
         var testProduct = menu.getProduct();
 
-        if (testList.contains(testProduct)){
+        if (testList.contains(testProduct)) {
             inTheList = true;
-            System.out.println("User selected: "+testProduct+" which is in the List");
+            System.out.println("User selected: " + testProduct + " which is in the List");
         }
 
         assertTrue(inTheList);
@@ -100,15 +102,14 @@ class MenuTest {
                 Industry.ECOMMERCE,
                 Industry.MANUFACTURING,
                 Industry.MEDICAL,
-                Industry.OTHER
-        );
+                Industry.OTHER);
         boolean inTheList = false;
 
         var testIndustry = menu.getIndustry();
 
-        if (testList.contains(testIndustry)){
+        if (testList.contains(testIndustry)) {
             inTheList = true;
-            System.out.println("User selected: "+testIndustry+" which is in the List");
+            System.out.println("User selected: " + testIndustry + " which is in the List");
         }
 
         assertTrue(inTheList);
