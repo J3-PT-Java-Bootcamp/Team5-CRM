@@ -16,7 +16,6 @@ import java.util.List;
 public class OpportunityRepository  {
 
     private static OpportunityRepository instance;
-
     private final Datasource datasource;
 
     private OpportunityRepository(Datasource datasource) {
@@ -44,6 +43,23 @@ public class OpportunityRepository  {
         return datasource.getMaxOpportunityId();
     }
 
+    public Opportunity findById(int id) throws DataNotFoundException {
+        var opportunities = getAllOpportunities();
+        Opportunity opportunityFound = null;
+
+        for (Opportunity opportunity : opportunities) {
+            if (opportunity.getId() == id) {
+                opportunityFound = opportunity;
+                break;
+            }
+        }
+
+        if(opportunityFound == null) throw new DataNotFoundException();
+
+        return opportunityFound;
+
+    }
+
     public Opportunity updateOpportunity(Opportunity opportunity) throws DataNotFoundException {
         var accounts = datasource.getAllAccounts();
 
@@ -58,7 +74,15 @@ public class OpportunityRepository  {
         if(foundAccount == null) {
             throw new DataNotFoundException("Cannot update opportunity with id %s as it was not found on the database".formatted(opportunity.getId()));
         }else{
-            foundAccount.getOpportunityList().remove(opportunity);
+            int idFound = -1;
+            for (int i = 0; i < foundAccount.getOpportunityList().size(); i++) {
+                if(foundAccount.getOpportunityList().get(i).getId() == opportunity.getId()){
+                    idFound = i;
+                    break;
+                }
+            }
+            if(idFound == -1) throw new DataNotFoundException();
+            foundAccount.getOpportunityList().remove(idFound);
             foundAccount.getOpportunityList().add(opportunity);
             datasource.saveAccount(foundAccount);
         }

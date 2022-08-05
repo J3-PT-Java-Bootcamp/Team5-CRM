@@ -19,17 +19,15 @@ import java.util.List;
 public class JsonDatasource implements Datasource {
 
     private static final int ID_START = 0;
-
     private static JsonDatasource instance;
-
     public static final String FILES_DIR_PATH = "files/";
     public static final String LEADS_FILE_PATH = "leads-db.json";
     public static final String ACCOUNTS_FILE_PATH = "accounts-db.json";
-
     private final File filesDir = new File(FILES_DIR_PATH);
     private final File leadsFile = new File(FILES_DIR_PATH + LEADS_FILE_PATH);
     private final File accountsFile = new File(FILES_DIR_PATH + ACCOUNTS_FILE_PATH);
     private final Gson gson = new Gson();
+
 
     private JsonDatasource() throws IOException {
         filesDir.mkdir();
@@ -48,7 +46,7 @@ public class JsonDatasource implements Datasource {
     public void saveLead(Lead lead) {
         var leads = getAllLeads();
         if (leads != null && !leads.isEmpty()) {
-            leads.removeIf(thisLead -> thisLead.equals(lead));
+            leads.removeIf(thisLead -> thisLead.getId() == lead.getId());
         } else {
             leads = new ArrayList<>();
         }
@@ -113,7 +111,7 @@ public class JsonDatasource implements Datasource {
     public void saveAccount(Account account) {
         List<Account> accounts = getAllAccounts();
         if (accounts != null && !accounts.isEmpty()) {
-            accounts.removeIf(thisAccount -> thisAccount.equals(account));
+            accounts.removeIf(thisAccount -> thisAccount.getId() == account.getId());
         } else {
             accounts = new ArrayList<>();
         }

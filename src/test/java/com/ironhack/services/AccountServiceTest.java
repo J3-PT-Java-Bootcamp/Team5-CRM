@@ -1,8 +1,6 @@
-package com.ironhack.business_logic;
+package com.ironhack.services;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class AccountServiceTest {
 

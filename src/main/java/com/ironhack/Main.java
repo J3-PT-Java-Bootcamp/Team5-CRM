@@ -1,8 +1,8 @@
 package com.ironhack;
 
-import com.ironhack.business_logic.AccountService;
-import com.ironhack.business_logic.LeadService;
-import com.ironhack.business_logic.OpportunityService;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.ironhack.services.LeadService;
+import com.ironhack.services.OpportunityService;
 import com.ironhack.data.AccountRepository;
 import com.ironhack.data.ContactRepository;
 import com.ironhack.data.LeadRepository;
@@ -15,20 +15,23 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-//        Datasource datasource = InMemoryDatasource.getInstance();
+        FlatLightLaf.setup();
 
-        // Uncomment this line to use json instead of memory
+//      Datasource datasource = InMemoryDatasource.getInstance();
+//      Uncomment this line to use json instead of memory
+
         Datasource datasource = JsonDatasource.getInstance();
+
         OpportunityRepository opportunityRepository = OpportunityRepository.getInstance(datasource);
         OpportunityService opportunityService = OpportunityService.getInstance(opportunityRepository);
+
         AccountRepository accountRepository = AccountRepository.getInstance(datasource);
-        AccountService accountService = AccountService.getInstance(accountRepository);
         LeadRepository leadRepository = LeadRepository.getInstance(datasource);
         ContactRepository contactRepository = ContactRepository.getInstance(datasource);
+
         LeadService leadService = LeadService.getInstance(leadRepository, contactRepository, accountRepository, opportunityRepository);
 
-
-        Menu menu = new Menu(accountService, leadService, opportunityService);
-        menu.main();
+        Menu menu = new Menu(leadService, opportunityService);
+        menu.main();  /* runs the menu and the app */
     }
 }

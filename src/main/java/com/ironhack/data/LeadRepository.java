@@ -16,7 +16,7 @@ public class LeadRepository {
     }
 
     public static LeadRepository getInstance(Datasource datasource) {
-        if(instance == null) {
+        if (instance == null) {
             instance = new LeadRepository(datasource);
         }
         return instance;
@@ -26,19 +26,20 @@ public class LeadRepository {
         return datasource.getMaxLeadId();
     }
 
-    public Lead findById(int id)  {
+    public Lead findById(int id) throws DataNotFoundException {
         var leads = getAllLeads();
         Lead leadFound = null;
 
         for (Lead lead : leads) {
-            if(lead.getId() == id){
+            if (lead.getId() == id) {
                 leadFound = lead;
                 break;
             }
         }
 
-        return leadFound;
+        if(leadFound == null) throw new DataNotFoundException();
 
+        return leadFound;
     }
 
     public Lead saveLead(Lead lead) {
@@ -46,8 +47,11 @@ public class LeadRepository {
         return lead;
     }
 
-
     public List<Lead> getAllLeads() {
         return datasource.getAllLeads();
+    }
+
+    public void deleteLead(int id) throws DataNotFoundException {
+        datasource.deleteLead(findById(id));
     }
 }

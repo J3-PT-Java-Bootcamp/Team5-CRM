@@ -68,6 +68,4 @@ public class Contact {
                 "Phone: " + phone +  "\n" +
                 "e-mail: " + email + "\n";
     }
-
-
 }

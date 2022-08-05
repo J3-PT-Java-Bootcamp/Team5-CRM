@@ -1,10 +1,12 @@
-package com.ironhack.business_logic;
+package com.ironhack.services;
 
+import com.ironhack.services.exceptions.EmptyException;
 import com.ironhack.data.AccountRepository;
 import com.ironhack.data.ContactRepository;
 import com.ironhack.data.LeadRepository;
 import com.ironhack.data.OpportunityRepository;
 import com.ironhack.data.datasources.impl.InMemoryDatasource;
+import com.ironhack.data.exceptions.DataNotFoundException;
 import com.ironhack.domain.Account;
 import com.ironhack.domain.Contact;
 import com.ironhack.domain.Lead;
@@ -13,7 +15,6 @@ import com.ironhack.domain.enums.Industry;
 import com.ironhack.domain.enums.Product;
 import com.ironhack.domain.enums.Status;
 
-import javax.swing.*;
 import java.util.List;
 
 public class LeadService {
@@ -51,57 +52,40 @@ public class LeadService {
     /**
      * Method that converts a lead into an opportunity, a contact and both into an account
      * TODO: maybe this service will require the account repository, cause even if it creates an opportunity and a contact, both are stored inside an account
+     *
      * @param id
      */
-    public void convert(int id, Product product, int productQuantity, Industry industry, int employees, String city, String country) {
+    public void convert(int id, Product product, int productQuantity, Industry industry, int employees, String city, String country) throws DataNotFoundException {
         var lead = leadRepository.findById(id);
-        if(lead == null) {
-
-            JOptionPane.showMessageDialog(null, "❌ - Not lead with ID "+ id +" in the database!");
-        }else{
-            int maxIdAccount = InMemoryDatasource.getInstance().getMaxAccountId();
-            var contactToSave = new Contact(contactRepository.getMaxContactId(), lead.getName(), lead.getPhoneNumber(), lead.getCompanyName());
-            var contactList = List.of(contactToSave);
-            var opportunityList = List.of(new Opportunity(opportunityRepository.getMaxOpportunityId() ,contactToSave, Status.OPEN, product, productQuantity));
-            var accountToSave = new Account(maxIdAccount, industry, employees, city, country, contactList, opportunityList);
-            accountRepository.saveAccount(accountToSave);
-        }
-
+        int maxIdAccount = accountRepository.getMaxAccountId();
+        var contactToSave = new Contact(contactRepository.getMaxContactId(), lead.getName(), lead.getPhoneNumber(), lead.getEmail());
+        var contactList = List.of(contactToSave);
+        var opportunityList = List.of(new Opportunity(opportunityRepository.getMaxOpportunityId(), contactToSave, Status.OPEN, product, productQuantity));
+        var accountToSave = new Account(maxIdAccount, industry, employees, city, country, contactList, opportunityList);
+        accountRepository.saveAccount(accountToSave);
+        leadRepository.deleteLead(id);
     }
 
-    /** Method that shows all available Leads in the database */
-    public void showLeads() {
-        if (leadRepository.getAllLeads().size()!=0){
-            String output = "Following Leads where found in the database:\n";
-            output += "************************************************      \n";
-            for(var lead : leadRepository.getAllLeads()){
-                output += lead + "\n";
-            }
-            JOptionPane.showMessageDialog(null, output);
+    /**
+     * Method that shows all available Leads in the database
+     */
+    public List<Lead> getAllLeads() throws EmptyException {
+        var leads = leadRepository.getAllLeads();
+        if (leads.size() != 0) {
+            return leads;
         } else {
-            JOptionPane.showMessageDialog(null, "❌ - No Leads in Database!");
-
+            throw new EmptyException();
         }
     }
 
-    /** Method that shows the requested Lead by ID */
-    public void lookUpLead(int id) {
-        if (leadRepository.getAllLeads().size()!=0) {
-            boolean found = false;
-            for (Lead lead : leadRepository.getAllLeads()) {
-                if (lead.getId() == id) {
-                    JOptionPane.showMessageDialog(null, lead);
-                    found = true;
-                }
-                if (found != true){
-                    JOptionPane.showMessageDialog(null,
-                            "❌ - The Lead with ID " +id + " was not found in the database!");
-                }
-            }
+    /**
+     * Method that shows the requested Lead by ID
+     */
+    public Lead lookUpLead(int id) throws EmptyException, DataNotFoundException {
+        if (leadRepository.getAllLeads().size() != 0) {
+            return leadRepository.findById(id);
         } else {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "❌ - No leads in Database!");
+            throw new EmptyException();
         }
     }
 

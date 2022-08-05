@@ -78,10 +78,9 @@ public class Opportunity {
     @Override
     public String toString(){
         return "📘 Opportunity with ID "+ id + ":\n" +
-                "Decision Maker is " + decisionMaker.getName() +" (Contact ID: "+decisionMaker.getId() + ")\n" +
-                "Phone: "+decisionMaker.getPhone()+ " | e-mail: " +decisionMaker.getEmail()+ "\n" +
-                "Product: "+ product +" | Quantity: " + quantity + "\n" +
-                "Opportunity STATUS: " + status + "\n";
+                "-------------------------------:\n" +
+                "🗣 Decision Maker is " + decisionMaker.getName() +" (Contact ID: "+decisionMaker.getId() + ")\n" +
+                "📞: "+decisionMaker.getPhone()+ "  |  📧: " +decisionMaker.getEmail()+ "\n" +
+                "PRODUCT: "+ product +" | QUANTITY: " + quantity + " | STATUS: " + status + "\n";
     }
-//
 }

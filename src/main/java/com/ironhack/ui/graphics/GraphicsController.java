@@ -1,4 +1,4 @@
-package com.ironhack.graphics;
+package com.ironhack.ui.graphics;
 
 public class GraphicsController {
 

@@ -13,7 +13,6 @@ import java.util.ArrayList;
 public class AccountRepository {
 
     private static AccountRepository instance;
-
     private final Datasource datasource;
 
     private AccountRepository(Datasource datasource) {
@@ -27,11 +26,12 @@ public class AccountRepository {
         return instance;
     }
 
-    public Account saveAccount(Account account) {
+    public int getMaxAccountId() {
+        return datasource.getMaxAccountId();
+    }
 
+    public Account saveAccount(Account account) {
         datasource.saveAccount(account);
         return account;
     }
-
-
 }
