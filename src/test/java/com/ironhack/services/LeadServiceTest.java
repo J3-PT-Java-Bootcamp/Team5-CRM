@@ -28,6 +28,9 @@ class LeadServiceTest {
     OpportunityRepository opportunityRepo = OpportunityRepository.getInstance(datasource);
     LeadService leadService;
 
+    Lead lead1;
+    Lead lead2;
+
     @BeforeEach
     void setUp() {
         leadService = LeadService.getInstance(leadRepo, contactRepo, accountRepo, opportunityRepo);
@@ -52,7 +55,8 @@ class LeadServiceTest {
     @Test
     void test_newLead() {
         var lead = new Lead(leadRepo.maxLeadId(), "test", "666666666", "test@gmail.com", "company");
-        var leadCreated = leadService.newLead(lead.getName(), lead.getPhoneNumber(), lead.getEmail(), lead.getCompanyName());
+        var leadCreated = leadService.newLead(lead.getName(), lead.getPhoneNumber(), lead.getEmail(),
+                lead.getCompanyName());
         assertEquals(lead.getId(), leadCreated.getId());
         assertEquals(lead.getName(), leadCreated.getName());
         assertEquals(lead.getPhoneNumber(), leadCreated.getPhoneNumber());
@@ -62,7 +66,7 @@ class LeadServiceTest {
 
     @Test
     void test_convert() {
-        var leadCreated1 = leadService.newLead("lead 1", "111111111", "lead1@gmail.com", "company 1");
+        addLeadsToDatasource();
         var product = Product.HYBRID;
         var prodQty = 5;
         var industry = Industry.MANUFACTURING;
@@ -72,13 +76,13 @@ class LeadServiceTest {
 
         Team5CrmException exception = null;
         try {
-            var account = leadService.convert(leadCreated1.getId(), product, prodQty, industry, emp, city, country);
+            var account = leadService.convert(this.lead1.getId(), product, prodQty, industry, emp, city, country);
             var oppCreated = account.getOpportunityList().get(0);
             assertNotNull(oppCreated);
             assertNotNull(oppCreated.getDecisionMaker());
-            assertEquals(leadCreated1.getName(), oppCreated.getDecisionMaker().getName());
-            assertEquals(leadCreated1.getPhoneNumber(), oppCreated.getDecisionMaker().getPhone());
-            assertEquals(leadCreated1.getEmail(), oppCreated.getDecisionMaker().getEmail());
+            assertEquals(this.lead1.getName(), oppCreated.getDecisionMaker().getName());
+            assertEquals(this.lead1.getPhoneNumber(), oppCreated.getDecisionMaker().getPhone());
+            assertEquals(this.lead1.getEmail(), oppCreated.getDecisionMaker().getEmail());
             assertEquals(account.getContactList().get(0), oppCreated.getDecisionMaker());
             assertEquals(product, oppCreated.getProduct());
             assertEquals(prodQty, oppCreated.getQuantity());
@@ -95,8 +99,7 @@ class LeadServiceTest {
 
     @Test
     void test_getAllLeads() {
-        var leadCreated1 = leadService.newLead("lead 1", "111111111", "lead1@gmail.com", "company 1");
-        var leadCreated2 = leadService.newLead("lead 2", "222222222", "lead2@hotmail.com", "company inc 2");
+        addLeadsToDatasource();
 
         Team5CrmException exception = null;
         try {
@@ -111,22 +114,27 @@ class LeadServiceTest {
 
     @Test
     void test_lookUpLead() {
-        var leadCreated1 = leadService.newLead("lead 1", "111111111", "lead1@gmail.com", "company 1");
-        var leadCreated2 = leadService.newLead("lead 2", "222222222", "lead2@hotmail.com", "company inc 2");
+
+        addLeadsToDatasource();
 
         Team5CrmException exception = null;
         try {
-            var leadFound = leadService.lookUpLead(leadCreated2.getId());
-            assertEquals(leadCreated2.getId(), leadFound.getId());
-            assertEquals(leadCreated2.getName(), leadFound.getName());
-            assertEquals(leadCreated2.getPhoneNumber(), leadFound.getPhoneNumber());
-            assertEquals(leadCreated2.getEmail(), leadFound.getEmail());
-            assertEquals(leadCreated2.getCompanyName(), leadFound.getCompanyName());
+            var leadFound = leadService.lookUpLead(this.lead2.getId());
+            assertEquals(this.lead2.getId(), leadFound.getId());
+            assertEquals(this.lead2.getName(), leadFound.getName());
+            assertEquals(this.lead2.getPhoneNumber(), leadFound.getPhoneNumber());
+            assertEquals(this.lead2.getEmail(), leadFound.getEmail());
+            assertEquals(this.lead2.getCompanyName(), leadFound.getCompanyName());
         } catch (EmptyException e) {
             exception = e;
         } catch (DataNotFoundException e) {
             exception = e;
         }
         assertNull(exception);
+    }
+
+    private void addLeadsToDatasource() {
+        lead1 = leadService.newLead("lead 1", "111111111", "lead1@gmail.com", "company 1");
+        lead2 = leadService.newLead("lead 2", "222222222", "lead2@hotmail.com", "company inc 2");
     }
 }
