@@ -64,7 +64,7 @@ class OpportunityTest {
         Assertions.assertNotNull(testing);
         Contact cont = testing.getDecisionMaker();
         cont.setId(44);
-        Assertions.assertNotEquals(cont, testing.getDecisionMaker());
+        Assertions.assertEquals(cont, testing.getDecisionMaker());
     }
 
     @Test
