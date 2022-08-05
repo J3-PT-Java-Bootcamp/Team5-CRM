@@ -123,10 +123,7 @@ public class AccountTest {
         }
 
         @Test
-<<<<<<< HEAD
         @DisplayName("sETTING THE VALUE OF COUNTRY ok")
-=======
->>>>>>> 41c419f (reforming the test, need just the basic method of class)
         void setCountry() {
             var accountest = account.get(1);
             accountest.setCountry("France");
@@ -135,7 +132,6 @@ public class AccountTest {
         }
 
         @Test
-<<<<<<< HEAD
         @DisplayName("Getting the instances of ContactList")
         void getContactList() {
             boolean isEmpty = false;
