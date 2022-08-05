@@ -65,7 +65,7 @@ public class Menu implements ConsoleOperations {
                     """;
             input = (String) JOptionPane.showInputDialog(null, mainMenu,"Team 5 - CRM", 3, teamIcon,null,null);
 
-            var inputSplit = input.split(" ");
+            var inputSplit = input.toLowerCase().split(" ");
 
             try{
                 switch (inputSplit[0]) {
