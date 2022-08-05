@@ -1,6 +1,6 @@
 # <h1 style="text-align: center; color : blueviolet; font-family : Courier New;">CRM Project TEAM-5</h1>
 
-<div align="center"><img src="src/logo/logo.PNG"></div>
+<div align="center"><img src="src/img/logo.PNG"></div>
 <div>
 
 <h2  style="font-family : Courier New; font-size : 25px;">Team Members :</h2>
@@ -39,8 +39,8 @@
 
 <h2 style="font-family : Courier New; font-size : 25px;" id="sintesis">About the Project</h2>
 
-- screenshots apps
 - short explanation
+
 
 
 <p align="right">(<a href="#top" >back to top</a>)</p>
@@ -60,7 +60,7 @@
       <a href="#">Visual :</a>
       <ul>
         <li>Javax Swing Library</li>
-        <li>Alejandro library</li>
+        <li>FlatLaf Open Source Library</li>
       </ul>
     </li>
     <li>
@@ -95,14 +95,36 @@
 
 <p align="right">(<a href="#top" >back to top</a>)</p>
 
-<h2 style="font-family : Courier New; font-size : 25px;" id="modelo1">Use Case Diagram</h2>
 
-![use case diagram](docs/CRM-UseCaseDiagram.png)
+<h2 style="font-family : Courier New; font-size : 25px;" id="usage">How to Use</h2>
+
+1. Select a command from panel (we recommended add new values to the storage).
+
+<div align="center"><img src="src/img/menu.png"></div>
+
+2. Create the instances of Lead with every value
+
+<div align="center"><img src="src/img/name.png"></div>
+
+3. Check that new value was added correctly
+
+<div align="center"><img src="src/img/leadOk.png"></div>
+
+4. Follow with the exactly commands of menu.
+
+- Check All Leads
+
+<div align="center"><img src="src/img/allLeads.png"></div>
+
+- Or another command
+
+<div align="center"><img src="src/img/opportunities.png"></div>
 
 <p align="right">(<a href="#top" >back to top</a>)</p>
 
+<h2 style="font-family : Courier New; font-size : 25px;" id="modelo1">Use Case Diagram</h2>
 
-<h2 style="font-family : Courier New; font-size : 25px;" id="usage">How to Use</h2>
+![use case diagram](docs/CRM-UseCaseDiagram.png)
 
 <p align="right">(<a href="#top" >back to top</a>)</p>
 

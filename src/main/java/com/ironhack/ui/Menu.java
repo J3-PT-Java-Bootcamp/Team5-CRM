@@ -263,7 +263,7 @@ public class Menu implements ConsoleOperations {
     public static List<Object> getValues(Object... values) throws WrongInputException {
         List<Object> value = new ArrayList<>();
         for (var i : values) {
-            try {  // --> dont work, check
+            try {
                 value.add(JOptionPane.showInputDialog(null,i,"Input",JOptionPane.QUESTION_MESSAGE,teamIcon,null,null));
             } catch (Exception e) {
                 throw new WrongInputException("1");
