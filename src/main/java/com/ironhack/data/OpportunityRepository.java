@@ -8,12 +8,12 @@ import com.ironhack.domain.Opportunity;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * This Repository is mainly a helper, so you don't have to query every account to search and update the opportunities in a very difficult way
+ * This Repository is mainly a helper, so you don't have to query every account
+ * to search and update the opportunities in a very difficult way
  * It will be used for everything you need to do with the opportunities
  */
-public class OpportunityRepository  {
+public class OpportunityRepository {
 
     private static OpportunityRepository instance;
     private final Datasource datasource;
@@ -23,7 +23,7 @@ public class OpportunityRepository  {
     }
 
     public static OpportunityRepository getInstance(Datasource datasource) {
-        if(instance == null) {
+        if (instance == null) {
             instance = new OpportunityRepository(datasource);
         }
         return instance;
@@ -54,7 +54,8 @@ public class OpportunityRepository  {
             }
         }
 
-        if(opportunityFound == null) throw new DataNotFoundException();
+        if (opportunityFound == null)
+            throw new DataNotFoundException();
 
         return opportunityFound;
 
@@ -65,23 +66,25 @@ public class OpportunityRepository  {
 
         Account foundAccount = null;
         for (Account account : accounts) {
-            if(account.getOpportunityList().contains(opportunity)) {
+            if (account.getOpportunityList().contains(opportunity)) {
                 foundAccount = account;
                 break;
             }
         }
 
-        if(foundAccount == null) {
-            throw new DataNotFoundException("Cannot update opportunity with id %s as it was not found on the database".formatted(opportunity.getId()));
-        }else{
+        if (foundAccount == null) {
+            throw new DataNotFoundException("Cannot update opportunity with id %s as it was not found on the database"
+                    .formatted(opportunity.getId()));
+        } else {
             int idFound = -1;
             for (int i = 0; i < foundAccount.getOpportunityList().size(); i++) {
-                if(foundAccount.getOpportunityList().get(i).getId() == opportunity.getId()){
+                if (foundAccount.getOpportunityList().get(i).getId() == opportunity.getId()) {
                     idFound = i;
                     break;
                 }
             }
-            if(idFound == -1) throw new DataNotFoundException();
+            if (idFound == -1)
+                throw new DataNotFoundException();
             foundAccount.getOpportunityList().remove(idFound);
             foundAccount.getOpportunityList().add(opportunity);
             datasource.saveAccount(foundAccount);
