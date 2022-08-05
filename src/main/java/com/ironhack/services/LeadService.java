@@ -5,7 +5,6 @@ import com.ironhack.data.AccountRepository;
 import com.ironhack.data.ContactRepository;
 import com.ironhack.data.LeadRepository;
 import com.ironhack.data.OpportunityRepository;
-import com.ironhack.data.datasources.impl.InMemoryDatasource;
 import com.ironhack.data.exceptions.DataNotFoundException;
 import com.ironhack.domain.Account;
 import com.ironhack.domain.Contact;
@@ -25,17 +24,18 @@ public class LeadService {
     private final AccountRepository accountRepository;
     private final OpportunityRepository opportunityRepository;
 
-
-    //* CONSTRUCTORS
-    //**********************************************
-    private LeadService(LeadRepository leadRepository, ContactRepository contactRepository, AccountRepository accountRepository, OpportunityRepository opportunityRepository) {
+    // * CONSTRUCTORS
+    // **********************************************
+    private LeadService(LeadRepository leadRepository, ContactRepository contactRepository,
+                        AccountRepository accountRepository, OpportunityRepository opportunityRepository) {
         this.leadRepository = leadRepository;
         this.contactRepository = contactRepository;
         this.accountRepository = accountRepository;
         this.opportunityRepository = opportunityRepository;
     }
 
-    public static LeadService getInstance(LeadRepository leadRepository, ContactRepository contactRepository, AccountRepository accountRepository, OpportunityRepository opportunityRepository) {
+    public static LeadService getInstance(LeadRepository leadRepository, ContactRepository contactRepository,
+                                          AccountRepository accountRepository, OpportunityRepository opportunityRepository) {
         if (instance == null) {
             instance = new LeadService(leadRepository, contactRepository, accountRepository, opportunityRepository);
         }
@@ -50,17 +50,20 @@ public class LeadService {
     }
 
     /**
-     * Method that converts a lead into an opportunity, a contact and both into an account
-     * TODO: maybe this service will require the account repository, cause even if it creates an opportunity and a contact, both are stored inside an account
+     * Method that converts a lead into an opportunity, a contact and both into an
+     * account
      *
      * @param id
      */
-    public void convert(int id, Product product, int productQuantity, Industry industry, int employees, String city, String country) throws DataNotFoundException {
+    public void convert(int id, Product product, int productQuantity, Industry industry, int employees, String city,
+                        String country) throws DataNotFoundException {
         var lead = leadRepository.findById(id);
         int maxIdAccount = accountRepository.getMaxAccountId();
-        var contactToSave = new Contact(contactRepository.getMaxContactId(), lead.getName(), lead.getPhoneNumber(), lead.getEmail());
+        var contactToSave = new Contact(contactRepository.getMaxContactId(), lead.getName(), lead.getPhoneNumber(),
+                lead.getEmail());
         var contactList = List.of(contactToSave);
-        var opportunityList = List.of(new Opportunity(opportunityRepository.getMaxOpportunityId(), contactToSave, Status.OPEN, product, productQuantity));
+        var opportunityList = List.of(new Opportunity(opportunityRepository.getMaxOpportunityId(), contactToSave,
+                Status.OPEN, product, productQuantity));
         var accountToSave = new Account(maxIdAccount, industry, employees, city, country, contactList, opportunityList);
         accountRepository.saveAccount(accountToSave);
         leadRepository.deleteLead(id);
@@ -88,6 +91,5 @@ public class LeadService {
             throw new EmptyException();
         }
     }
-
 
 }

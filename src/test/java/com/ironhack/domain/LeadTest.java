@@ -4,21 +4,19 @@ import org.junit.jupiter.api.*;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class LeadTest {
 
-    private List <Lead> leads;
+    private List<Lead> leads;
     private Lead lead;
 
     @DisplayName("Adding instances of Leads ")
     @BeforeEach
     void setUp() {
         leads = List.of(
-                new Lead(1, "Arthur Schopenhauer", "555-000-999", "arthurito@fantasymail.com", "The world like representation" ),
-                new Lead(2, "Erwin Schrodinger", "555-999-999", "ilovecats@fantasymail.com", "The box man" ),
-                new Lead(3, "Philo Farnsworth", "555-111-999", "iloveTV@fantasymail.com" , "Coffes and tvs")
-        );
+                new Lead(1, "Arthur Schopenhauer", "555-000-999", "arthurito@fantasymail.com",
+                        "The world like representation"),
+                new Lead(2, "Erwin Schrodinger", "555-999-999", "ilovecats@fantasymail.com", "The box man"),
+                new Lead(3, "Philo Farnsworth", "555-111-999", "iloveTV@fantasymail.com", "Coffes and tvs"));
     }
 
     @AfterEach
@@ -31,7 +29,7 @@ class LeadTest {
         lead = leads.get(0);
         Assertions.assertNotNull(lead);
         var idTest = 1;
-        Assertions.assertTrue(idTest == lead.getId());
+        Assertions.assertEquals(idTest, lead.getId());
     }
 
     @Test

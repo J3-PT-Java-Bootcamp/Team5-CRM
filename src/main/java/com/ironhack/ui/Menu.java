@@ -21,7 +21,6 @@ public class Menu implements ConsoleOperations {
     private final OpportunityService opportunityService;
     static ImageIcon teamIcon = new ImageIcon("Icons/team5logo.png");
 
-
     public Menu(LeadService leadService, OpportunityService opportunityService) {
         this.leadService = leadService;
         this.opportunityService = opportunityService;
@@ -32,42 +31,42 @@ public class Menu implements ConsoleOperations {
         do {
             var mainMenu = """
                     🤖 Welcome to CRM Manager 📚📖
-                    
-                    Available Operations:      
+
+                    Available Operations:
                     =====================
-                    
+
                     [new lead] -> create a new Lead
-                                        
+
                     [show leads] -> show all leads
-                                        
+
                     [lookup lead id] -> look up a lead by ID
-                                        
+
                     [convert id] -> convert a selected lead into a new Opportunity
-                                        
+
                     [show opportunities] -> show all available opportunities
-                                        
+
                     [lookup opportunity id] -> look up an opportunity by it's ID
-                                        
+
                     [open id] -> sets the opportunity status to open
-                                        
+
                     [close-lost id] -> sets the opportunity status to CLOSE / LOST
-                                        
+
                     [close-won id] -> sets the opportunity status to CLOSE / WON
 
                     [exit] - to Exit CRM
                     ====================
-                                        
+
                     When the command has 'id', replace it with the id of the lead or opportunity you want to work with
-                          
+
                     ====================
-              
-                    Write your COMMAND:                 
+
+                    Write your COMMAND:
                     """;
-            input = (String) JOptionPane.showInputDialog(null, mainMenu,"Team 5 - CRM", 3, teamIcon,null,null);
+            input = (String) JOptionPane.showInputDialog(null, mainMenu, "Team 5 - CRM", 3, teamIcon, null, null);
 
             var inputSplit = input.toLowerCase().split(" ");
 
-            try{
+            try {
                 switch (inputSplit[0]) {
                     case NEW -> newMenu(inputSplit);
                     case SHOW -> showMenu(inputSplit);
@@ -82,19 +81,21 @@ public class Menu implements ConsoleOperations {
                     }
                     default -> System.out.println("Command not recognized!");
                 }
-            } catch (WrongInputException E){
-                JOptionPane.showMessageDialog(null, "Command not recognized, please try again. 🤔 ","Not Found", 2);
+            } catch (WrongInputException E) {
+                JOptionPane.showMessageDialog(null, "Command not recognized, please try again. 🤔 ", "Not Found", 2);
             } catch (DataNotFoundException e) {
-                JOptionPane.showMessageDialog(null, "Data not found","Not Found", 2);
+                JOptionPane.showMessageDialog(null, "Data not found", "Not Found", 2);
             }
 
         } while (!input.equals("exit"));
     }
 
     // STATUS UPDATERS
-    //**********************************************************
+    // **********************************************************
 
-    /** This menu method is for setting the status of an opportunity to OPEN */
+    /**
+     * This menu method is for setting the status of an opportunity to OPEN
+     */
     private void openMenu(String[] inputSplit) throws WrongInputException, DataNotFoundException {
         if (inputSplit.length <= 1) {
             throw new WrongInputException();
@@ -102,10 +103,13 @@ public class Menu implements ConsoleOperations {
         int id = Integer.parseInt(inputSplit[1]);
 
         var opportunity = opportunityService.updateOpportunityStatus(id, Status.OPEN);
-        JOptionPane.showMessageDialog(null, "✏️ Opportunity Status is now 'OPEN': \n" + opportunity,"Status Update",1);
+        JOptionPane.showMessageDialog(null, "✏️ Opportunity Status is now 'OPEN': \n" + opportunity, "Status Update",
+                1);
     }
 
-    /** This menu method is for setting the status of an opportunity to CLOSE_LOST */
+    /**
+     * This menu method is for setting the status of an opportunity to CLOSE_LOST
+     */
     private void closeLostMenu(String[] inputSplit) throws WrongInputException, DataNotFoundException {
         if (inputSplit.length <= 1) {
             throw new WrongInputException();
@@ -113,10 +117,13 @@ public class Menu implements ConsoleOperations {
         int id = Integer.parseInt(inputSplit[1]);
 
         var opportunity = opportunityService.updateOpportunityStatus(id, Status.CLOSED_LOST);
-        JOptionPane.showMessageDialog(null, "🆑 Opportunity Status is now 'CLOSE_LOST': \n" + opportunity,"Status Update",1);
+        JOptionPane.showMessageDialog(null, "🆑 Opportunity Status is now 'CLOSE_LOST': \n" + opportunity,
+                "Status Update", 1);
     }
 
-    /** This menu method is for setting the status of an opportunity to CLOSE_WON */
+    /**
+     * This menu method is for setting the status of an opportunity to CLOSE_WON
+     */
     private void closeWonMenu(String[] inputSplit) throws WrongInputException, DataNotFoundException {
         if (inputSplit.length <= 1) {
             throw new WrongInputException();
@@ -124,16 +131,20 @@ public class Menu implements ConsoleOperations {
         int id = Integer.parseInt(inputSplit[1]);
 
         var opportunity = opportunityService.updateOpportunityStatus(id, Status.CLOSED_WON);
-        JOptionPane.showMessageDialog(null, "✅ Opportunity Status is now 'CLOSE_WON': \n" + opportunity,"Status Update",1);
+        JOptionPane.showMessageDialog(null, "✅ Opportunity Status is now 'CLOSE_WON': \n" + opportunity,
+                "Status Update", 1);
     }
 
     // 'LOOK UP' MENUS
-    //**********************************************************
+    // **********************************************************
 
-    /** This method is for selecting the "lookup menu" desired by the user according to user's input */
+    /**
+     * This method is for selecting the "lookup menu" desired by the user according
+     * to user's input
+     */
     private void lookupMenu(String[] inputSplit) throws WrongInputException {
         if (inputSplit.length <= 2) {
-           throw new WrongInputException();
+            throw new WrongInputException();
         }
 
         int id = Integer.parseInt(inputSplit[2]);
@@ -144,33 +155,41 @@ public class Menu implements ConsoleOperations {
         }
     }
 
-    /** This method handles the 'lookup opportunity' menu */
+    /**
+     * This method handles the 'lookup opportunity' menu
+     */
     private void lookUpOpportunity(int id) {
         try {
-            JOptionPane.showMessageDialog(null, opportunityService.lookUpOpportunity(id),"Opportunities "+id, 1);
+            JOptionPane.showMessageDialog(null, opportunityService.lookUpOpportunity(id), "Opportunities " + id, 1);
         } catch (DataNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "Opportunity with ID " + id + " was not found in the Database!","Not Found", 2);
+            JOptionPane.showMessageDialog(null, "Opportunity with ID " + id + " was not found in the Database!",
+                    "Not Found", 2);
         } catch (EmptyException e) {
-            JOptionPane.showMessageDialog(null, "No Opportunities in the database!","Not Found", 2);
+            JOptionPane.showMessageDialog(null, "No Opportunities in the database!", "Not Found", 2);
         }
     }
 
-    /** This method handles the 'lookup leads' menu */
+    /**
+     * This method handles the 'lookup leads' menu
+     */
     private void lookUpLead(int id) {
         try {
-            JOptionPane.showMessageDialog(null, leadService.lookUpLead(id),"Lead "+ id, 1);
+            JOptionPane.showMessageDialog(null, leadService.lookUpLead(id), "Lead " + id, 1);
         } catch (EmptyException e) {
-            JOptionPane.showMessageDialog(null, "No leads in Database!","Not Found", 2);
+            JOptionPane.showMessageDialog(null, "No leads in Database!", "Not Found", 2);
         } catch (DataNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "The Lead with ID " + id + " was not found in the database!","Not Found", 2);
+            JOptionPane.showMessageDialog(null, "The Lead with ID " + id + " was not found in the database!",
+                    "Not Found", 2);
         }
     }
 
-
     // 'SHOW' MENUS
-    //**********************************************************
+    // **********************************************************
 
-    /** This method is for selecting the "show menu" desired by the user according to user's input */
+    /**
+     * This method is for selecting the "show menu" desired by the user according to
+     * user's input
+     */
     private void showMenu(String[] inputSplit) throws WrongInputException {
         if (inputSplit.length <= 1) {
             throw new WrongInputException();
@@ -178,10 +197,13 @@ public class Menu implements ConsoleOperations {
         switch (inputSplit[1]) {
             case ConsoleOperationEntities.LEADS -> showLeads();
             case ConsoleOperationEntities.OPPORTUNITIES -> showOpportunities();
-            default -> throw new WrongInputException();  }
+            default -> throw new WrongInputException();
+        }
     }
 
-    /** This method handles the 'show leads' menu */
+    /**
+     * This method handles the 'show leads' menu
+     */
     private void showLeads() {
         try {
             var leads = leadService.getAllLeads();
@@ -190,9 +212,9 @@ public class Menu implements ConsoleOperations {
             for (var lead : leads) {
                 output += lead + "\n";
             }
-            JOptionPane.showMessageDialog(null, output, "Leads in Database",1);
+            JOptionPane.showMessageDialog(null, output, "Leads in Database", 1);
         } catch (EmptyException e) {
-            JOptionPane.showMessageDialog(null, "No Leads in Database!","Not Found", 2);
+            JOptionPane.showMessageDialog(null, "No Leads in Database!", "Not Found", 2);
         }
     }
 
@@ -206,13 +228,12 @@ public class Menu implements ConsoleOperations {
             }
             JOptionPane.showMessageDialog(null, output, "Opportunites in Database", 1);
         } catch (EmptyException e) {
-            JOptionPane.showMessageDialog(null, "No Opportunities in the Database!","Not Found", 2);
+            JOptionPane.showMessageDialog(null, "No Opportunities in the Database!", "Not Found", 2);
         }
     }
 
-
     // CONVERT MENUS
-    //**********************************************************
+    // **********************************************************
     private void convertMenu(String[] inputSplit) throws WrongInputException, AbortedException {
         if (inputSplit.length <= 1) {
             throw new WrongInputException();
@@ -227,19 +248,20 @@ public class Menu implements ConsoleOperations {
             int employees = Integer.parseInt((String) getValues("Number of employees?").get(0));
             String city = (String) getValues("City?").get(0);
             String country = (String) getValues("Country?").get(0);
-            leadService.convert(id, product, productQty, industry, employees, city, country);
+            leadService.convert(leadFound.getId(), product, productQty, industry, employees, city, country);
 
             JOptionPane.showMessageDialog(null, "Lead Succesfully converted");
 
         } catch (EmptyException e) {
-            JOptionPane.showMessageDialog(null, "No leads in Database!","Not Found", 2);
+            JOptionPane.showMessageDialog(null, "No leads in Database!", "Not Found", 2);
         } catch (DataNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "The Lead with ID " + id + " was not found in the database!","Not Found", 2);
+            JOptionPane.showMessageDialog(null, "The Lead with ID " + id + " was not found in the database!",
+                    "Not Found", 2);
         }
     }
 
     // 'NEW' MENUS
-    //**********************************************************
+    // **********************************************************
     private void newMenu(String[] inputSplit) throws WrongInputException {
         if (inputSplit.length <= 1) {
             throw new WrongInputException();
@@ -247,24 +269,24 @@ public class Menu implements ConsoleOperations {
         switch (inputSplit[1]) {
             case ConsoleOperationEntities.LEAD -> {
                 List<Object> values = getValues("Name :\n", "Phone number : \n", "Email : \n", "Company : ");
-                Lead lead = leadService.newLead((String) values.get(0), (String) values.get(1), (String) values.get(2), (String) values.get(3));
+                Lead lead = leadService.newLead((String) values.get(0), (String) values.get(1), (String) values.get(2),
+                        (String) values.get(3));
                 JOptionPane.showMessageDialog(null, "Lead Successfully added: \n" + lead);
             }
             default -> throw new WrongInputException();
         }
     }
 
-
     // OTHER MENUS METHODS
-    //**********************************************************
+    // **********************************************************
 
-
-    //******************* USING VARARGS FOR REUSING METHODS
+    // ******************* USING VARARGS FOR REUSING METHODS
     public static List<Object> getValues(Object... values) throws WrongInputException {
         List<Object> value = new ArrayList<>();
         for (var i : values) {
             try {
-                value.add(JOptionPane.showInputDialog(null,i,"Input",JOptionPane.QUESTION_MESSAGE,teamIcon,null,null));
+                value.add(JOptionPane.showInputDialog(null, i, "Input", JOptionPane.QUESTION_MESSAGE, teamIcon, null,
+                        null));
             } catch (Exception e) {
                 throw new WrongInputException("1");
             }
@@ -272,14 +294,16 @@ public class Menu implements ConsoleOperations {
         return value;
     }
 
-    /** Opens a dropsdown menu that gives the user the options to select a status
-     * This method returns a status accordingly to users selection*/
+    /**
+     * Opens a dropsdown menu that gives the user the options to select a status
+     * This method returns a status accordingly to users selection
+     */
     public Status getStatus() throws AbortedException {
 
         String status;
         // These are the options for the dropdown menu
-        String[] options = {OPEN, CLOSE_WON, CLOSE_LOST };
-        //this is the message displayed on the window with the dropdown menu
+        String[] options = {OPEN, CLOSE_WON, CLOSE_LOST};
+        // this is the message displayed on the window with the dropdown menu
         String message = "Please select status to set new status";
 
         // opens a dropdown menu
@@ -290,8 +314,7 @@ public class Menu implements ConsoleOperations {
                 JOptionPane.QUESTION_MESSAGE,
                 teamIcon,
                 options,
-                "---"
-                );
+                "---");
 
         // logic
         switch (status) {
@@ -301,22 +324,24 @@ public class Menu implements ConsoleOperations {
             case OPEN -> {
                 return Status.OPEN;
             }
-            case CLOSE_WON-> {
+            case CLOSE_WON -> {
                 return Status.CLOSED_WON;
             }
             default -> throw new AbortedException();
         }
     }
 
-    /** Opens a dropsdown menu that gives the user the options to select a product
-     * This method returns a product accordingly to users selection*/
+    /**
+     * Opens a dropsdown menu that gives the user the options to select a product
+     * This method returns a product accordingly to users selection
+     */
     public Product getProduct() throws AbortedException {
 
         String product;
-        //these are the options for the dropdown menu
-        String[] options = {HYBRID, FLATBED, BOX };
+        // these are the options for the dropdown menu
+        String[] options = {HYBRID, FLATBED, BOX};
 
-        //this is the message displayed on the window with the dropdown menu
+        // this is the message displayed on the window with the dropdown menu
         String message = "Please select a product";
 
         // opens a dropdown menu
@@ -327,10 +352,9 @@ public class Menu implements ConsoleOperations {
                 JOptionPane.QUESTION_MESSAGE,
                 teamIcon,
                 options,
-                "Select"
-        );
+                "Select");
 
-        //Logic:
+        // Logic:
         switch (product) {
             case HYBRID -> {
                 return Product.HYBRID;
@@ -345,14 +369,17 @@ public class Menu implements ConsoleOperations {
 
         }
     }
-    /** Opens a dropsdown menu that gives the user the options to select an industry
-     * This method returns an industry accordingly to users selection*/
+
+    /**
+     * Opens a dropsdown menu that gives the user the options to select an industry
+     * This method returns an industry accordingly to users selection
+     */
     public Industry getIndustry() throws AbortedException {
         String industry;
 
-        //these are the options for the dropdown menu
-        String[] options = {PRODUCE, ECOMMERCE, MANUFACTURING,MEDICAL,OTHER};
-        //this is the message displayed on the window with the dropdown menu
+        // these are the options for the dropdown menu
+        String[] options = {PRODUCE, ECOMMERCE, MANUFACTURING, MEDICAL, OTHER};
+        // this is the message displayed on the window with the dropdown menu
         String message = "Please select a product";
 
         // opens a dropdown menu
@@ -363,10 +390,9 @@ public class Menu implements ConsoleOperations {
                 JOptionPane.QUESTION_MESSAGE,
                 teamIcon,
                 options,
-                "---"
-        );
+                "---");
 
-        //Logic:
+        // Logic:
         switch (industry) {
             case PRODUCE -> {
                 return Industry.PRODUCE;

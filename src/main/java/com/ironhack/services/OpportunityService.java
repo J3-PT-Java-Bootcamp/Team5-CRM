@@ -20,7 +20,7 @@ public class OpportunityService {
     }
 
     public static OpportunityService getInstance(OpportunityRepository opportunityRepository) {
-        if(instance == null) {
+        if (instance == null) {
             instance = new OpportunityService(opportunityRepository);
         }
         return instance;
@@ -29,7 +29,9 @@ public class OpportunityService {
     //* METHODS
     //**********************************************
 
-    /** shows all Opportunities stored in the database or gives information if there are no Opportunities in the Database */
+    /**
+     * shows all Opportunities stored in the database or gives information if there are no Opportunities in the Database
+     */
     public List<Opportunity> getAllOpportunities() throws EmptyException {
         var opportunities = opportunityRepository.getAllOpportunities();
         if (opportunities.size() == 0) {
@@ -39,7 +41,9 @@ public class OpportunityService {
         }
     }
 
-    /** shows requested opportunity by ID or gives information if the Opportunity doesn't exist in the Database */
+    /**
+     * shows requested opportunity by ID or gives information if the Opportunity doesn't exist in the Database
+     */
     public Opportunity lookUpOpportunity(int id) throws DataNotFoundException, EmptyException {
         if (opportunityRepository.getAllOpportunities().size() == 0) {
             throw new EmptyException();

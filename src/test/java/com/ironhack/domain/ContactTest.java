@@ -4,21 +4,18 @@ import org.junit.jupiter.api.*;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ContactTest {
 
-    private List <Contact> contacts;
+    private List<Contact> contacts;
     private Contact testContact;
 
     @DisplayName("Adding instances of Contacts ")
     @BeforeEach
     void setUp() {
         contacts = List.of(
-                new Contact(1, "Arthur Schopenhauer", "555-000-999", "arthurito@fantasymail.com" ),
-                new Contact(2, "Erwin Schrodinger", "555-999-999", "ilovecats@fantasymail.com" ),
-                new Contact(3, "Philo Farnsworth", "555-111-999", "iloveTV@fantasymail.com" )
-        );
+                new Contact(1, "Arthur Schopenhauer", "555-000-999", "arthurito@fantasymail.com"),
+                new Contact(2, "Erwin Schrodinger", "555-999-999", "ilovecats@fantasymail.com"),
+                new Contact(3, "Philo Farnsworth", "555-111-999", "iloveTV@fantasymail.com"));
     }
 
     @AfterEach
@@ -31,7 +28,7 @@ class ContactTest {
         testContact = contacts.get(0);
         Assertions.assertNotNull(testContact);
         var idTest = 1;
-        Assertions.assertTrue(idTest == testContact.getId());
+        Assertions.assertEquals(idTest, testContact.getId());
     }
 
     @Test

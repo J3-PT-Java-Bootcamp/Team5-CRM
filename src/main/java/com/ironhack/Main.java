@@ -17,8 +17,8 @@ public class Main {
 
         FlatLightLaf.setup();
 
-//      Datasource datasource = InMemoryDatasource.getInstance();
-//      Uncomment this line to use json instead of memory
+        // Datasource datasource = InMemoryDatasource.getInstance();
+        // Uncomment this line to use json instead of memory
 
         Datasource datasource = JsonDatasource.getInstance();
         OpportunityRepository opportunityRepository = OpportunityRepository.getInstance(datasource);
@@ -26,8 +26,8 @@ public class Main {
         AccountRepository accountRepository = AccountRepository.getInstance(datasource);
         LeadRepository leadRepository = LeadRepository.getInstance(datasource);
         ContactRepository contactRepository = ContactRepository.getInstance(datasource);
-        LeadService leadService = LeadService.getInstance(leadRepository, contactRepository, accountRepository, opportunityRepository);
-
+        LeadService leadService = LeadService.getInstance(leadRepository, contactRepository, accountRepository,
+                opportunityRepository);
 
         Menu menu = new Menu(leadService, opportunityService);
         menu.main();
