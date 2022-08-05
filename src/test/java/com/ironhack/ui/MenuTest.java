@@ -39,7 +39,7 @@ class MenuTest {
     }
 
     @Test
-    void getStatus_open() {
+    void getStatus_open() throws AbortedException {
         //select open on the menu
 
         var testStatus = menu.getStatus();
@@ -47,7 +47,7 @@ class MenuTest {
         assertEquals(Status.OPEN,testStatus);
     }
     @Test
-    void getStatus_close_won() {
+    void getStatus_close_won() throws AbortedException {
         // select closed_won on the menu
 
         var testStatus = menu.getStatus();
@@ -56,7 +56,7 @@ class MenuTest {
 
     }
     @Test
-    void getStatus_close_lost() {
+    void getStatus_close_lost() throws AbortedException {
         // select closed_lost on the menu
 
         var testStatus = menu.getStatus();
