@@ -17,9 +17,9 @@ public class Main {
 
         FlatLightLaf.setup();
 
-//        Datasource datasource = InMemoryDatasource.getInstance();
+//      Datasource datasource = InMemoryDatasource.getInstance();
+//      Uncomment this line to use json instead of memory
 
-        // Uncomment this line to use json instead of memory
         Datasource datasource = JsonDatasource.getInstance();
         OpportunityRepository opportunityRepository = OpportunityRepository.getInstance(datasource);
         OpportunityService opportunityService = OpportunityService.getInstance(opportunityRepository);
