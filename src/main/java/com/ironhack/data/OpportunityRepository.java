@@ -66,7 +66,7 @@ public class OpportunityRepository {
 
         Account foundAccount = null;
         for (Account account : accounts) {
-            if (account.getOpportunityList().contains(opportunity)) {
+            if(account.getOpportunityList().contains(opportunity)) {
                 foundAccount = account;
                 break;
             }

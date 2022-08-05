@@ -11,10 +11,9 @@ public class AccountTest {
 
     private List <Account> account;
     private List <Contact> contacts;
-    private List <Opportunity> opportunities;
 
 
-        @BeforeEach
+    @BeforeEach
         @DisplayName("Starting the object for the test")
         void setUp() {
 
@@ -24,11 +23,11 @@ public class AccountTest {
                     new Contact(3, "Philo Farnsworth", "555-111-999", "iloveTV@fantasymail.com" )
             );
 
-            opportunities = List.of(
-                    new Opportunity(1, contacts.get(0), Status.OPEN, Product.HYBRID, 5),
-                    new Opportunity(2, contacts.get(1), Status.CLOSED_LOST, Product.FLATBED, 9),
-                    new Opportunity(3, contacts.get(2), Status.CLOSED_WON, Product.BOX, 15)
-            );
+        List<Opportunity> opportunities = List.of(
+                new Opportunity(1, contacts.get(0), Status.OPEN, Product.HYBRID, 5),
+                new Opportunity(2, contacts.get(1), Status.CLOSED_LOST, Product.FLATBED, 9),
+                new Opportunity(3, contacts.get(2), Status.CLOSED_WON, Product.BOX, 15)
+        );
 
             account = List.of(
                     new Account(1, Industry.ECOMMERCE, 741, "Barcelona", "Spain", contacts, opportunities),
@@ -66,7 +65,7 @@ public class AccountTest {
             var accountTest = account.get(1).getIndustry();
             var example = Industry.MANUFACTURING;
             Assertions.assertNotNull(accountTest);
-            Assertions.assertTrue(example == accountTest);
+            Assertions.assertSame(example, accountTest);
         }
 
         @Test
@@ -83,7 +82,7 @@ public class AccountTest {
         void getEmployeesCount() {
             var realCount = 1089;
             var accountTest = account.get(2).getEmployeesCount();
-            Assertions.assertTrue(realCount == accountTest);
+            Assertions.assertEquals(realCount, accountTest);
         }
 
         @Test
@@ -111,7 +110,7 @@ public class AccountTest {
             accountTest.setCity("Madrid");
             var city = "Madrid";
             Assertions.assertNotNull(accountTest);
-            Assertions.assertTrue(city.equals(accountTest.getCity()));
+            Assertions.assertEquals(city, accountTest.getCity());
         }
 
         @Test
@@ -136,8 +135,7 @@ public class AccountTest {
         void getContactList() {
             boolean isEmpty = false;
             for(var h : account.get(0).getContactList()){
-                var x = h;
-                if(x == null){
+                if(h == null){
                     isEmpty = true;
                     break;
                 }
@@ -158,10 +156,7 @@ public class AccountTest {
         void getOpportunityList() {
             var oportTest = account.get(1).getOpportunityList();
             var checkProd = oportTest.get(0);
-            boolean response = false;
-            if(account.get(1).getOpportunityList().contains(checkProd)){
-                response = true;
-            }
+            boolean response = account.get(1).getOpportunityList().contains(checkProd);
             Assertions.assertTrue(response);
         }
 
@@ -174,7 +169,7 @@ public class AccountTest {
             );
             account.get(0).setOpportunityList(testing);
 
-            Assertions.assertTrue( 99 == account.get(0).getOpportunityList().get(1).getId());
+            Assertions.assertEquals(99, account.get(0).getOpportunityList().get(1).getId());
         }
 
 }

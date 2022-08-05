@@ -1,11 +1,9 @@
 package com.ironhack.services;
 
 import com.ironhack.services.exceptions.EmptyException;
-import com.ironhack.data.AccountRepository;
 import com.ironhack.data.ContactRepository;
 import com.ironhack.data.LeadRepository;
 import com.ironhack.data.OpportunityRepository;
-import com.ironhack.data.datasources.impl.InMemoryDatasource;
 import com.ironhack.data.exceptions.DataNotFoundException;
 import com.ironhack.domain.Account;
 import com.ironhack.domain.Contact;
@@ -51,8 +49,6 @@ public class LeadService {
 
     /**
      * Method that converts a lead into an opportunity, a contact and both into an account
-     * TODO: maybe this service will require the account repository, cause even if it creates an opportunity and a contact, both are stored inside an account
-     *
      * @param leadId
      */
     public Account convert(int leadId, Product product, int productQuantity, Industry industry, int employees, String city, String country) throws DataNotFoundException {

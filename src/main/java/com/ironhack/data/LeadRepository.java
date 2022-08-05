@@ -37,7 +37,8 @@ public class LeadRepository {
             }
         }
 
-        if(leadFound == null) throw new DataNotFoundException();
+        if (leadFound == null)
+            throw new DataNotFoundException();
 
         return leadFound;
     }
