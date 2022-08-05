@@ -2,7 +2,7 @@ package com.ironhack.data.datasources.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import com.ironhack.data.datasources.Datasource;
+import com.ironhack.data.Datasource;
 import com.ironhack.domain.Account;
 import com.ironhack.domain.Contact;
 import com.ironhack.domain.Lead;

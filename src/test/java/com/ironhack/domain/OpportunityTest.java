@@ -60,7 +60,7 @@ class OpportunityTest {
         testing = opportunities.get(2);
         Assertions.assertNotNull(testing);
         Contact cont = testing.getDecisionMaker();
-        Assertions.assertTrue(cont.equals(testing));
+        Assertions.assertTrue(cont.toString().equals(testing.getDecisionMaker().toString()));
     }
 
     @Test
@@ -98,7 +98,7 @@ class OpportunityTest {
         testing = opportunities.get(0);
         var example = Product.HYBRID;
         Assertions.assertNotNull(testing);
-        Assertions.assertEquals(example, testing.getStatus());
+        Assertions.assertEquals(example, testing.getProduct());
     }
 
     @Test

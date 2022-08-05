@@ -7,7 +7,7 @@ import com.ironhack.data.AccountRepository;
 import com.ironhack.data.ContactRepository;
 import com.ironhack.data.LeadRepository;
 import com.ironhack.data.OpportunityRepository;
-import com.ironhack.data.datasources.Datasource;
+import com.ironhack.data.Datasource;
 import com.ironhack.data.datasources.impl.JsonDatasource;
 import com.ironhack.ui.Menu;
 

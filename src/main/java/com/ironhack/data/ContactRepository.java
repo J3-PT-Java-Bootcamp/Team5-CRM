@@ -1,6 +1,6 @@
 package com.ironhack.data;
 
-import com.ironhack.data.datasources.Datasource;
+import com.ironhack.data.Datasource;
 
 public class ContactRepository {
 
