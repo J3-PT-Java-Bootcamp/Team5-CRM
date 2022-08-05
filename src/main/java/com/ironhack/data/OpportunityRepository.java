@@ -66,7 +66,7 @@ public class OpportunityRepository {
 
         Account foundAccount = null;
         for (Account account : accounts) {
-            if (account.getOpportunityList().contains(opportunity)) {
+            if(account.getOpportunityList().contains(opportunity)) {
                 foundAccount = account;
                 break;
             }
@@ -85,8 +85,11 @@ public class OpportunityRepository {
             }
             if (idFound == -1)
                 throw new DataNotFoundException();
-            foundAccount.getOpportunityList().remove(idFound);
-            foundAccount.getOpportunityList().add(opportunity);
+            List<Opportunity> opportunities = new ArrayList<>();
+            opportunities.addAll(foundAccount.getOpportunityList());
+            opportunities.remove(idFound);
+            opportunities.add(opportunity);
+            foundAccount.setOpportunityList(opportunities);
             datasource.saveAccount(foundAccount);
         }
 

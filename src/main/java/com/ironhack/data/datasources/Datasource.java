@@ -13,12 +13,16 @@ public interface Datasource {
 
     List<Lead> getAllLeads();
 
+    void deleteAllLeads();
+
     int getMaxLeadId();
 
     // Json de Accounts
     void saveAccount(Account account);
 
     List<Account> getAllAccounts();
+
+    void deleteAllAccounts();
 
     int getMaxAccountId();
 
