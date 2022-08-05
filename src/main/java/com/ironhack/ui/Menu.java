@@ -8,29 +8,34 @@ import com.ironhack.domain.Lead;
 import com.ironhack.domain.enums.Industry;
 import com.ironhack.domain.enums.Product;
 import com.ironhack.domain.enums.Status;
+import com.ironhack.ui.exceptions.AbortedException;
 import com.ironhack.ui.exceptions.WrongInputException;
 
 import javax.swing.*;
 import java.util.*;
+import java.util.List;
 
 public class Menu implements ConsoleOperations {
 
     private final LeadService leadService;
     private final OpportunityService opportunityService;
+    static ImageIcon teamIcon = new ImageIcon("Icons/team5logo.png");
+
 
     public Menu(LeadService leadService, OpportunityService opportunityService) {
         this.leadService = leadService;
         this.opportunityService = opportunityService;
     }
 
-    public void main() throws WrongInputException {
+    public void main() throws WrongInputException, AbortedException {
         String input;
         do {
             var mainMenu = """
-                    Welcome to CRM Manager
-                    Available Operations
-                                     
-                    ===============
+                    🤖 Welcome to CRM Manager 📚📖
+                    
+                    Available Operations:      
+                    =====================
+                    
                     [new lead] -> create a new Lead
                                         
                     [show leads] -> show all leads
@@ -50,14 +55,16 @@ public class Menu implements ConsoleOperations {
                     [close-won id] -> sets the opportunity status to CLOSE / WON
 
                     [exit] - to Exit CRM
-                    ===============
+                    ====================
                                         
-                    When the command has 'id', replace it with the one of the lead/opportunity you want to work with
-                                        
-                    Write your COMMAND:
-                                        
+                    When the command has 'id', replace it with the id of the lead or opportunity you want to work with
+                          
+                    ====================
+              
+                    Write your COMMAND:                 
                     """;
-            input = JOptionPane.showInputDialog(null, mainMenu,"Team 5 - CRM", 3).trim().toLowerCase();
+            input = (String) JOptionPane.showInputDialog(null, mainMenu,"Team 5 - CRM", 3, teamIcon,null,null);
+
             var inputSplit = input.split(" ");
 
             try{
@@ -206,7 +213,7 @@ public class Menu implements ConsoleOperations {
 
     // CONVERT MENUS
     //**********************************************************
-    private void convertMenu(String[] inputSplit) throws WrongInputException {
+    private void convertMenu(String[] inputSplit) throws WrongInputException, AbortedException {
         if (inputSplit.length <= 1) {
             throw new WrongInputException();
         }
@@ -257,7 +264,7 @@ public class Menu implements ConsoleOperations {
         List<Object> value = new ArrayList<>();
         for (var i : values) {
             try {  // --> dont work, check
-                value.add(JOptionPane.showInputDialog(i).trim().toLowerCase());
+                value.add(JOptionPane.showInputDialog(null,i,"Input",JOptionPane.QUESTION_MESSAGE,teamIcon,null,null));
             } catch (Exception e) {
                 throw new WrongInputException("1");
             }
@@ -265,85 +272,118 @@ public class Menu implements ConsoleOperations {
         return value;
     }
 
-    // ***************************   ENUMS
-    public Status getStats() {
-        String stats;
+    /** Opens a dropsdown menu that gives the user the options to select a status
+     * This method returns a status accordingly to users selection*/
+    public Status getStatus() throws AbortedException {
 
-        String message = "Status client commands  -> \n" + "'open' for 'OPEN'\n" + "'close-lost' for 'CLOSE/LOSE'\n" + "'close-won' for 'CLOSE/WON'\n" + "'exit' for abort";
-        stats = JOptionPane.showInputDialog(message).trim().toLowerCase();
+        String status;
+        // These are the options for the dropdown menu
+        String[] options = {OPEN, CLOSE_WON, CLOSE_LOST };
+        //this is the message displayed on the window with the dropdown menu
+        String message = "Please select status to set new status";
 
-        switch (stats) {
+        // opens a dropdown menu
+        status = (String) JOptionPane.showInputDialog(
+                null,
+                message,
+                "Status Update",
+                JOptionPane.QUESTION_MESSAGE,
+                teamIcon,
+                options,
+                "---"
+                );
+
+        // logic
+        switch (status) {
             case CLOSE_LOST -> {
                 return Status.CLOSED_LOST;
             }
             case OPEN -> {
                 return Status.OPEN;
             }
-            case CLOSE_WON -> {
+            case CLOSE_WON-> {
                 return Status.CLOSED_WON;
             }
-            default -> JOptionPane.showMessageDialog(null, "Only a real status");
+            default -> throw new AbortedException();
         }
-        return null;
     }
 
-    public Product getProduct() {
+    /** Opens a dropsdown menu that gives the user the options to select a product
+     * This method returns a product accordingly to users selection*/
+    public Product getProduct() throws AbortedException {
+
         String product;
-        String message = "Stock Products : \n\n 'Hybrid' \n 'Flatbed' \n 'Box' \n";
+        //these are the options for the dropdown menu
+        String[] options = {HYBRID, FLATBED, BOX };
 
-        product = JOptionPane.showInputDialog(message).trim().toLowerCase();
-//        GraphicsController controller = new GraphicsController();
-//        ProductsGraphics pro = new ProductsGraphics();
-//
-//        pro.setContro(controller);
-//        controller.setProd(pro);
-//
-//        String product = controller.getValue();
+        //this is the message displayed on the window with the dropdown menu
+        String message = "Please select a product";
 
-        System.out.println(product);
+        // opens a dropdown menu
+        product = (String) JOptionPane.showInputDialog(
+                null,
+                message,
+                "Status Update",
+                JOptionPane.QUESTION_MESSAGE,
+                teamIcon,
+                options,
+                "Select"
+        );
+
+        //Logic:
         switch (product) {
-            case "hybrid" -> {
+            case HYBRID -> {
                 return Product.HYBRID;
             }
-            case "flatbed" -> {
+            case FLATBED -> {
                 return Product.FLATBED;
             }
-            case "box" -> {
+            case BOX -> {
                 return Product.BOX;
             }
-            default -> JOptionPane.showMessageDialog(null, "Only existents products");
+            default -> throw new AbortedException();
+
         }
-        return null;
-
     }
-
-    public Industry getIndustry() {
+    /** Opens a dropsdown menu that gives the user the options to select an industry
+     * This method returns an industry accordingly to users selection*/
+    public Industry getIndustry() throws AbortedException {
         String industry;
-        String message = "Type of Industry : \n\n 'Produce'\n 'Ecommerce'\n 'Manufacturing'\n 'Medical'\n 'Other'\n";
-        industry = JOptionPane.showInputDialog(message).trim().toLowerCase();
 
+        //these are the options for the dropdown menu
+        String[] options = {PRODUCE, ECOMMERCE, MANUFACTURING,MEDICAL,OTHER};
+        //this is the message displayed on the window with the dropdown menu
+        String message = "Please select a product";
+
+        // opens a dropdown menu
+        industry = (String) JOptionPane.showInputDialog(
+                null,
+                message,
+                "Status Update",
+                JOptionPane.QUESTION_MESSAGE,
+                teamIcon,
+                options,
+                "---"
+        );
+
+        //Logic:
         switch (industry) {
-            case "produce" -> {
+            case PRODUCE -> {
                 return Industry.PRODUCE;
             }
-            case "ecommerce" -> {
+            case ECOMMERCE -> {
                 return Industry.ECOMMERCE;
             }
-            case "manufacturing" -> {
+            case MANUFACTURING -> {
                 return Industry.MANUFACTURING;
             }
-            case "medical" -> {
+            case MEDICAL -> {
                 return Industry.MEDICAL;
             }
-            case "other" -> {
+            case OTHER -> {
                 return Industry.OTHER;
             }
-            default -> JOptionPane.showInputDialog("Only existents Industry options");
-
+            default -> throw new AbortedException();
         }
-        return null;
-
     }
-
-
 }
