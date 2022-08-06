@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface Datasource {
     // Json de Leads
-    void saveLead(Lead lead);
+    Lead saveLead(Lead lead);
 
     void deleteLead(Lead lead);
 
@@ -18,7 +18,7 @@ public interface Datasource {
     int getMaxLeadId();
 
     // Json de Accounts
-    void saveAccount(Account account);
+    Account saveAccount(Account account);
 
     List<Account> getAllAccounts();
 

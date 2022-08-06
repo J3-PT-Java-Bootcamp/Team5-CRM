@@ -15,26 +15,27 @@ public class InMemoryDatasource implements Datasource {
     private static final int ID_START = 0;
     static ArrayList<Lead> leadsList = new ArrayList<>();
     static ArrayList<Account> accountsList = new ArrayList<>();
+
     public static ArrayList<Lead> getLeadsList() {
         return leadsList;
     }
+
     public static ArrayList<Account> getAccountsList() {
         return accountsList;
     }
-
 
     private InMemoryDatasource() {
     }
 
     public static InMemoryDatasource getInstance() {
-        if(instance == null ) {
+        if (instance == null) {
             instance = new InMemoryDatasource();
         }
         return instance;
     }
 
     @Override
-    public void saveLead(Lead lead) {
+    public Lead saveLead(Lead lead) {
         boolean exists = false;
         for (var l : leadsList) {
             if (l.getId() == lead.getId()) {
@@ -45,6 +46,7 @@ public class InMemoryDatasource implements Datasource {
         if (!exists) {
             InMemoryDatasource.leadsList.add(lead);
         }
+        return lead;
     }
 
     @Override
@@ -64,19 +66,20 @@ public class InMemoryDatasource implements Datasource {
 
     @Override
     public int getMaxLeadId() {
-        if(leadsList.isEmpty()) {
+        if (leadsList.isEmpty()) {
             return ID_START;
-        }else{
+        } else {
             int maxId = ID_START;
             for (Lead lead : leadsList) {
-                if(maxId < lead.getId()) maxId = lead.getId();
+                if (maxId < lead.getId())
+                    maxId = lead.getId();
             }
             return maxId + 1;
         }
     }
 
     @Override
-    public void saveAccount(Account account) {
+    public Account saveAccount(Account account) {
         boolean exists = false;
         for (Account a : accountsList) {
             if (a.getId() == account.getId()) {
@@ -87,6 +90,7 @@ public class InMemoryDatasource implements Datasource {
         if (!exists) {
             InMemoryDatasource.accountsList.add(account);
         }
+        return account;
     }
 
     @Override
@@ -101,12 +105,13 @@ public class InMemoryDatasource implements Datasource {
 
     @Override
     public int getMaxAccountId() {
-        if(accountsList.isEmpty()) {
+        if (accountsList.isEmpty()) {
             return ID_START;
-        }else{
+        } else {
             int maxId = ID_START;
             for (Account account : accountsList) {
-                if(maxId < account.getId()) maxId = account.getId();
+                if (maxId < account.getId())
+                    maxId = account.getId();
             }
             return maxId + 1;
         }
@@ -114,13 +119,14 @@ public class InMemoryDatasource implements Datasource {
 
     @Override
     public int getMaxOpportunityId() {
-        if(accountsList.isEmpty()) {
+        if (accountsList.isEmpty()) {
             return ID_START;
-        }else{
+        } else {
             int maxId = ID_START;
             for (Account account : accountsList) {
                 for (Opportunity opportunity : account.getOpportunityList()) {
-                    if(maxId < opportunity.getId()) maxId = opportunity.getId();
+                    if (maxId < opportunity.getId())
+                        maxId = opportunity.getId();
                 }
             }
             return maxId + 1;
@@ -129,13 +135,14 @@ public class InMemoryDatasource implements Datasource {
 
     @Override
     public int getMaxContactId() {
-        if(accountsList.isEmpty()) {
+        if (accountsList.isEmpty()) {
             return ID_START;
-        }else{
+        } else {
             int maxId = ID_START;
             for (Account account : accountsList) {
                 for (Contact contact : account.getContactList()) {
-                    if(maxId < contact.getId()) maxId = contact.getId();
+                    if (maxId < contact.getId())
+                        maxId = contact.getId();
                 }
             }
             return maxId + 1;

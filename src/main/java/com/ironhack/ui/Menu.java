@@ -328,7 +328,7 @@ public class Menu implements ConsoleOperations {
 
         String status;
         // These are the options for the dropdown menu
-        String[] options = {OPEN, CLOSE_WON, CLOSE_LOST};
+        String[] options = { OPEN, CLOSE_WON, CLOSE_LOST };
         // this is the message displayed on the window with the dropdown menu
         String message = "Please select status to set new status";
 
@@ -365,7 +365,7 @@ public class Menu implements ConsoleOperations {
 
         String product;
         // these are the options for the dropdown menu
-        String[] options = {HYBRID, FLATBED, BOX};
+        String[] options = { HYBRID, FLATBED, BOX };
 
         // this is the message displayed on the window with the dropdown menu
         String message = "Please select a product";
@@ -374,7 +374,7 @@ public class Menu implements ConsoleOperations {
         product = (String) JOptionPane.showInputDialog(
                 null,
                 message,
-                "Status Update",
+                "Product",
                 JOptionPane.QUESTION_MESSAGE,
                 teamIcon,
                 options,
@@ -407,15 +407,15 @@ public class Menu implements ConsoleOperations {
         String industry;
 
         // these are the options for the dropdown menu
-        String[] options = {PRODUCE, ECOMMERCE, MANUFACTURING, MEDICAL, OTHER};
+        String[] options = { PRODUCE, ECOMMERCE, MANUFACTURING, MEDICAL, OTHER };
         // this is the message displayed on the window with the dropdown menu
-        String message = "Please select a product";
+        String message = "Please select an industry";
 
         // opens a dropdown menu
         industry = (String) JOptionPane.showInputDialog(
                 null,
                 message,
-                "Status Update",
+                "Industry",
                 JOptionPane.QUESTION_MESSAGE,
                 teamIcon,
                 options,

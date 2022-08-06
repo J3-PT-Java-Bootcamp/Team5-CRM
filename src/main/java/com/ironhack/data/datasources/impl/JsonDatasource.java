@@ -42,7 +42,7 @@ public class JsonDatasource implements Datasource {
     }
 
     @Override
-    public void saveLead(Lead lead) {
+    public Lead saveLead(Lead lead) {
         var leads = getAllLeads();
         if (leads != null && !leads.isEmpty()) {
             leads.removeIf(thisLead -> thisLead.getId() == lead.getId());
@@ -57,6 +57,7 @@ public class JsonDatasource implements Datasource {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return lead;
     }
 
     @Override
@@ -118,7 +119,7 @@ public class JsonDatasource implements Datasource {
     }
 
     @Override
-    public void saveAccount(Account account) {
+    public Account saveAccount(Account account) {
         List<Account> accounts = getAllAccounts();
         if (accounts != null && !accounts.isEmpty()) {
             accounts.removeIf(thisAccount -> thisAccount.getId() == account.getId());
@@ -133,6 +134,7 @@ public class JsonDatasource implements Datasource {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return account;
     }
 
     @Override
