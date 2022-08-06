@@ -33,7 +33,7 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#modelo1">Use Case Diagram</a></li>
     <li><a href="#modelo2">Class Diagram</a></li>
-    <li><a href="#modelo3">Arch Diagram</a></li>  
+    <li><a href="#modelo3">Arch Diagram</a></li>
   </ol>
 </details>
 
@@ -77,7 +77,7 @@
         <li>GitHub</li>
         <li>GitHub Projects Tools</li>
       </ul>
-    </li> 
+    </li>
   </ol>
 </details>
 
@@ -93,13 +93,17 @@
 
 ### Installation
 
-1. Clone the repo 
+1. Clone the repo
     ```sh
    git clone https://github.com/J3-PT-Java-Bootcamp/Team5-CRM/tree/master
    ```
-2. Install packages
+2. Install maven packages
 
-3. NEED HELP FUTHER THINGS ......
+3. Start the app
+
+4. ?????
+
+5. Profit
 
 <p align="right">(<a href="#top" >back to top</a>)</p>
 
