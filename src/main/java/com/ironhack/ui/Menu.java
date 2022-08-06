@@ -12,6 +12,7 @@ import com.ironhack.ui.exceptions.AbortedException;
 import com.ironhack.ui.exceptions.WrongInputException;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class Menu implements ConsoleOperations {
 
     public void main() throws WrongInputException, AbortedException {
         String input;
+
         do {
             var mainMenu = """
                     🤖💬 Welcome to    
@@ -82,11 +84,14 @@ public class Menu implements ConsoleOperations {
                     }
                     default -> System.out.println("Command not recognized!");
                 }
-            } catch (WrongInputException E) {
+            } catch (WrongInputException e) {
                 JOptionPane.showMessageDialog(null, "Command not recognized, please try again. 🤔 ", "Not Found", 2);
             } catch (DataNotFoundException e) {
                 JOptionPane.showMessageDialog(null, "Data not found", "Not Found", 2);
-            }
+            } catch (AbortedException a) {
+                JOptionPane.showMessageDialog(null, "Convert aborted", "Aborted", 2);
+        }
+
 
         } while (!input.equals("exit"));
     }
@@ -207,13 +212,23 @@ public class Menu implements ConsoleOperations {
      */
     private void showLeads() {
         try {
+            StringBuffer output = new StringBuffer();
+            output.append("Following Leads where found in the database: \n" );
+            output.append("************************************************\n\n" );
+
             var leads = leadService.getAllLeads();
-            String output = "Following Leads where found in the database:\n";
-            output += "************************************************      \n";
             for (var lead : leads) {
-                output += lead + "\n";
+                output.append(lead).append("\n");
             }
-            JOptionPane.showMessageDialog(null, output, "Leads in Database", 1);
+            JTextArea textArea = new JTextArea(String.valueOf(output));
+
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize( new Dimension( 500, 500 ) );
+
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
+
+            JOptionPane.showMessageDialog(null, scrollPane, "Leads in Database", 1,teamIcon);
         } catch (EmptyException e) {
             JOptionPane.showMessageDialog(null, "No Leads in Database!", "Not Found", 2);
         }
@@ -221,13 +236,23 @@ public class Menu implements ConsoleOperations {
 
     private void showOpportunities() {
         try {
+            StringBuffer output = new StringBuffer();
+            output.append("Following Opportunities where found in the database: \n" );
+            output.append("************************************************\n\n" );
+
             var opps = opportunityService.getAllOpportunities();
-            String output = "Following Opportunities where found in the Database: \n";
-            output += "********************************************************    \n";
             for (var opp : opps) {
-                output += opp.toString() + "\n";
+                output.append(opp.toString()).append("\n");
             }
-            JOptionPane.showMessageDialog(null, output, "Opportunites in Database", 1);
+            JTextArea textArea = new JTextArea(String.valueOf(output));
+
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize( new Dimension( 500, 500 ) );
+
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
+
+            JOptionPane.showMessageDialog(null, scrollPane, "Opportunities in Database", 1,teamIcon);
         } catch (EmptyException e) {
             JOptionPane.showMessageDialog(null, "No Opportunities in the Database!", "Not Found", 2);
         }
@@ -356,18 +381,21 @@ public class Menu implements ConsoleOperations {
                 "Select");
 
         // Logic:
-        switch (product) {
-            case HYBRID -> {
-                return Product.HYBRID;
+        try {
+            switch (product) {
+                case HYBRID -> {
+                    return Product.HYBRID;
+                }
+                case FLATBED -> {
+                    return Product.FLATBED;
+                }
+                case BOX -> {
+                    return Product.BOX;
+                }
+                default -> throw new AbortedException();
             }
-            case FLATBED -> {
-                return Product.FLATBED;
-            }
-            case BOX -> {
-                return Product.BOX;
-            }
-            default -> throw new AbortedException();
-
+        } catch (Exception e) {
+            throw new AbortedException();
         }
     }
 
