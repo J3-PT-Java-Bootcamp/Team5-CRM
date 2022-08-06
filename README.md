@@ -158,11 +158,50 @@ The use case show how a user could do it different opperations in the CRM, just 
 
 <h2 style="font-family : Courier New; font-size : 25px;" id="modelo2">Class Diagram</h2>
 
+### The Class in the Application are:
+
+#### Basic Instances
+
+- Account.
+- Contact.
+- Lead.
+- Opportunity.
+
+
+#### Enums
+
+- Industry.
+- Product.
+- Status.
+
 ![class diagram](docs/CRM-ClassDiagram.png)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <h2 style="font-family : Courier New; font-size : 25px;" id="modelo3">Arch Diagram</h2>
+
+#### Logic of Bussiness
+
+##### Services
+
+- Menu.
+- Opportunity Services.
+- Contact Repository.
+- Account Repository.
+- Lead Repository.
+- Opportunity Repository.
+
+
+##### Controllers
+
+- Lead Services.
+- Opportunity Services.
+
+##### Interfaces
+
+- DataSource.
+- JsonDataSource.
+- InMemoryDataSource.
 
 ![arch diagram](docs/CRM-ArchDiagram.png)
 
