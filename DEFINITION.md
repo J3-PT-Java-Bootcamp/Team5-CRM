@@ -31,8 +31,6 @@ Let’s walk through an actual use case:
 
     She wants to call Mike to check on the deal. Unfortunately, he says they have decided to buy from another truck company. Sara types “close-lost 24” and the CRM changes the status of opportunity 24 to “CLOSED-LOST”
 
-
-
 ## Input and Output
 
 For this assignment, you will need to use System.out.println() to print information to the user. You will also need to use the Scanner class to receive user input.
@@ -45,19 +43,19 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-    
+
         //Create a Scanner to collect user input
-    
+
         Scanner myScanner =newScanner(System.in);
-    
+
         // Get input from the user
-    
+
         System.out.println("Please enter your name");
-    
+
         String userInput = myScanner.nextLine();
-    
+
         System.out.println("Welcome "+ userInput);
-    
+
     }
 
 }
@@ -76,23 +74,23 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-    
+
         //Create a Scanner to collect user input
-    
+
         Scanner myScanner =newScanner(System.in);
-    
+
         // Get input from the user
-    
+
         System.out.println("Please enter your age");
-    
+
         String userInput = myScanner.nextLine();
-    
+
         // Convert the user input to a number
-    
+
         int userAge =Integer.parseInt(userInput);
-    
+
         System.out.println("You are "+ userAge +" years old.");
-    
+
     }
 
 }
@@ -111,23 +109,23 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-    
+
         //Create a Scanner to collect user input
-    
+
         Scanner myScanner =newScanner(System.in);
-    
+
         // Get input from the user
-    
+
         while (true){
-    
+
           System.out.println("Please enter your age");
-    
+
           String userInput = myScanner.nextLine();
-    
+
           //add some logic to here to determine what to do based on the userInput
-    
+
         }
-    
+
     }
 
 }
@@ -149,7 +147,8 @@ For this project you must accomplish all of the following:
     An individual Lead’s details can be displayed by typing “Lookup Lead id” (case insensitive) where “id” is the actual id of the Lead to lookup.
     A Lead can be converted to an Opportunity by typing “convert id” (case insensitive) where “id” is the actual id of the Lead to convert.
     When a Lead is converted, a Contact will be created with the Lead contact info and a new id.
-    When a Lead is converted, the user will be prompted for the product and the number of trucks for this Opportunity. A new Opportunity should be created with the above information and with the new Contact as the decisionMaker for the Opportunity and a status of “OPEN”. To recap, Opportunity should have the following properties:
+    When a Lead is converted, the user will be prompted for the product and the number of trucks for this Opportunity.
+    A new Opportunity should be created with the above information and with the new Contact as the decisionMaker for the Opportunity and a status of “OPEN”. To recap, Opportunity should have the following properties:
 
     id - a unique identifier
     product - an Enum with options HYBRID, FLATBED, or BOX
