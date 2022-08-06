@@ -30,30 +30,31 @@ public class Menu implements ConsoleOperations {
         String input;
         do {
             var mainMenu = """
-                    🤖 Welcome to CRM Manager 📚📖
+                    🤖💬 Welcome to    
+                    <html>  <h1> <b> Team 5 CRM </b> </h1> 
 
                     Available Operations:
                     =====================
 
-                    [new lead] -> create a new Lead
+                    <html> <b> [ new lead ] </b> -> create a new Lead
 
-                    [show leads] -> show all leads
+                    <html> <b> [ show leads ] </b> -> show all leads
 
-                    [lookup lead id] -> look up a lead by ID
+                    <html> <b> [ lookup lead id ] </b> -> look up a lead by ID
 
-                    [convert id] -> convert a selected lead into a new Opportunity
+                    <html> <b> [ convert id ] </b> -> convert a selected lead into a new Opportunity
 
-                    [show opportunities] -> show all available opportunities
+                    <html> <b> [ show opportunities ] </b> -> show all available opportunities
 
-                    [lookup opportunity id] -> look up an opportunity by it's ID
+                    <html> <b> [ lookup opportunity id ] </b> -> look up an opportunity by it's ID
 
-                    [open id] -> sets the opportunity status to open
+                    <html> <b> [ open id ]  </b> -> sets the opportunity status to open
 
-                    [close-lost id] -> sets the opportunity status to CLOSE / LOST
+                    <html> <b> [ close-lost id ] </b> -> sets the opportunity status to CLOSE / LOST
 
-                    [close-won id] -> sets the opportunity status to CLOSE / WON
+                    <html> <b> [ close-won id ] </b> -> sets the opportunity status to CLOSE / WON
 
-                    [exit] - to Exit CRM
+                    <html> <b> [ exit ] </b>  - to Exit CRM
                     ====================
 
                     When the command has 'id', replace it with the id of the lead or opportunity you want to work with
@@ -271,7 +272,7 @@ public class Menu implements ConsoleOperations {
                 List<Object> values = getValues("Name :\n", "Phone number : \n", "Email : \n", "Company : ");
                 Lead lead = leadService.newLead((String) values.get(0), (String) values.get(1), (String) values.get(2),
                         (String) values.get(3));
-                JOptionPane.showMessageDialog(null, "Lead Successfully added: \n" + lead);
+                JOptionPane.showMessageDialog(null, "Lead Successfully added: \n" + lead,"Lead Added", 1);
             }
             default -> throw new WrongInputException();
         }
