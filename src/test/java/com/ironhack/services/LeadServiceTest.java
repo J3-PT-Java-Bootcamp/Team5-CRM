@@ -113,6 +113,11 @@ class LeadServiceTest {
     }
 
     @Test
+    void test_getAllLeads_shouldThrowIfNoLeadsAdded() {
+        assertThrowsExactly(EmptyException.class, () -> leadService.getAllLeads());
+    }
+
+    @Test
     void test_lookUpLead() {
 
         addLeadsToDatasource();
@@ -131,6 +136,11 @@ class LeadServiceTest {
             exception = e;
         }
         assertNull(exception);
+    }
+
+    @Test
+    void test_lookUpLead_shouldThrowIfNoLeadsAdded() {
+        assertThrowsExactly(EmptyException.class, () -> leadService.lookUpLead(5));
     }
 
     private void addLeadsToDatasource() {

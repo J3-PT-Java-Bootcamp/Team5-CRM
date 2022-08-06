@@ -70,6 +70,11 @@ class OpportunityServiceTest {
     }
 
     @Test
+    void test_getAllOpportunities_shouldThrowIfNoLeadsAdded() {
+        assertThrowsExactly(EmptyException.class, () -> opportunityService.getAllOpportunities());
+    }
+
+    @Test
     void test_lookUpOpportunity() {
         addOpportunitiesToDatasource();
 
@@ -85,6 +90,11 @@ class OpportunityServiceTest {
             exception = e;
         }
         assertNull(exception);
+    }
+
+    @Test
+    void test_lookUpOpportunity_shouldThrowIfNoLeadsAdded() {
+        assertThrowsExactly(EmptyException.class, () -> opportunityService.lookUpOpportunity(5));
     }
 
     @Test

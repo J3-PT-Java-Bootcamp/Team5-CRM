@@ -44,8 +44,7 @@ public class LeadRepository {
     }
 
     public Lead saveLead(Lead lead) {
-        datasource.saveLead(lead);
-        return lead;
+        return datasource.saveLead(lead);
     }
 
     public List<Lead> getAllLeads() {

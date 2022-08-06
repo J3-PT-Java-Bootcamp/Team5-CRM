@@ -28,8 +28,7 @@ public class AccountRepository {
     }
 
     public Account saveAccount(Account account) {
-        datasource.saveAccount(account);
-        return account;
+        return datasource.saveAccount(account);
     }
 
     public void deleteAllAccounts() {
