@@ -39,8 +39,16 @@
 
 <h2 style="font-family : Courier New; font-size : 25px;" id="sintesis">About the Project</h2>
 
-- short explanation
-
+<br />
+<div align="center">
+  <a href="https://github.com/J3-PT-Java-Bootcamp/Team5-CRM/blob/develop/DEFINITION.md">
+    <img src="src/img/readMe.png" alt="Logo" width="80" height="80">
+  </a>
+  <p align="center">
+    Ironhack Requirements The Data Layer Homework!
+    <br />
+    <a href="https://github.com/J3-PT-Java-Bootcamp/Team5-CRM/blob/develop/DEFINITION.md"><strong>Explore the docs »</strong></a>
+</div>
 
 
 <p align="right">(<a href="#top" >back to top</a>)</p>
@@ -123,6 +131,26 @@
 <p align="right">(<a href="#top" >back to top</a>)</p>
 
 <h2 style="font-family : Courier New; font-size : 25px;" id="modelo1">Use Case Diagram</h2>
+
+The use case show how a user could do it different opperations in the CRM, just with a few command lines.
+
+### Available Operations :
+
+
+- Add New Lead.
+- Show Leads.
+
+      - Lookup Leads by ID.
+- Convert Lead to Opportunity.
+
+      - Create contact from Lead.
+      - Set Products and Quantity.
+      - Create Account from Lead.
+      - Delete Lead.
+- Show Opportunities.
+
+      - Lookup Opportunity by ID.
+- Setting the Opportunity status.
 
 ![use case diagram](docs/CRM-UseCaseDiagram.png)
 
